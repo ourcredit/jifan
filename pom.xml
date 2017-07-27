@@ -63,12 +63,14 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!--FASTJSON是当今处理json效率最高的json处理工具-->
+
+		<!--FASTJSON是当今处理json效率最高的json处理工具(用最新版)-->
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>FastJson</artifactId>
-			<version>1.2.15</version>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.35</version>
 		</dependency>
+
 		<!-- Swagger -->
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -136,6 +138,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 
 	<build>
 		<plugins>
