@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.CategoryMapper">
+
+    <insert id="insert" parameterType="Category">
+        INSERT INTO t_category (
+          pid ,
+          name ,
+          create_by ,
+          create_time ,
+          is_delete
+        )
+        VALUES (
+          #{pid} ,
+          #{name} ,
+          #{create_by} ,
+          #{create_time} ,
+          0
+        )
+    </insert>
+
+    <update id="update" parameterType="Category">
+        UPDATE t_category
+           SET name = #{name},
+               update_by = #{update_by},
+               update_time = #{update_time}
+         WHERE id = #{id}
+    </update>
+
+    <update id="delete" parameterType="Category">
+         UPDATE t_category
+           SET is_delete = 1,
+               update_by = #{update_by},
+               update_time = #{update_time}
+         WHERE id = #{id}
+    </update>
+
+    <select id="selectAllByPid" parameterType="java.lang.Long" resultType="CategoryDto">
+        SELECT id,pid,name FROM t_category WHERE pid = #{pid} and is_delete = 0
+    </select>
+
+    <select id="selectAll" resultType="CategoryDto">
+        SELECT id,pid,name FROM t_category WHERE is_delete = 0
+    </select>
+
+</mapper>

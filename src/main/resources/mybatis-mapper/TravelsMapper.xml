@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.TravelsMapper">
+
+    <insert id="insert" parameterType="Travels">
+        INSERT INTO t_travels(
+          name ,
+          url ,
+          image ,
+          content ,
+          is_delete ,
+          category1 ,
+          category2 ,
+          category3 ,
+          status ,
+          create_by ,
+          create_time
+        )VALUES (
+          #{name} ,
+          #{url} ,
+          #{image} ,
+          #{content} ,
+          0 ,
+          #{category1} ,
+          #{category2} ,
+          #{category3} ,
+          1 ,
+          #{create_by} ,
+          #{create_time}
+        )
+    </insert>
+
+    <update id="update" parameterType="Travels">
+      UPDATE t_travels
+        SET name      = #{name},
+            url       = #{url},
+            image     = #{image} ,
+            content   = #{content},
+            category1 = #{category1},
+            category2 = #{category2},
+            category3 = #{category3},
+            update_by = #{update_by},
+            update_time = #{update_time}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="java.lang.Long" resultType="TravelsInfoDto">
+        SELECT * FROM t_travels WHERE is_delete = 0 AND id = #{id}
+    </select>
+
+    <select id="selectAll" parameterType="TravelsSearch" resultType="TravelsDto">
+        SELECT t.id , t. NAME , t.url , t.image , t.content ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category1) AS category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category2) AS category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category3) AS category3 , t.`status` FROM t_travels t
+        WHERE t.is_delete = 0
+        <if test="name!=null"> AND t.name LIKE #{name} </if>
+        <if test="category1!=null"> AND t.category1 = #{category1} </if>
+        <if test="category2!=null"> AND t.category2 = #{category2} </if>
+        <if test="category3!=null"> AND t.category3 = #{category3} </if>
+    </select>
+
+    <update id="delete" parameterType="IdsModel">
+        UPDATE t_travels SET is_delete = 1
+        WHERE id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="updateStatus" parameterType="ChangeStatusModel">
+        UPDATE t_travels SET status = #{status}
+        WHERE is_delete = 0
+          AND id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>

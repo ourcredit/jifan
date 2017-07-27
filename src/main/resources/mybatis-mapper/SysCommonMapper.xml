@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.SysCommonMapper">
+
+    <select id="getPositionsById" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT id,name FROM sys_city WHERE pid = #{id}
+    </select>
+
+    <insert id="insertMessageCode" parameterType="MessageCode">
+        INSERT INTO sys_message_code(
+            mobile,
+            code,
+            create_time
+        )VALUES (
+            #{mobile},
+            #{code},
+            #{create_time}
+        )
+    </insert>
+
+    <select id="selectMessageCode" parameterType="MessageCode" resultType="MessageCode">
+        SELECT * FROM sys_message_code
+        WHERE mobile = #{mobile}
+        AND DATE_FORMAT(create_time , '%Y-%m-%d') = DATE_FORMAT(#{create_time} , '%Y-%m-%d')
+    </select>
+
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.ProductMapper">
+
+    <insert id="insert" parameterType="Product" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_product(
+              name ,
+              type ,
+              price ,
+              inventory ,
+              image1 ,
+              image2 ,
+              tag,
+              content ,
+              status ,
+              online_time ,
+              is_delete,
+              is_badge,
+              badge_name,
+              badge_image,
+              badge_introduce,
+              badge_category1,
+              badge_category2,
+              badge_category3,
+              create_by,
+              create_time
+        )
+        VALUES (
+              #{name} ,
+              #{type} ,
+              #{price} ,
+              #{inventory} ,
+              #{image1} ,
+              #{image2} ,
+              #{tag},
+              #{content} ,
+              1 ,
+              #{online_time} ,
+              0,
+              #{is_badge},
+              #{badge_name},
+              #{badge_image},
+              #{badge_introduce},
+              #{badge_category1},
+              #{badge_category2},
+              #{badge_category3},
+              #{create_by},
+              #{create_time}
+        )
+    </insert>
+
+    <update id="update" parameterType="Product">
+        UPDATE t_product
+        SET name            = #{name},
+            price           = #{price},
+            inventory       = #{inventory} ,
+            image1          = #{image1},
+            image2          = #{image2},
+            tag             = #{tag},
+            content         = #{content},
+            online_time     = #{online_time},
+            is_badge        = #{is_badge},
+            badge_name      = #{badge_name},
+            badge_image     = #{badge_image},
+            badge_introduce = #{badge_introduce},
+            badge_category1 = #{badge_category1},
+            badge_category2 = #{badge_category2},
+            badge_category3 = #{badge_category3},
+            update_by = #{update_by},
+            update_time = #{update_time}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete" parameterType="IdsModel">
+        UPDATE t_product SET is_delete = 1
+        WHERE status = 0
+        AND id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+    </update>
+
+    <delete id="deletePackage" parameterType="Product">
+        delete FROM t_package_product WHERE package_id = #{id}
+    </delete>
+
+    <insert id="insertPackage" parameterType="Product">
+        INSERT INTO t_package_product(
+          package_id,
+          product_id,
+          create_by,
+          create_time
+        )VALUES
+        <foreach collection="list" item="product_id" separator="," >
+            (#{id},#{product_id},#{create_by},#{create_time})
+        </foreach>
+    </insert>
+
+    <select id="selectPackageById" parameterType="java.lang.Long" resultType="ProductDto">
+        SELECT t.id , t. NAME , t.price , t.inventory , t.image1 , t.image2 , t.tag , t.content , t.`status` , t.online_time , t.type , t.is_badge , t.badge_name , t.badge_image , t.badge_introduce ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category1) AS badge_category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category2) AS badge_category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category3) AS badge_category3 FROM t_product t
+         WHERE t.id in (SELECT a.product_id from t_package_product a WHERE a.package_id = #{id})
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Long" resultType="ProductInfoDto">
+        SELECT * FROM t_product WHERE id = #{id} AND is_delete = 0
+    </select>
+
+    <select id="selectAll" parameterType="ProductSearch" resultType="ProductDto">
+        SELECT t.id , t. NAME , t.price , t.inventory , t.image1 , t.image2 , t.tag , t.content , t.`status` , t.online_time , t.type , t.is_badge , t.badge_name , t.badge_image , t.badge_introduce ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category1) AS badge_category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category2) AS badge_category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category3) AS badge_category3 FROM t_product t
+        WHERE t.is_delete = 0
+        <if test="name!=null"> AND t.name LIKE #{name} </if>
+        <if test="category1!=null"> AND t.badge_category1 = #{category1} </if>
+        <if test="category2!=null"> AND t.badge_category2 = #{category2} </if>
+        <if test="category3!=null"> AND t.badge_category3 = #{category3} </if>
+    </select>
+
+    <select id="selectAllSingle" parameterType="ProductSearch" resultType="ProductDto">
+        SELECT t.id , t. NAME , t.price , t.inventory , t.image1 , t.image2 , t.tag , t.content , t.`status` , t.online_time , t.type , t.is_badge , t.badge_name , t.badge_image , t.badge_introduce ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category1) AS badge_category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category2) AS badge_category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category3) AS badge_category3 FROM t_product t
+        WHERE t.is_delete = 0
+          AND t.type = 1
+          AND status = 1
+        <if test="name!=null"> AND t.name LIKE #{name} </if>
+        <if test="category1!=null"> AND t.badge_category1 = #{category1} </if>
+        <if test="category2!=null"> AND t.badge_category2 = #{category2} </if>
+        <if test="category3!=null"> AND t.badge_category3 = #{category3} </if>
+    </select>
+
+    <select id="selectBadge" parameterType="ProductSearch" resultType="ProductDto">
+        SELECT t.id , t. NAME , t.price , t.inventory , t.image1 , t.image2 , t.tag , t.content , t.`status` , t.online_time , t.type , t.is_badge , t.badge_name , t.badge_image , t.badge_introduce ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category1) AS badge_category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category2) AS badge_category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.badge_category3) AS badge_category3 FROM t_product t WHERE t.is_delete = 0
+          AND t.is_badge = 1 AND t.status = 1
+        <if test="name!=null"> AND t.name LIKE #{name} </if>
+        <if test="category1!=null"> AND t.badge_category1 = #{category1} </if>
+        <if test="category2!=null"> AND t.badge_category2 = #{category2} </if>
+        <if test="category3!=null"> AND t.badge_category3 = #{category3} </if>
+    </select>
+
+    <update id="updateStatus" parameterType="ChangeStatusModel">
+        UPDATE t_product SET status = #{status}
+        WHERE id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>

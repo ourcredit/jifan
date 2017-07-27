@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.SysUserMapper">
+
+    <select id="select" parameterType="SysUserInput" resultType="SysUser">
+        SELECT * FROM sys_user WHERE user_name = #{user_name} AND  is_delete = 0
+    </select>
+
+    <select id="selectById" parameterType="IdModel" resultType="SysUserDto">
+        SELECT
+            id ,
+            user_name ,
+            nick_name ,
+            STATUS ,
+            DATE_FORMAT(create_time , '%Y-%m-%d %h:%i:%s') AS create_time
+        FROM
+            sys_user
+        WHERE
+            id = #{id}
+        AND is_delete = 0
+    </select>
+
+    <select id="selectAll" parameterType="SearchModel" resultType="SysUserDto">
+        SELECT
+            id ,
+            user_name ,
+            nick_name ,
+            STATUS ,
+        DATE_FORMAT(create_time , '%Y-%m-%d %h:%i:%s') as create_time
+        FROM
+            sys_user
+        WHERE
+            is_delete = 0
+            <if test="name!=null"> AND nick_name LIKE #{name} OR user_name LIKE #{name} </if>
+    </select>
+
+    <insert id="insert" parameterType="SysUser">
+        INSERT INTO sys_user (
+          user_name ,
+          nick_name ,
+          password ,
+          create_by ,
+          create_time ,
+          status ,
+          is_delete
+        )
+        VALUES (
+          #{user_name} ,
+          #{nick_name} ,
+          #{password} ,
+          #{create_by},
+          #{create_time},
+          #{status} ,
+          0
+        )
+    </insert>
+
+    <update id="update" parameterType="SysUser">
+        UPDATE sys_user
+           SET nick_name = #{nick_name} ,
+                <if test="password!=null"> password = #{password} ,</if>
+               update_by = #{update_by} ,
+               update_time = #{update_time}
+         WHERE id = #{id}
+           AND is_delete = 0
+    </update>
+
+    <update id="delete" parameterType="IdsModel">
+        UPDATE sys_user
+           SET is_delete = 1,
+               update_by = #{update_by},
+               update_time = #{update_time}
+        WHERE id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+    </update>
+
+    <delete id="deleteUserRole" parameterType="SysUserRoleInput">
+        DELETE FROM sys_user_role WHERE
+        user_id IN
+        <foreach separator="," item="item" collection="users" close=")" open="(">
+            #{item}
+        </foreach>
+    </delete>
+
+    <insert id="insertUserRole" parameterType="SysUserRoleInput">
+        INSERT INTO sys_user_role (
+            user_id ,
+            role_id ,
+            create_by ,
+            create_time
+        ) VALUES
+        <foreach collection="users" item="user_id" separator=",">
+            <foreach collection="roles" item="role_id" separator="," >
+                (#{user_id},#{role_id},#{create_by},#{create_time})
+            </foreach>
+        </foreach>
+    </insert>
+
+
+</mapper>

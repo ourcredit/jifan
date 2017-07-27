@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.AchievementMapper">
+
+    <insert id="insert" parameterType="Achievement" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_achievement(
+            name ,
+            category_name ,
+            finish ,
+            type ,
+            category1 ,
+            category2 ,
+            category3 ,
+            is_group ,
+            integration ,
+            achievement_val ,
+            designation ,
+            image ,
+            button_image ,
+            content ,
+            status ,
+            is_delete ,
+            create_by ,
+            create_time
+        )VALUES (
+            #{name} ,
+            #{category_name} ,
+            #{finish} ,
+            #{type} ,
+            #{category1} ,
+            #{category2} ,
+            #{category3} ,
+            #{is_group} ,
+            #{integration} ,
+            #{achievement_val} ,
+            #{designation} ,
+            #{image} ,
+            #{button_image} ,
+            #{content} ,
+            0 ,
+            0 ,
+            #{create_by} ,
+            #{create_time}
+        )
+    </insert>
+
+    <update id="update" parameterType="Achievement">
+          UPDATE t_achievement SET
+               name             = #{name} ,
+               category_name    = #{category_name} ,
+               finish           = #{finish} ,
+               type             = #{type} ,
+               category1        = #{category1} ,
+               category2        = #{category2} ,
+               category3        = #{category3} ,
+               is_group         = #{is_group} ,
+               integration      = #{integration} ,
+               achievement_val  = #{achievement_val} ,
+               designation      = #{designation} ,
+               image            = #{image} ,
+               button_image     = #{button_image} ,
+               content          = #{content} ,
+               update_by        = #{update_by} ,
+               update_time      = #{update_time}
+          WHERE id = #{id} AND status = 0
+    </update>
+
+    <update id="delete" parameterType="IdsModel">
+        UPDATE t_achievement SET is_delete = 1
+        WHERE id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+        AND status = 0
+    </update>
+
+    <select id="selectById" parameterType="java.lang.Long" resultType="AchievementInfoDto">
+        SELECT * FROM t_achievement WHERE is_delete = 0 AND id = #{id}
+    </select>
+
+    <select id="selectAll" parameterType="AchievementSearch" resultType="AchievementDto">
+        SELECT t.id , t. NAME , t.category_name , t.finish , t.type ,( select count(1) FROM t_achievement_relation r WHERE r.achievement_id = t.id) as relation_count ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category1) AS category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category2) AS category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category3) AS category3 , t.is_group , t.integration , t.achievement_val , t.designation , t.image , t.button_image , t.content , t. STATUS FROM t_achievement t
+        WHERE t.is_delete = 0
+        <if test="name!=null">AND t.name LIKE #{name} </if>
+        <if test="type!=null"> AND t.type = #{type} </if>
+        <if test="category1!=null"> AND t.category1 = #{category1} </if>
+        <if test="category2!=null"> AND t.category2 = #{category2} </if>
+        <if test="category3!=null"> AND t.category3 = #{category3} </if>
+    </select>
+
+
+    <delete id="deleteRelation" parameterType="Achievement">
+        delete FROM t_achievement_relation WHERE achievement_id = #{id}
+    </delete>
+
+    <insert id="insertRelation" parameterType="Achievement">
+        INSERT INTO t_achievement_relation(
+            achievement_id,
+            relation_id,
+            create_by,
+            create_time
+        )VALUES
+        <foreach collection="list" item="relation_id" separator="," >
+            (#{id},#{relation_id},#{create_by},#{create_time})
+        </foreach>
+    </insert>
+
+    <select id="selectProductById" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT id,name from t_product WHERE id in (SELECT relation_id from t_achievement_relation WHERE achievement_id = #{id})
+    </select>
+
+    <select id="selectTravelsById" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT id,name from t_travels WHERE id in (SELECT relation_id from t_achievement_relation WHERE achievement_id = #{id})
+    </select>
+
+    <update id="updateStatus" parameterType="ChangeStatusModel">
+        UPDATE t_achievement SET status = #{status}
+        WHERE id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>

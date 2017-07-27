@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.UserMapper">
+
+    <insert id="insert" parameterType="java.lang.String">
+        INSERT INTO t_user (
+          open_id ,
+          create_time
+        )
+        VALUES (
+          #{open_id} ,
+          SYSDATE()
+        )
+    </insert>
+
+    <select id="selectByOpenId" parameterType="java.lang.String" resultType="User">
+        SELECT * FROM t_user WHERE open_id = #{open_id}
+    </select>
+    
+    <update id="update" parameterType="User">
+        UPDATE t_user
+           SET mobile       = #{mobile} ,
+               nick_name    = #{nick_name},
+               avatar       = #{avatar},
+               sex          = #{sex},
+               birthday     = #{birthday},
+               address      = #{address},
+               province     = #{province},
+               city         = #{city},
+               receiver     = #{receiver},
+               postal_code  = #{postal_code},
+               update_time  = #{update_time}
+        WHERE  open_id      = #{open_id}
+    </update>
+
+</mapper>
