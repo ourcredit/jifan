@@ -28,7 +28,8 @@
 
         <!--微信用户-->
         <mapper resource="mybatis-mapper/UserMapper.xml"/>
-
+        <!--轮播图管理-->
+        <mapper resource="mybatis-mapper/ShufflingMapper.xml"/>
 
     </mappers>
 </configuration>
