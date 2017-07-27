@@ -64,7 +64,8 @@ public class ShufflingService {
      * @return
      */
     public ActionResult GetDetail(Long id){
-        return new ActionResult(true,_shufflingMapper.selectById(id),"获取成功");
+        Shuffling model=_shufflingMapper.selectById(id);
+        return new ActionResult(true,model,"获取成功");
     }
 
     /**
