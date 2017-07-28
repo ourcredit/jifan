@@ -27,22 +27,13 @@
 
     <select id="selectAll" parameterType="ShufflingSearch" resultType="ShufflingDto">
         SELECT
-            shuffling_name ,
-            url ,
-            weight ,
-            online_time ,
-            image ,
-            sort ,
-            id ,
-            create_by ,
-            create_time
+           *
         FROM
             t_shuffling
         WHERE
             is_deleted = 0 and cate=#{cate}
         <if test="name!=null"> AND t.shuffling_name LIKE #{name} </if>
     </select>
-
     <update id="update" parameterType="Shuffling">
       UPDATE t_shuffling
         SET shuffling_name = #{shuffling_name},
