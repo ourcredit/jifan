@@ -28,7 +28,6 @@ public class ShufflingController {
 
     @Autowired
     private HttpServletRequest request;
-
     private ShufflingService _shufflingService;
     @Autowired
     public ShufflingController(ShufflingService shufflingService){
@@ -49,16 +48,25 @@ public class ShufflingController {
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ActionResult update(@RequestBody Shuffling shuffling) {
-
         Claims claims = (Claims)request.getAttribute("claims");
-
         shuffling.setUpdate_by(claims.getSubject());
         shuffling.setUpdate_time(new Date());
-
         return _shufflingService.update(shuffling);
     }
+    @ApiOperation(value = "批量更改状态",notes = "批量更改状态")
+    @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+    public ActionResult updateStatus(@RequestBody ChangeStatusInput input) {
+        Claims claims = (Claims)request.getAttribute("claims");
+        ChangeStatusModel model = new ChangeStatusModel();
+        model.setStatus(input.getStatus());
+        model.setList(input.getList());
+        model.setUpdate_by(claims.getSubject());
+        model.setUpdate_time(new Date());
+        return _shufflingService.updateStatus(model);
+    }
 
-    @ApiOperation(value = "批量删除产品",notes = "批量删除产品")
+    @ApiOperation(value = "批量删除轮播图",notes = "批量删除轮播图")
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ActionResult delete(@RequestBody IdsInput input) {

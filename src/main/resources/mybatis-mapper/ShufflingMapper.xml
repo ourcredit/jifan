@@ -6,12 +6,19 @@
 <mapper namespace="com.yrkj.mapper.ShufflingMapper">
 
     <insert id="insert" parameterType="Shuffling">
-        INSERT INTO t_shuffling (shuffling_name, url, weight, online_time, image, sort, create_by, create_time)
-        VALUES (#{shuffling_name}, #{url}, #{weight},#{online_time}, #{image}, #{sort}, #{create_by}, #{create_time});
+        INSERT INTO t_shuffling (shuffling_name, url, weight, online_time, image, sort, create_by, create_time,cate)
+        VALUES (#{shuffling_name}, #{url}, #{weight},#{online_time}, #{image}, #{sort}, #{create_by}, #{create_time},#{cate});
     </insert>
     
     <update id="delete" parameterType="IdsModel">
         UPDATE t_shuffling SET is_deleted = 1
+        WHERE is_deleted=0 AND id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+    </update>
+    <update id="updateStatus" parameterType="ChangeStatusModel">
+        UPDATE t_shuffling SET status = #{status}
         WHERE id in
         <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
             #{item}
@@ -32,7 +39,7 @@
         FROM
             t_shuffling
         WHERE
-            is_deleted is NULL
+            is_deleted = 0
         <if test="name!=null"> AND t.shuffling_name LIKE #{name} </if>
     </select>
 
@@ -49,7 +56,7 @@
         WHERE id=#{id};
     </update>
     <select id="selectById" parameterType="java.lang.Long" resultType="Shuffling">
-        SELECT * FROM t_shuffling WHERE id =#{id} AND is_deleted is NULL
+        SELECT * FROM t_shuffling WHERE id =#{id} AND is_deleted =0
     </select>
 
 </mapper>

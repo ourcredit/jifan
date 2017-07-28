@@ -68,7 +68,24 @@ public class ShufflingDto {
     private  String image;
     /*排序*/
     private Integer sort;
+    public Integer getCate() {
+        return cate;
+    }
 
+    public void setCate(Integer cate) {
+        this.cate = cate;
+    }
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    private Integer status;
+    //类型区分是轮播图 还是 banner图 1轮播 2 banner
+    private  Integer cate;
     public Long getId() {
         return id;
     }
@@ -97,13 +114,13 @@ public class ShufflingDto {
     }
 
     private Date create_time;
-    public Boolean getIs_deleted() {
+    public Integer getIs_deleted() {
         return is_deleted;
     }
 
-    public void setIs_deleted(Boolean is_deleted) {
+    public void setIs_deleted(Integer is_deleted) {
         this.is_deleted = is_deleted;
     }
 
-    private Boolean is_deleted;
+    private Integer is_deleted;
 }

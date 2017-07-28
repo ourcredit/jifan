@@ -6,6 +6,7 @@ import com.yrkj.mapper.ShufflingMapper;
 import com.yrkj.model.Shuffling.Shuffling;
 import com.yrkj.model.Shuffling.ShufflingSearch;
 import com.yrkj.model.core.ActionResult;
+import com.yrkj.model.core.ChangeStatusModel;
 import com.yrkj.model.core.IdsModel;
 import com.yrkj.model.core.PageModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,30 @@ public class ShufflingService {
     public ActionResult GetDetail(Long id){
         Shuffling model=_shufflingMapper.selectById(id);
         return new ActionResult(true,model,"获取成功");
+    }
+    /**
+     * 批量更新上下线状态
+     * @param model
+     * @return
+     */
+    public ActionResult updateStatus(ChangeStatusModel model){
+
+        if (model.getList() == null){
+            return new ActionResult(false,null,"id不能为空");
+        }
+
+        if (model.getList().size() == 0){
+            return new ActionResult(false,null,"id不能为空");
+        }
+
+        if (model.getStatus() < 0 || model.getStatus() > 1){
+            return new ActionResult(false,null,"状态有误");
+        }
+        if (_shufflingMapper.updateStatus(model) > 0){
+            return new ActionResult(true,null,"更新成功");
+        }else {
+            return new ActionResult(false,null,"更新失败");
+        }
     }
 
     /**
