@@ -46,7 +46,7 @@
          sort = #{sort},
          update_by = #{update_by},
          update_time = #{update_time}
-        WHERE (ISNULL(id));
+        WHERE id=#{id};
     </update>
     <select id="selectById" parameterType="java.lang.Long" resultType="Shuffling">
         SELECT * FROM t_shuffling WHERE id =#{id} AND is_deleted is NULL
