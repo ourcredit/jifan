@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.UserProductMapper">
+
+    <!--查询精选列表-->
+    <select id="selectPerfectList" parameterType="SearchModel" resultType="PerfectDto">
+        SELECT
+            t.id ,
+            t.name ,
+            t.price ,
+            t.image1 ,
+            t.badge_introduce ,
+            t.online_time
+        FROM
+            t_product t
+        WHERE
+            is_delete = 0
+        AND is_perfect = 1
+    </select>
+
+</mapper>

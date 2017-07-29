@@ -65,4 +65,5 @@ public class UserService {
         return new ActionResult(true,userMapper.selectByOpenId(openid),"获取成功");
     }
 
+
 }
