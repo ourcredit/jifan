@@ -3,6 +3,7 @@ package com.yrkj.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.UserProductMapper;
+import com.yrkj.model.UserProduct.UserProductSearch;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.PageModel;
 import com.yrkj.model.core.SearchModel;
@@ -38,6 +39,32 @@ public class UserProductService {
         }
 
         List list = userProductMapper.selectPerfectList(model);
+
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
+
+    /**
+     * 获取商品列表
+     * @param model
+     * @return
+     */
+    public PageModel getProductList(UserProductSearch model){
+
+        Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
+
+        String name = model.getName();
+        //name模糊查询
+        if (name != null && name.length() > 0){
+            model.setName("%" + name + "%");
+        }else {
+            model.setName(null);
+        }
+
+        List list = userProductMapper.selectProductList(model);
 
         if (list.size() > 0){
             return new PageModel(true,list,page.getTotal(),"获取成功");

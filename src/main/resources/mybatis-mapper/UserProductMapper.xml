@@ -21,4 +21,47 @@
         AND is_perfect = 1
     </select>
 
+    <select id="selectProductList" parameterType="UserProductSearch" resultType="PerfectDto">
+        SELECT
+            tt.*
+        FROM
+            (
+                SELECT
+                    t.id ,
+                    t. NAME ,
+                    t.price ,
+                    t.image1 ,
+                    t.badge_introduce ,
+                    t.online_time ,
+                    (
+                        SELECT
+                            COUNT(1)
+                        FROM
+                            t_order o
+                        WHERE
+                            o.product_id = t.id
+                    ) AS sales ,
+                    t.badge_category1 ,
+                    t.badge_category2 ,
+                    t.badge_category3
+                FROM
+                    t_product t
+                WHERE
+                    is_delete = 0
+                AND is_perfect = 1
+            ) tt
+        WHERE
+            1 = 1
+        <if test="category1!=0"> AND t.badge_category1 = #{category1} </if>
+        <if test="category2!=0"> AND t.badge_category2 = #{category2} </if>
+        <if test="category3!=0"> AND t.badge_category3 = #{category3} </if>
+        ORDER BY
+        <if test="price_up==1"> tt.price ASC , </if>
+        <if test="price_up==0"> tt.price DESC , </if>
+        <if test="time_up==1"> tt.online_time ASC , </if>
+        <if test="time_up==0"> tt.online_time DESC , </if>
+        <if test="sales_up==1"> tt.sales ASC  </if>
+        <if test="sales_up==0"> tt.sales DESC  </if>
+    </select>
+
 </mapper>

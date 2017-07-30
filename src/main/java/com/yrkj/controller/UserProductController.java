@@ -1,5 +1,6 @@
 package com.yrkj.controller;
 
+import com.yrkj.model.UserProduct.UserProductSearch;
 import com.yrkj.model.core.PageModel;
 import com.yrkj.model.core.SearchModel;
 import com.yrkj.service.UserProductService;
@@ -26,5 +27,12 @@ public class UserProductController {
     @RequestMapping(value = "/perfectList", method = RequestMethod.POST)
     public PageModel perfectList(@RequestBody SearchModel model) {
         return userProductService.getPerfectList(model);
+    }
+
+
+    @ApiOperation(value = "获取商品列表",notes = "获取商品列表")
+    @RequestMapping(value = "/productList", method = RequestMethod.POST)
+    public PageModel productList(@RequestBody UserProductSearch model) {
+        return userProductService.getProductList(model);
     }
 }
