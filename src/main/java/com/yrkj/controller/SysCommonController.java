@@ -6,6 +6,7 @@ import com.yrkj.mapper.SysCommonMapper;
 import com.yrkj.mapper.SysUserMapper;
 import com.yrkj.model.SysUser.SysUser;
 import com.yrkj.model.SysUser.SysUserInput;
+import com.yrkj.model.User.User;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.service.SysCommonService;
 import io.jsonwebtoken.Jwts;
@@ -87,6 +88,12 @@ public class SysCommonController {
     @RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
     public ActionResult sendMessage(String mobile,String open_id) throws Exception{
         return sysCommonService.sendMessage(mobile,open_id);
+    }
+
+    @ApiOperation(value = "绑定手机号",notes = "绑定手机号")
+    @RequestMapping(value = "/bindMobile", method = RequestMethod.GET)
+    public ActionResult bindMobile(@RequestParam String mobile,@RequestParam String open_id,@RequestParam String code) {
+        return sysCommonService.bindMobile(mobile,open_id,code);
     }
 
 

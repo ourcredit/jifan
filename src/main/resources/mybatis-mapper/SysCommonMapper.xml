@@ -27,4 +27,18 @@
         AND DATE_FORMAT(create_time , '%Y-%m-%d') = DATE_FORMAT(#{create_time} , '%Y-%m-%d')
     </select>
 
+    <select id="selectLastMessageCode" parameterType="MessageCode" resultType="MessageCode">
+        SELECT * FROM sys_message_code
+        WHERE mobile = #{mobile}
+        AND DATE_FORMAT(create_time , '%Y-%m-%d') = DATE_FORMAT(#{create_time} , '%Y-%m-%d')
+        ORDER BY create_time DESC
+        LIMIT 0,1
+    </select>
+
+    <update id="bindModile" parameterType="User">
+        UPDATE t_user
+           SET mobile       = #{mobile}
+        WHERE  open_id      = #{open_id}
+    </update>
+
 </mapper>

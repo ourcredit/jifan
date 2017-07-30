@@ -34,8 +34,8 @@ public class UserProductController {
     }
 
     @ApiOperation(value = "根据pid获取分类列表",notes = "根据pid获取分类列表")
-    @RequestMapping(value = "/getAllByPid", method = RequestMethod.POST)
-    public ActionResult getAllByPid(@RequestParam Long pid) {
+    @RequestMapping(value = "/getCategoryByPid", method = RequestMethod.POST)
+    public ActionResult getCategoryByPid(@RequestParam Long pid) {
         return categoryService.getAllByPid(pid);
     }
 

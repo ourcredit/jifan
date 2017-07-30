@@ -22,7 +22,7 @@
     
     <update id="update" parameterType="User">
         UPDATE t_user
-           SET mobile       = #{mobile} ,
+           SET
                nick_name    = #{nick_name},
                avatar       = #{avatar},
                sex          = #{sex},
