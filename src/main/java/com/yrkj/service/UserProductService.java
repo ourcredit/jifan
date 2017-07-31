@@ -3,10 +3,12 @@ package com.yrkj.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.UserProductMapper;
+import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProductSearch;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.PageModel;
 import com.yrkj.model.core.SearchModel;
+import com.yrkj.model.travels.Travels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +72,43 @@ public class UserProductService {
             return new PageModel(true,list,page.getTotal(),"获取成功");
         }else {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
+
+
+    /**
+     * 添加商品到购物车
+     * @param userCart
+     * @return
+     */
+    public ActionResult addCart(UserCart userCart){
+
+        if (userProductMapper.insertCart(userCart) == 1){
+
+            return new ActionResult(true,null,"创建成功");
+
+        } else {
+
+            return new ActionResult(false,null,"创建失败");
+
+        }
+    }
+
+    /**
+     * 删除购物车
+     * @param userCart
+     * @return
+     */
+    public ActionResult removeCart(UserCart userCart){
+
+        if (userProductMapper.deleteCart(userCart) == 1){
+
+            return new ActionResult(true,null,"删除成功");
+
+        } else {
+
+            return new ActionResult(false,null,"删除失败");
+
         }
     }
 

@@ -21,6 +21,7 @@
         AND is_perfect = 1
     </select>
 
+    <!--查询商品列表-->
     <select id="selectProductList" parameterType="UserProductSearch" resultType="PerfectDto">
         SELECT
             tt.*
@@ -63,5 +64,25 @@
         <if test="sales_up==1"> tt.sales ASC  </if>
         <if test="sales_up==0"> tt.sales DESC  </if>
     </select>
+
+
+    <!--购物车逻辑-->
+    <insert id="insertCart" parameterType="UserCart">
+        INSERT INTO t_user_cart(
+            open_id,
+            product_id,
+            number,
+            create_time
+        )VALUES (
+            #{open_id},
+            #{product_id},
+            #{number},
+            #{create_time}
+        )
+    </insert>
+
+    <delete id="deleteCart" parameterType="UserCart">
+        DELETE FROM t_user_cart WHERE open_id = #{open_id} AND product_id = #{product_id}
+    </delete>
 
 </mapper>
