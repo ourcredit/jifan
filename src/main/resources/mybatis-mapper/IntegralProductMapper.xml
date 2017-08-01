@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yrkj.mapper.ProductMapper">
+<mapper namespace="com.yrkj.mapper.IntegralProductMapper">
 
     <insert id="insert" parameterType="IntegralProduct" useGeneratedKeys="true" keyProperty="id">
        INSERT INTO tiekuai.t_integral_product (

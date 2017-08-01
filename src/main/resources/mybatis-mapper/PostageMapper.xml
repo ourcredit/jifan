@@ -47,7 +47,7 @@ WHERE id=#{id};
     </select>
 
     <select id="selectAll" parameterType="SearchModel" resultType="Postage">
-        select * from t_postage   WHERE  1=1
+        select * from t_postage t  WHERE  1=1
         <if test="name!=null"> AND t.province LIKE #{name} </if>
     </select>
 </mapper>
