@@ -3,8 +3,6 @@ package com.yrkj.controller;
 import com.yrkj.model.achievement.Achievement;
 import com.yrkj.model.achievement.AchievementSearch;
 import com.yrkj.model.core.*;
-import com.yrkj.model.product.Product;
-import com.yrkj.model.product.ProductSearch;
 import com.yrkj.service.AchievementService;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiImplicitParam;
