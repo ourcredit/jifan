@@ -35,6 +35,7 @@
         <mapper resource="mybatis-mapper/ShufflingMapper.xml"/>
         <!--邮费管理-->
         <mapper resource="mybatis-mapper/PostageMapper.xml"/>
-
+        <!--积分商城管理-->
+        <mapper resource="mybatis-mapper/IntegralProductMapper.xml"/>
     </mappers>
 </configuration>
