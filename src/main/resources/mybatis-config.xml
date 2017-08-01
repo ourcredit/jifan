@@ -33,6 +33,8 @@
 
         <!--轮播图管理-->
         <mapper resource="mybatis-mapper/ShufflingMapper.xml"/>
+        <!--邮费管理-->
+        <mapper resource="mybatis-mapper/PostageMapper.xml"/>
 
     </mappers>
 </configuration>
