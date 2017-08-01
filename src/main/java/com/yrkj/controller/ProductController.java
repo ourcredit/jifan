@@ -5,6 +5,7 @@ import com.yrkj.model.product.Product;
 import com.yrkj.model.product.ProductSearch;
 import com.yrkj.service.ProductService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +24,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/product")
 @EnableSwagger2
+@Api(description = "商品管理接口")
 public class ProductController {
 
     @Autowired

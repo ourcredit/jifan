@@ -6,6 +6,7 @@ import com.yrkj.model.core.*;
 import com.yrkj.model.product.Product;
 import com.yrkj.service.SysUserService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +28,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/sysuser")
 @EnableSwagger2
+@Api(description = "后台用户管理接口")
 public class SysUserController {
 
     @Autowired

@@ -11,6 +11,7 @@ import com.yrkj.model.core.ActionResult;
 import com.yrkj.service.SysCommonService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/sys")
 @EnableSwagger2
+@Api(description = "登录、发短信、获取城市列表、绑定手机号相关接口")
 public class SysCommonController {
 
     @Autowired

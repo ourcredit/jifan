@@ -8,6 +8,7 @@ import com.yrkj.model.core.ActionResult;
 import com.yrkj.utils.Md5Utils;
 import com.yrkj.utils.RandomUtil;
 import com.yrkj.utils.XmlJsonUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/pay")
 @EnableSwagger2
+@Api(description = "微信支付接口")
 public class PayController   {
     @Value("${weixin.appId}")
     private String appId;

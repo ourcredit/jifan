@@ -5,6 +5,7 @@ import com.yrkj.model.SysUser.SysUser;
 import com.yrkj.model.core.*;
 import com.yrkj.service.SysRoleService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/sysrole")
 @EnableSwagger2
+@Api(description = "后台角色管理接口")
 public class SysRoleController {
 
     @Autowired

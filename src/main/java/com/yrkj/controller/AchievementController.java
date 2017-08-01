@@ -5,6 +5,7 @@ import com.yrkj.model.achievement.AchievementSearch;
 import com.yrkj.model.core.*;
 import com.yrkj.service.AchievementService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/achievement")
 @EnableSwagger2
+@Api(description = "成就管理接口")
 public class AchievementController {
 
     @Autowired

@@ -5,6 +5,7 @@ import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.core.*;
 import com.yrkj.service.IntegralProductService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/integral")
 @EnableSwagger2
+@Api(description = "积分商品管理接口")
 public class IntegralProductController {
 
     @Autowired

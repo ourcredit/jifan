@@ -8,6 +8,7 @@ import com.yrkj.model.core.PageModel;
 import com.yrkj.model.core.SearchModel;
 import com.yrkj.service.CategoryService;
 import com.yrkj.service.UserProductService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +24,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/wx/product")
 @EnableSwagger2
+@Api(description = "商品列表、购物车、下订单相关接口")
 public class UserProductController {
 
     @Autowired

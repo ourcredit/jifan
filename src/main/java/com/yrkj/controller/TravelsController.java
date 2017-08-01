@@ -5,6 +5,7 @@ import com.yrkj.model.travels.Travels;
 import com.yrkj.model.travels.TravelsSearch;
 import com.yrkj.service.TravelsService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/travels")
 @EnableSwagger2
+@Api(description = "游迹管理接口")
 public class TravelsController {
 
     @Autowired

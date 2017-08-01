@@ -5,6 +5,7 @@ import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.IdModel;
 import com.yrkj.service.SysMenuService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +26,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/sysmenu")
 @EnableSwagger2
+@Api(description = "后台菜单管理接口")
 public class SysMenuController {
 
     @Autowired

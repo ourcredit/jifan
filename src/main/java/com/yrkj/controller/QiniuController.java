@@ -1,6 +1,7 @@
 package com.yrkj.controller;
 
 import com.qiniu.util.Auth;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.ui.ModelMap;
@@ -17,6 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RestController
 @RequestMapping("/api/qiniu")
 @EnableSwagger2
+@Api(description = "七牛接口")
 public class QiniuController {
 
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})

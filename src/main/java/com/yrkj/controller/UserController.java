@@ -5,6 +5,7 @@ import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.product.Product;
 import com.yrkj.service.UserService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +22,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/wx/user")
 @EnableSwagger2
+@Api(description = "微信用户相关接口")
 public class UserController {
 
     @Autowired

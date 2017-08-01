@@ -7,6 +7,7 @@ import com.yrkj.model.product.ProductSearch;
 import com.yrkj.service.PostageService;
 import com.yrkj.service.ProductService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/post")
 @EnableSwagger2
+@Api(description = "邮费管理接口")
 public class PostageController {
     @Autowired
     private HttpServletRequest request;
