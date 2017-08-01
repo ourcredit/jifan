@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.ProductMapper">
+
+    <insert id="insert" parameterType="IntegralProduct" useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO tiekuai.t_integral_product (
+	create_by,
+	create_time,
+	online_time,
+	product_name,
+	product_type,
+	product_price,
+	inventory,
+	image1,
+	image2,
+	description,
+	content
+)
+VALUES
+	(
+		#{create_by},
+		#{create_time},
+		#{online_time},
+		#{product_name},
+		#{product_type},
+		#{product_price},
+		#{inventory},
+		#{image1},
+		#{image2},
+		#{description},
+		#{content}
+	);
+    </insert>
+
+    <update id="update" parameterType="IntegralProduct">
+       UPDATE tiekuai.t_integral_product
+SET
+ update_by = #{update_by},
+ update_time = #{update_time},
+ online_time = #{online_time},
+ product_name = #{product_name},
+ product_type = #{product_type},
+ product_price = #{product_price},
+ inventory = #{inventory},
+ image1 = #{image1},
+ image2 = #{image2},
+ description = #{description},
+ content = #{content}
+WHERE
+	id=#{id};
+    </update>
+
+    <update id="delete" parameterType="IdsModel">
+        UPDATE tiekuai.t_integral_product SET is_deleted = 1
+        WHERE status = 0
+        AND id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+    </update>
+
+
+
+
+
+    <select id="selectById" parameterType="java.lang.Long" resultType="IntegralProduct">
+        SELECT * FROM tiekuai.t_integral_product WHERE id = #{id} AND is_deleted = 0
+    </select>
+
+    <select id="selectAll" parameterType="IntegralSearch" resultType="IntegralProduct">
+        SELECT * from  tiekuai.t_integral_product t  WHERE t.is_deleted = 0
+        <if test="name!=null"> AND t.product_name LIKE #{name} </if>
+        <if test="status!=null"> AND t.status = #{status} </if>
+
+    </select>
+
+
+    <update id="updateStatus" parameterType="ChangeStatusModel">
+        UPDATE tiekuai.t_integral_product SET status = #{status}
+        WHERE id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>
