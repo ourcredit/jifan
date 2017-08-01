@@ -1,5 +1,6 @@
 package com.yrkj.controller;
 
+import com.yrkj.model.UserProduct.CartSearch;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProductSearch;
 import com.yrkj.model.core.ActionResult;
@@ -59,5 +60,11 @@ public class UserProductController {
     @RequestMapping(value = "/removeCart", method = RequestMethod.POST)
     public ActionResult removeCart(@RequestBody UserCart userCart){
         return userProductService.removeCart(userCart);
+    }
+
+    @ApiOperation(value = "购物车列表",notes = "购物车列表")
+    @RequestMapping(value = "/cartList", method = RequestMethod.GET)
+    public ActionResult cartList(@RequestParam String open_id){
+        return userProductService.getCartList(open_id);
     }
 }

@@ -85,4 +85,20 @@
         DELETE FROM t_user_cart WHERE open_id = #{open_id} AND product_id = #{product_id}
     </delete>
 
+    <select id="selectCart" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+            a.product_id ,
+            a.number ,
+            b.`name` ,
+            b.price ,
+            b.inventory ,
+            b.image1
+        FROM
+            t_user_cart a ,
+            t_product b
+        WHERE
+            a.product_id = b.id
+        AND a.open_id = #{open_id}
+    </select>
+
 </mapper>

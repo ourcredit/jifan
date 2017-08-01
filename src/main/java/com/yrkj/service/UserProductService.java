@@ -3,11 +3,13 @@ package com.yrkj.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.UserProductMapper;
+import com.yrkj.model.UserProduct.CartSearch;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProductSearch;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.PageModel;
 import com.yrkj.model.core.SearchModel;
+import com.yrkj.model.product.ProductSearch;
 import com.yrkj.model.travels.Travels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,6 +111,22 @@ public class UserProductService {
 
             return new ActionResult(false,null,"删除失败");
 
+        }
+    }
+
+    /**
+     * 获取购物车列表
+     * @param open_id
+     * @return
+     */
+    public ActionResult getCartList(String open_id){
+
+        List list = userProductMapper.selectCart(open_id);
+
+        if (list.size() > 0){
+            return new ActionResult(true,list,"获取成功");
+        }else {
+            return new ActionResult(true,list,"暂无数据");
         }
     }
 
