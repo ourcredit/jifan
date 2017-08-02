@@ -6,6 +6,8 @@ import com.yrkj.controller.Inputs.JsPayInput;
 import com.yrkj.mapper.UserProductMapper;
 import com.yrkj.model.UserProduct.PayProductInput;
 import com.yrkj.model.core.ActionResult;
+import com.yrkj.model.order.Order;
+import com.yrkj.service.OrderService;
 import com.yrkj.service.UserProductService;
 import com.yrkj.utils.Md5Utils;
 import com.yrkj.utils.RandomUtil;
@@ -21,6 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +46,9 @@ public class PayController   {
     private UserProductService userProductService;
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private UserProductMapper userProductMapper;
 
     /**
@@ -59,19 +65,30 @@ public class PayController   {
 
             for (PayProductInput temp:input.getList()){
                 Float price = userProductMapper.selectPriceByProductId(temp.getProduct_id());
+                temp.setPrice(price);
                 totalPrice= totalPrice + (int)(price*100);
             }
 
             String  WIDtotal_fee= Integer.toString(totalPrice);
             String nom= Md5Utils.getUuid();
-            String preid=getPrepayid(nom, WIDtotal_fee, input.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
-            if (preid==null||preid.isEmpty()){
+            String order_num=getPrepayid(nom, WIDtotal_fee, input.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
+            if (order_num==null||order_num.isEmpty()){
                 return  new ActionResult(false,"生成预支付定单失败");
             }
 
             //数据库生成订单
+            Order order = new Order();
 
+            order.setOrder_num(order_num);
+            order.setOrder_state(0);
+            order.setOpen_id(input.getOpen_id());
+            //运费
+            //快递公司
+            order.setList(input.getList());
+            order.setCreate_time(new Date());
 
+            //生成订单
+            orderService.createOrder(order);
 
             //组装map用于生成sign
             Map<String, String> result=new HashMap<String, String>();
@@ -83,7 +100,7 @@ public class PayController   {
             String nonceStr= RandomUtil.generateLowerString(16);
             result.put("nonceStr", nonceStr);
             //预支付标识
-            result.put("prepay_id",preid);
+            result.put("prepay_id",order_num);
             //金额
             result.put("total_fee",WIDtotal_fee);
             //加密方式
@@ -93,7 +110,7 @@ public class PayController   {
             map.put("appId", appId);
             map.put("timeStamp", timeStamp);
             map.put("nonceStr", nonceStr);
-            map.put("package", "prepay_id="+preid);
+            map.put("package", "prepay_id="+order_num);
             map.put("signType", "MD5");
             result.put("paySign", Md5Utils.sign(map,saleKey).toUpperCase());//签名
             result.put("order", nom);
@@ -102,8 +119,10 @@ public class PayController   {
             return  new ActionResult(false,e.getMessage());
         }
     }
+
     /**
-     * 为新订单查询接口*/
+     * 为新订单查询接口
+     **/
     @ApiOperation(value="为新订单查询接口", notes="微信支付接口")
     @RequestMapping(value  ="/search" ,method = RequestMethod.POST)
     public  ActionResult FindOrder(String out_trade_no,Integer price){
@@ -131,8 +150,10 @@ public class PayController   {
         }
         return  result;
     }
-    /**获取微信与支付订单
-     *  */
+
+    /**
+     * 获取微信与支付订单
+     **/
     private String getPrepayid(String out_trade_no1,String total_fee1,String openid1,String redirt,String userIp) throws  Exception{
         String result = "";
         String appid = appId;

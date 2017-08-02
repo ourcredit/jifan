@@ -30,6 +30,8 @@
         <mapper resource="mybatis-mapper/UserMapper.xml"/>
         <!--微信商品-->
         <mapper resource="mybatis-mapper/UserProductMapper.xml"/>
+        <!--订单-->
+        <mapper resource="mybatis-mapper/OrderMapper.xml"/>
 
         <!--轮播图管理-->
         <mapper resource="mybatis-mapper/ShufflingMapper.xml"/>

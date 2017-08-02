@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.OrderMapper">
+
+    <insert id="insertOrder" parameterType="Order">
+        INSERT INTO t_order(
+            order_num,
+            open_id,
+            order_state,
+            courier_company,
+            courier_cost,
+            create_time
+        )VALUES (
+            #{order_num},
+            #{open_id},
+            #{order_state},
+            #{courier_company},
+            #{courier_cost},
+            #{create_time}
+        )
+    </insert>
+
+    <insert id="insertOrderProduct" parameterType="Order">
+        INSERT INTO t_order_product(
+            order_num,
+            product_id,
+            number,
+            price
+        )VALUES
+        <foreach collection="list" item="item" separator="," >
+            (#{order_num},#{item.product_id},#{item.number},#{item.price})
+        </foreach>
+    </insert>
+
+</mapper>
