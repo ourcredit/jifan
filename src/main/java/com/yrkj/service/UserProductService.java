@@ -3,6 +3,7 @@ package com.yrkj.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.UserProductMapper;
+import com.yrkj.model.UserProduct.CartDeleteInput;
 import com.yrkj.model.UserProduct.CartSearch;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProductSearch;
@@ -98,12 +99,12 @@ public class UserProductService {
 
     /**
      * 删除购物车
-     * @param userCart
+     * @param input
      * @return
      */
-    public ActionResult removeCart(UserCart userCart){
+    public ActionResult removeCart(CartDeleteInput input){
 
-        if (userProductMapper.deleteCart(userCart) == 1){
+        if (userProductMapper.deleteCart(input) == 1){
 
             return new ActionResult(true,null,"删除成功");
 

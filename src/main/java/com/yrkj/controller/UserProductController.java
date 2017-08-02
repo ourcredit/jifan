@@ -1,5 +1,6 @@
 package com.yrkj.controller;
 
+import com.yrkj.model.UserProduct.CartDeleteInput;
 import com.yrkj.model.UserProduct.CartSearch;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProductSearch;
@@ -60,8 +61,8 @@ public class UserProductController {
 
     @ApiOperation(value = "移除购物车",notes = "移除购物车")
     @RequestMapping(value = "/removeCart", method = RequestMethod.POST)
-    public ActionResult removeCart(@RequestBody UserCart userCart){
-        return userProductService.removeCart(userCart);
+    public ActionResult removeCart(@RequestBody CartDeleteInput input){
+        return userProductService.removeCart(input);
     }
 
     @ApiOperation(value = "购物车列表",notes = "购物车列表")

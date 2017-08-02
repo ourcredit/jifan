@@ -81,8 +81,12 @@
         )
     </insert>
 
-    <delete id="deleteCart" parameterType="UserCart">
-        DELETE FROM t_user_cart WHERE open_id = #{open_id} AND product_id = #{product_id}
+    <delete id="CartDeleteInput" parameterType="CartDeleteInput">
+        DELETE FROM t_user_cart WHERE open_id = #{open_id}
+         AND product_id IN
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item}
+        </foreach>
     </delete>
 
     <select id="selectCart" parameterType="java.lang.String" resultType="java.util.Map">
@@ -99,6 +103,13 @@
         WHERE
             a.product_id = b.id
         AND a.open_id = #{open_id}
+    </select>
+
+    <select id="selectPriceByProductId" parameterType="java.lang.Long" resultType="java.lang.Float">
+        SELECT price
+         FROM t_product
+        WHERE id = #{product_id}
+          AND is_delete = 0
     </select>
 
 </mapper>

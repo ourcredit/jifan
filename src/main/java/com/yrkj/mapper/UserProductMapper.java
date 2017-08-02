@@ -1,5 +1,6 @@
 package com.yrkj.mapper;
 
+import com.yrkj.model.UserProduct.CartDeleteInput;
 import com.yrkj.model.UserProduct.PerfectDto;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProductSearch;
@@ -25,9 +26,12 @@ public interface UserProductMapper {
     int insertCart(UserCart model);
 
     //删除购物车商品
-    int deleteCart(UserCart model);
+    int deleteCart(CartDeleteInput model);
 
     //获取购物车列表
     List<Map> selectCart(String open_id);
+
+    //获取单个商品价格
+    Float selectPriceByProductId(Long product_id);
 
 }

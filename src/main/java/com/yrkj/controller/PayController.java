@@ -1,10 +1,12 @@
 package com.yrkj.controller;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.yrkj.config.HttpUtils;
 import com.yrkj.controller.Inputs.JsPayInput;
+import com.yrkj.mapper.UserProductMapper;
+import com.yrkj.model.UserProduct.PayProductInput;
 import com.yrkj.model.core.ActionResult;
+import com.yrkj.service.UserProductService;
 import com.yrkj.utils.Md5Utils;
 import com.yrkj.utils.RandomUtil;
 import com.yrkj.utils.XmlJsonUtil;
@@ -22,12 +24,12 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @RestController
-@RequestMapping("/api/pay")
+@RequestMapping("/wx/pay")
 @EnableSwagger2
 @Api(description = "微信支付接口")
 public class PayController   {
+
     @Value("${weixin.appId}")
     private String appId;
     @Value("${weixin.secret}")
@@ -36,15 +38,12 @@ public class PayController   {
     private String saleId;
     @Value("${weixin.saleKey}")
     private String saleKey;
- /*   private IOrderService _orderService;
-    private IGiftRepository _giftRepository;*/
+
     @Autowired
-    public  PayController(
-           // IOrderService orderService,IGiftRepository giftRepository
-    ){
-       // _orderService=orderService;
-      //  _giftRepository=giftRepository;
-    }
+    private UserProductService userProductService;
+
+    @Autowired
+    private UserProductMapper userProductMapper;
 
     /**
      * 微信js预支付接口*/
@@ -52,29 +51,28 @@ public class PayController   {
     @ApiImplicitParam(name = "input", value = "dto对象", required = true, dataType = "JsPayInput")
     @RequestMapping(value  ="/jspay" ,method = RequestMethod.POST)
     public ActionResult jspay (@RequestBody JsPayInput input){
-        if (input.giftId==null||input.giftId<=0){
-            return  new ActionResult(false,"礼物信息不存在");
-        }
+
         try {
-         //   Gift gift=_giftRepository.findOne(input.giftId);
-          //  if (gift==null){
-             //   return  new ActionResult(false,"礼物不存在");
-          //  }
+
             //处理价格单位为：分(请自行处理)
-            String  WIDtotal_fee= "10000";
+            Integer totalPrice = 0;
+
+            for (PayProductInput temp:input.getList()){
+                Float price = userProductMapper.selectPriceByProductId(temp.getProduct_id());
+                totalPrice= totalPrice + (int)(price*100);
+            }
+
+            String  WIDtotal_fee= Integer.toString(totalPrice);
             String nom= Md5Utils.getUuid();
-            String preid=getPrepayid(nom, WIDtotal_fee, input.sendKey,input.redirectUrl,input.userIp);//获取预支付标示
+            String preid=getPrepayid(nom, WIDtotal_fee, input.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
             if (preid==null||preid.isEmpty()){
                 return  new ActionResult(false,"生成预支付定单失败");
-            }           String send="";
-            try {
-                send= XmlJsonUtil.emojiConvert(input.sendName);
-            }catch (Exception e){
-               // logger.error(e.getMessage(),e);
             }
-            //   String order,String openId,Long giftId,String giftName,Integer price,String des,String payname,String payImage,Long actorId
-         //   OrderDto dto=new OrderDto(nom,input.sendKey,gift.getId(),gift.getGiftName(),gift.getPrice(),"", send,input.sendImage,input.actorId,input.activityId);
-          //  _orderService.CreatOrder(dto);
+
+            //数据库生成订单
+
+
+
             //组装map用于生成sign
             Map<String, String> result=new HashMap<String, String>();
             result.put("appId", appId);
@@ -101,7 +99,6 @@ public class PayController   {
             result.put("order", nom);
             return new ActionResult(result);
         }catch (Exception e){
-           // logger.error(e.getMessage(),e);
             return  new ActionResult(false,e.getMessage());
         }
     }
