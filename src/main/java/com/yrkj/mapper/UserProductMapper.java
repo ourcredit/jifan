@@ -1,5 +1,6 @@
 package com.yrkj.mapper;
 
+
 import com.yrkj.model.UserProduct.CartDeleteInput;
 import com.yrkj.model.UserProduct.PerfectDto;
 import com.yrkj.model.UserProduct.UserCart;
@@ -27,6 +28,12 @@ public interface UserProductMapper {
 
     //删除购物车商品
     int deleteCart(CartDeleteInput model);
+
+    //查询该购物车种是否存在该商品 并返回数量
+    Integer selectCartNum(UserCart model);
+
+    //更新购物车商品数量
+    int updateCartNum(UserCart model);
 
     //获取购物车列表
     List<Map> selectCart(String open_id);

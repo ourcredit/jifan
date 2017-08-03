@@ -86,14 +86,23 @@ public class UserProductService {
      */
     public ActionResult addCart(UserCart userCart){
 
-        if (userProductMapper.insertCart(userCart) == 1){
+        Integer number = userProductMapper.selectCartNum(userCart);
 
-            return new ActionResult(true,null,"创建成功");
-
-        } else {
-
-            return new ActionResult(false,null,"创建失败");
-
+        //判断购物车种是否已经存在该商品
+        if (number == null){
+            if (userProductMapper.insertCart(userCart) == 1){
+                return new ActionResult(true,null,"添加成功");
+            } else {
+                return new ActionResult(false,null,"添加失败");
+            }
+        }else {
+            number = number + userCart.getNumber();
+            userCart.setNumber(number);
+            if (userProductMapper.updateCartNum(userCart) == 1){
+                return new ActionResult(true,null,"更新购物车数量成功");
+            }else {
+                return new ActionResult(false,null,"更新购物车数量失败");
+            }
         }
     }
 
@@ -104,7 +113,7 @@ public class UserProductService {
      */
     public ActionResult removeCart(CartDeleteInput input){
 
-        if (userProductMapper.deleteCart(input) == 1){
+        if (userProductMapper.deleteCart(input) > 0){
 
             return new ActionResult(true,null,"删除成功");
 

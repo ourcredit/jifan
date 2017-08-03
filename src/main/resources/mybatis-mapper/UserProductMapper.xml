@@ -81,13 +81,29 @@
         )
     </insert>
 
-    <delete id="CartDeleteInput" parameterType="CartDeleteInput">
+    <delete id="deleteCart" parameterType="CartDeleteInput">
         DELETE FROM t_user_cart WHERE open_id = #{open_id}
          AND product_id IN
         <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
             #{item}
         </foreach>
     </delete>
+
+    <select id="selectCartNum" parameterType="UserCart" resultType="java.lang.Integer">
+        SELECT
+              a.number
+          FROM
+              t_user_cart a
+        WHERE
+              a.product_id = #{product_id}
+          AND a.open_id = #{open_id}
+    </select>
+
+    <update id="updateCartNum" parameterType="UserCart">
+        UPDATE t_user_cart
+        SET number = #{number}
+        WHERE product_id = #{product_id} AND open_id = #{open_id}
+    </update>
 
     <select id="selectCart" parameterType="java.lang.String" resultType="java.util.Map">
         SELECT
