@@ -18,6 +18,8 @@ public class Order {
 
     private int order_state;
 
+    private Float product_cost;
+
     private String courier_company;
 
     private String courier_order;
@@ -70,6 +72,14 @@ public class Order {
 
     public void setOrder_state(int order_state) {
         this.order_state = order_state;
+    }
+
+    public Float getProduct_cost() {
+        return product_cost;
+    }
+
+    public void setProduct_cost(Float product_cost) {
+        this.product_cost = product_cost;
     }
 
     public String getCourier_company() {

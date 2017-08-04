@@ -121,8 +121,8 @@
         AND a.open_id = #{open_id}
     </select>
 
-    <select id="selectPriceByProductId" parameterType="java.lang.Long" resultType="java.lang.Float">
-        SELECT price
+    <select id="selectProductInfo" parameterType="java.lang.Long" resultType="PayProductInput">
+        SELECT name as product_name,price
          FROM t_product
         WHERE id = #{product_id}
           AND is_delete = 0

@@ -5,11 +5,12 @@
 
 <mapper namespace="com.yrkj.mapper.OrderMapper">
 
-    <insert id="insertOrder" parameterType="Order">
+    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_order(
             order_num,
             open_id,
             order_state,
+            product_cost,
             courier_company,
             courier_cost,
             create_time
@@ -17,6 +18,7 @@
             #{order_num},
             #{open_id},
             #{order_state},
+            #{product_cost},
             #{courier_company},
             #{courier_cost},
             #{create_time}
@@ -25,14 +27,34 @@
 
     <insert id="insertOrderProduct" parameterType="Order">
         INSERT INTO t_order_product(
-            order_num,
+            order_id,
             product_id,
+            product_name,
             number,
             price
         )VALUES
         <foreach collection="list" item="item" separator="," >
-            (#{order_num},#{item.product_id},#{item.number},#{item.price})
+            (#{id},#{item.product_id},#{item.product_name},#{item.number},#{item.price})
         </foreach>
     </insert>
+
+    <select id="selectOrder" parameterType="java.lang.Long" resultType="Order">
+        SELECT * FROM t_order WHERE id = #{id}
+    </select>
+
+    <select id="selectOrderProduct" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT
+            a.product_id ,
+            b.`name` ,
+            b.price ,
+            b.image1 ,
+            a.price
+        FROM
+            t_order_product a ,
+            t_product b
+        WHERE
+            a.product_id = b.id
+        AND order_id = #{order_id}
+    </select>
 
 </mapper>

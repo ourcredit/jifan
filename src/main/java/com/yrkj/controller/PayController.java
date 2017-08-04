@@ -51,6 +51,41 @@ public class PayController   {
     @Autowired
     private UserProductMapper userProductMapper;
 
+    @ApiOperation(value="创建订单", notes="创建订单")
+    @RequestMapping(value  ="/commitOrder" ,method = RequestMethod.POST)
+    public ActionResult  commitOrder(@RequestBody JsPayInput input){
+
+        //处理价格单位为：分(请自行处理)
+        float productPrice = 0f;
+
+        for (PayProductInput temp:input.getList()){
+            PayProductInput rest = userProductMapper.selectProductInfo(temp.getProduct_id());
+            Float price = rest.getPrice();
+            temp.setPrice(price);
+            temp.setProduct_name(rest.getProduct_name());
+            productPrice= productPrice + price * temp.getNumber();
+        }
+
+        //数据库生成订单
+        Order order = new Order();
+
+        order.setOrder_state(0);
+        order.setOpen_id(input.getOpen_id());
+        order.setProduct_cost(productPrice);
+        order.setList(input.getList());
+        order.setCreate_time(new Date());
+
+        //生成订单
+        return orderService.createOrder(order);
+    }
+
+    @ApiOperation(value="查询订单详情", notes="查询订单详情")
+    @RequestMapping(value  ="/getOrderById" ,method = RequestMethod.GET)
+    public ActionResult  getOrderById(@RequestParam Long id){
+        //查询订单
+        return orderService.getOrderById(id);
+    }
+
     /**
      * 微信js预支付接口*/
     @ApiOperation(value="微信js预支付接口", notes="微信支付接口")
@@ -64,9 +99,9 @@ public class PayController   {
             Integer totalPrice = 0;
 
             for (PayProductInput temp:input.getList()){
-                Float price = userProductMapper.selectPriceByProductId(temp.getProduct_id());
-                temp.setPrice(price);
-                totalPrice= totalPrice + (int)(price*100);
+                //Float price = 0.0;//userProductMapper.selectPriceByProductId(temp.getProduct_id());
+                temp.setPrice(0);
+                totalPrice= totalPrice + (int)(0*100);
             }
 
             String  WIDtotal_fee= Integer.toString(totalPrice);

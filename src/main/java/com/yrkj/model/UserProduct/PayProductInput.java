@@ -7,6 +7,8 @@ public class PayProductInput {
 
     private Long product_id;
 
+    private String product_name;
+
     private int number;
 
     private float price;
@@ -17,6 +19,14 @@ public class PayProductInput {
 
     public void setProduct_id(Long product_id) {
         this.product_id = product_id;
+    }
+
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
     public int getNumber() {
