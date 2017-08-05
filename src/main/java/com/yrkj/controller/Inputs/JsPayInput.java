@@ -6,13 +6,12 @@ import com.yrkj.model.UserProduct.PayProductInput;
 import java.util.List;
 
 public class JsPayInput {
+
     private   String user_ip;
 
     private  String redirect_url;
 
-    private  String open_id;
-
-    private List<PayProductInput> list;
+    private  Long order_id;
 
     public String getUser_ip() {
         return user_ip;
@@ -30,19 +29,11 @@ public class JsPayInput {
         this.redirect_url = redirect_url;
     }
 
-    public String getOpen_id() {
-        return open_id;
+    public Long getOrder_id() {
+        return order_id;
     }
 
-    public void setOpen_id(String open_id) {
-        this.open_id = open_id;
-    }
-
-    public List<PayProductInput> getList() {
-        return list;
-    }
-
-    public void setList(List<PayProductInput> list) {
-        this.list = list;
+    public void setOrder_id(Long order_id) {
+        this.order_id = order_id;
     }
 }

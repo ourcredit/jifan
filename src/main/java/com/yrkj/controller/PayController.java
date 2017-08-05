@@ -3,6 +3,8 @@ package com.yrkj.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.yrkj.config.HttpUtils;
 import com.yrkj.controller.Inputs.JsPayInput;
+import com.yrkj.controller.Inputs.OrderInput;
+import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserProductMapper;
 import com.yrkj.model.UserProduct.PayProductInput;
 import com.yrkj.model.core.ActionResult;
@@ -51,9 +53,12 @@ public class PayController   {
     @Autowired
     private UserProductMapper userProductMapper;
 
+    @Autowired
+    private OrderMapper orderMapper;
+
     @ApiOperation(value="创建订单", notes="创建订单")
     @RequestMapping(value  ="/commitOrder" ,method = RequestMethod.POST)
-    public ActionResult  commitOrder(@RequestBody JsPayInput input){
+    public ActionResult  commitOrder(@RequestBody OrderInput input){
 
         //处理价格单位为：分(请自行处理)
         float productPrice = 0f;
@@ -95,35 +100,21 @@ public class PayController   {
 
         try {
 
-            //处理价格单位为：分(请自行处理)
-            Integer totalPrice = 0;
+            Order order = orderMapper.selectOrder(input.getOrder_id());
 
-            for (PayProductInput temp:input.getList()){
-                //Float price = 0.0;//userProductMapper.selectPriceByProductId(temp.getProduct_id());
-                temp.setPrice(0);
-                totalPrice= totalPrice + (int)(0*100);
-            }
-
+            float product_cost = order.getProduct_cost();
+            Integer totalPrice = (int)(product_cost * 100);
             String  WIDtotal_fee= Integer.toString(totalPrice);
             String nom= Md5Utils.getUuid();
-            String order_num=getPrepayid(nom, WIDtotal_fee, input.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
+            String order_num=getPrepayid(nom, WIDtotal_fee, order.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
             if (order_num==null||order_num.isEmpty()){
                 return  new ActionResult(false,"生成预支付定单失败");
             }
 
-            //数据库生成订单
-            Order order = new Order();
-
             order.setOrder_num(order_num);
-            order.setOrder_state(0);
-            order.setOpen_id(input.getOpen_id());
-            //运费
-            //快递公司
-            order.setList(input.getList());
-            order.setCreate_time(new Date());
 
-            //生成订单
-            orderService.createOrder(order);
+            //更新微信订单号订单号
+            orderService.updateOrder(order);
 
             //组装map用于生成sign
             Map<String, String> result=new HashMap<String, String>();
