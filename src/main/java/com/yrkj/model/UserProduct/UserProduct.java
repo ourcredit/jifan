@@ -3,18 +3,15 @@ package com.yrkj.model.UserProduct;
 import java.util.Date;
 
 /**
- * Created by xuenianxiang on 2017/7/31.
+ * Created by xuenianxiang on 2017/8/7.
  */
-public class UserCart  {
-
+public class UserProduct {
 
     private Long id;
 
     private String open_id;
 
     private Long product_id;
-
-    private Integer number;
 
     private Date create_time;
 
@@ -40,14 +37,6 @@ public class UserCart  {
 
     public void setProduct_id(Long product_id) {
         this.product_id = product_id;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
     }
 
     public Date getCreate_time() {

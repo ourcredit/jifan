@@ -278,6 +278,12 @@ public class PayController   {
         out.flush();
         out.close();
     }
+
+    @ApiOperation(value="测试订单完成接口", notes="测试订单完成接口")
+    @RequestMapping(value  ="/testFinishOrder" ,method = RequestMethod.POST)
+    public ActionResult testFinishOrder(@RequestParam String order_num){
+        return orderService.finishOrder(order_num);
+    }
 }
 
 

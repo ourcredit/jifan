@@ -1,20 +1,19 @@
-package com.yrkj.model.UserProduct;
+package com.yrkj.model.order;
 
 import java.util.Date;
 
 /**
- * Created by xuenianxiang on 2017/7/31.
+ * Created by xuenianxiang on 2017/8/7.
  */
-public class UserCart  {
-
+public class UserIntegration {
 
     private Long id;
 
     private String open_id;
 
-    private Long product_id;
+    private int integration_val;
 
-    private Integer number;
+    private String remark;
 
     private Date create_time;
 
@@ -34,20 +33,20 @@ public class UserCart  {
         this.open_id = open_id;
     }
 
-    public Long getProduct_id() {
-        return product_id;
+    public int getIntegration_val() {
+        return integration_val;
     }
 
-    public void setProduct_id(Long product_id) {
-        this.product_id = product_id;
+    public void setIntegration_val(int integration_val) {
+        this.integration_val = integration_val;
     }
 
-    public Integer getNumber() {
-        return number;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public Date getCreate_time() {
