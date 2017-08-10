@@ -2,6 +2,7 @@ package com.yrkj.model.order;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xuenianxiang on 2017/8/2.
@@ -27,6 +28,20 @@ public class Order {
     private String courier_time;
 
     private Float courier_cost;
+
+    private Integer province_id;
+
+    private String province_name;
+
+    private Integer city_id;
+
+    private String city_name;
+
+    private String address;
+
+    private String receiver;
+
+    private String phone;
 
     private Date create_time;
 
@@ -136,5 +151,61 @@ public class Order {
 
     public void setList(List list) {
         this.list = list;
+    }
+
+    public Integer getProvince_id() {
+        return province_id;
+    }
+
+    public void setProvince_id(Integer province_id) {
+        this.province_id = province_id;
+    }
+
+    public String getProvince_name() {
+        return province_name;
+    }
+
+    public void setProvince_name(String province_name) {
+        this.province_name = province_name;
+    }
+
+    public Integer getCity_id() {
+        return city_id;
+    }
+
+    public void setCity_id(Integer city_id) {
+        this.city_id = city_id;
+    }
+
+    public String getCity_name() {
+        return city_name;
+    }
+
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

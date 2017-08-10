@@ -105,5 +105,24 @@
         UPDATE t_user_address SET is_delete = 1
         WHERE id = #{id}
     </update>
+    
+    <select id="selectDefaultAddressPrice" parameterType="java.lang.String" resultType="Order">
+        SELECT
+            a.province_id ,
+            a.city_id ,
+            a.province_name ,
+            a.city_name ,
+            a.address ,
+            a.phone ,
+            a.receiver ,
+            b.price as courier_cost
+        FROM
+            t_user_address a ,
+            t_postage b
+        WHERE
+            a.id = b.id
+         AND a.open_id = #{open_id}
+         AND a.is_default = 1
+    </select>
 
 </mapper>

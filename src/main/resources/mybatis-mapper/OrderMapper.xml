@@ -41,6 +41,13 @@
     <update id="updateOrder" parameterType="Order">
         UPDATE t_order
         SET order_num = #{order_num},
+            province_id = #{province_id},
+            province_name = #{province_name},
+            city_id = #{city_id},
+            city_name = #{city_name},
+            address = #{address},
+            phone = #{phone},
+            receiver = #{receiver},
             order_state = #{order_state}
         WHERE id = #{id}
     </update>

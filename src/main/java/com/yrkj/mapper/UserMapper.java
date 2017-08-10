@@ -2,9 +2,11 @@ package com.yrkj.mapper;
 
 import com.yrkj.model.User.User;
 import com.yrkj.model.User.UserAddress;
+import com.yrkj.model.order.Order;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xuenianxiang on 2017/7/10.
@@ -32,4 +34,7 @@ public interface UserMapper {
     int updateUserAddressDefault(UserAddress address);
 
     int deleteUserAddress(Long id);
+
+    //获取某用户默认收货地址+邮费
+    Order selectDefaultAddressPrice(String open_id);
 }
