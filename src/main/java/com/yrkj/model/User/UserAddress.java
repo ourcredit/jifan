@@ -11,7 +11,7 @@ public class UserAddress {
 
     private Integer province_id;
 
-    private String provice_name;
+    private String province_name;
 
     private Integer city_id;
 
@@ -51,12 +51,12 @@ public class UserAddress {
         this.province_id = province_id;
     }
 
-    public String getProvice_name() {
-        return provice_name;
+    public String getProvince_name() {
+        return province_name;
     }
 
-    public void setProvice_name(String provice_name) {
-        this.provice_name = provice_name;
+    public void setProvince_name(String province_name) {
+        this.province_name = province_name;
     }
 
     public Integer getCity_id() {
