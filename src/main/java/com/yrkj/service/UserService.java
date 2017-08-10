@@ -2,9 +2,12 @@ package com.yrkj.service;
 
 import com.yrkj.mapper.UserMapper;
 import com.yrkj.model.User.User;
+import com.yrkj.model.User.UserAddress;
 import com.yrkj.model.core.ActionResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by xuenianxiang on 2017/7/10.
@@ -65,5 +68,70 @@ public class UserService {
         return new ActionResult(true,userMapper.selectByOpenId(openid),"获取成功");
     }
 
+    /**
+     * 新增收货地址
+     * @param address
+     * @return
+     */
+    public ActionResult addAddress(UserAddress address){
+
+        List list = userMapper.selectUserAddressList(address.getOpen_id());
+
+        if (list.size() == 0){
+            //如果不存在收货地址 则此地址设置为默认
+            address.setIs_default(1);
+        }
+
+        if (userMapper.insertUserAddress(address) == 1){
+            return new ActionResult(true,null,"添加成功");
+        }else {
+            return new ActionResult(false,null,"添加失败");
+        }
+
+    }
+
+    /**
+     * 更新收货地址
+     * @param address
+     * @return
+     */
+    public ActionResult updateAddress(UserAddress address){
+        if (userMapper.updateUserAddress(address) == 1){
+            return new ActionResult(true,null,"修改成功");
+        } else {
+            return new ActionResult(false,null,"修改失败");
+        }
+    }
+
+    /**
+     * 获取收货地址列表
+     * @param open_id
+     * @return
+     */
+    public ActionResult getAddressList(String open_id){
+        return new ActionResult(true,userMapper.selectUserAddressList(open_id),"获取成功");
+    }
+
+    /**
+     * 获取收货地址详情
+     * @param id
+     * @return
+     */
+    public ActionResult getAddressInfo(Long id){
+        return new ActionResult(true,userMapper.selectUserAddressInfo(id),"获取成功");
+    }
+
+    /**
+     * 删除收货地址
+     * @param id
+     * @return
+     */
+    public ActionResult deleteAddress(Long id){
+        if (userMapper.deleteUserAddress(id) == 1){
+            return new ActionResult(true,null,"删除成功");
+        } else {
+            return new ActionResult(false,null,"删除失败");
+        }
+    }
 
 }

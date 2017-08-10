@@ -36,4 +36,74 @@
         WHERE  open_id      = #{open_id}
     </update>
 
+    <insert id="insertUserAddress" parameterType="UserAddress">
+        INSERT INTO t_user_address(
+            open_id,
+            province_id,
+            province_name,
+            city_id,
+            city_name,
+            address,
+            receiver,
+            phone,
+            post_code,
+            is_default,
+            is_delete
+        )VALUES (
+            #{open_id},
+            #{province_id},
+            #{province_name},
+            #{city_id},
+            #{city_name},
+            #{address},
+            #{receiver},
+            #{phone},
+            #{post_code},
+            #{is_default},
+            0
+        )
+    </insert>
+
+    <select id="selectUserAddressList" parameterType="java.lang.String" resultType="UserAddress">
+        SELECT * FROM t_user_address WHERE open_id = #{open_id} AND is_delete = 0
+    </select>
+
+    <select id="selectUserAddressInfo" parameterType="java.lang.Long" resultType="UserAddress">
+        SELECT * FROM t_user_address WHERE id = #{id} AND is_delete = 0
+    </select>
+
+    <update id="updateUserAddress" parameterType="UserAddress">
+        UPDATE t_user_address
+           SET
+            province_id = #{province_id},
+            province_name = #{province_name},
+            city_id = #{city_id},
+            city_name = #{city_name},
+            address = #{address},
+            receiver = #{receiver},
+            phone = #{phone},
+            post_code = #{post_code},
+            is_default = #{is_default}
+        WHERE id = #{id}
+          AND open_id = #{open_id}
+    </update>
+
+    <update id="updateUserAddressNotDefault" parameterType="java.lang.String">
+        UPDATE t_user_address
+           SET is_default = 0
+         WHERE open_id = #{open_id}
+    </update>
+
+    <update id="updateUserAddressDefault" parameterType="UserAddress">
+        UPDATE t_user_address
+           SET is_default = 1
+         WHERE id = #{id}
+           AND open_id = #{open_id}
+    </update>
+
+    <update id="deleteUserAddress" parameterType="java.lang.Long">
+        UPDATE t_user_address SET is_delete = 1
+        WHERE id = #{id}
+    </update>
+
 </mapper>
