@@ -113,9 +113,9 @@ public class PayController   {
             }
 
             String  WIDtotal_fee= Integer.toString(totalPrice);
-            String nom= Md5Utils.getUuid();
-            String order_num=getPrepayid(nom, WIDtotal_fee, order.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
-            if (order_num==null||order_num.isEmpty()){
+            String nom = Md5Utils.getUuid();
+            String prepay_id = getPrepayid(nom, WIDtotal_fee, order.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
+            if (prepay_id==null||prepay_id.isEmpty()){
                 return  new ActionResult(false,"生成预支付定单失败");
             }
 
@@ -128,7 +128,7 @@ public class PayController   {
             order.setPhone(input.getPhone());
             order.setCourier_cost(input.getCourier_cost());
 
-            order.setOrder_num(order_num);
+            order.setOrder_num(nom);
 
             //更新微信订单号订单号
             orderService.updateOrder(order);
@@ -143,7 +143,7 @@ public class PayController   {
             String nonceStr= RandomUtil.generateLowerString(16);
             result.put("nonceStr", nonceStr);
             //预支付标识
-            result.put("prepay_id",order_num);
+            result.put("prepay_id",prepay_id);
             //金额
             result.put("total_fee",WIDtotal_fee);
             //加密方式
@@ -153,12 +153,12 @@ public class PayController   {
             map.put("appId", appId);
             map.put("timeStamp", timeStamp);
             map.put("nonceStr", nonceStr);
-            map.put("package", "prepay_id="+order_num);
+            map.put("package", "prepay_id="+prepay_id);
             map.put("signType", "MD5");
             result.put("paySign", Md5Utils.sign(map,saleKey).toUpperCase());//签名
             result.put("order", nom);
             return new ActionResult(result);
-            
+
         }catch (Exception e){
             return  new ActionResult(false,e.getMessage());
         }
