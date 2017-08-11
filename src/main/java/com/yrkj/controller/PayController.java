@@ -103,13 +103,30 @@ public class PayController   {
             Order order = orderMapper.selectOrder(input.getOrder_id());
 
             float product_cost = order.getProduct_cost();
-            Integer totalPrice = (int)(product_cost * 100);
+            float courier_cost = input.getCourier_cost();
+            Integer totalPrice = 0;
+
+            if (product_cost >= 300){
+                totalPrice = (int)(product_cost * 100);
+            }else {
+                totalPrice = (int)(product_cost * 100) + (int) (courier_cost * 100);
+            }
+
             String  WIDtotal_fee= Integer.toString(totalPrice);
             String nom= Md5Utils.getUuid();
             String order_num=getPrepayid(nom, WIDtotal_fee, order.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
             if (order_num==null||order_num.isEmpty()){
                 return  new ActionResult(false,"生成预支付定单失败");
             }
+
+            order.setProvince_id(input.getProvince_id());
+            order.setProvince_name(input.getProvince_name());
+            order.setCity_id(input.getCity_id());
+            order.setCity_name(input.getCity_name());
+            order.setAddress(input.getAddress());
+            order.setReceiver(input.getReceiver());
+            order.setPhone(input.getPhone());
+            order.setCourier_cost(input.getCourier_cost());
 
             order.setOrder_num(order_num);
 
@@ -141,6 +158,7 @@ public class PayController   {
             result.put("paySign", Md5Utils.sign(map,saleKey).toUpperCase());//签名
             result.put("order", nom);
             return new ActionResult(result);
+            
         }catch (Exception e){
             return  new ActionResult(false,e.getMessage());
         }
