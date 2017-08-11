@@ -259,7 +259,7 @@ public class PayController   {
             if ("SUCCESS".equals(m.getString("result_code"))) {
                 String out_trade_no =  m.getString("out_trade_no");
                 //修改订单状态
-             //   _orderService.UpdateState(out_trade_no);
+                orderService.finishOrder(out_trade_no);
                 //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
                 resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                         + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
