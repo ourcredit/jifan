@@ -37,4 +37,9 @@ public interface UserProductMapper {
     //获取单个商品名称+价格
     PayProductInput selectProductInfo(Long product_id);
 
+    //获取商品详情
+    Map selectProductById(Long id);
+
+    List<Map> selectSameProduct(Long id);
+
 }

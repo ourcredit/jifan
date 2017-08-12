@@ -124,4 +124,69 @@
           AND is_delete = 0
     </select>
 
+    <select id="selectProductById" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT
+            t.id ,
+            t. NAME ,
+            t.price ,
+            t.badge_introduce ,
+            t.image1 ,
+            t.image2 ,
+            t.badge_image ,
+            t.badge_category1 ,
+            t.badge_category2 ,
+            t.badge_category3 ,
+            (
+                t.inventory -(
+                    SELECT
+                        COALESCE(SUM(b.number) , 0)
+                    FROM
+                        t_order a ,
+                        t_order_product b
+                    WHERE
+                        a.id = b.order_id
+                    AND b.product_id = t.id
+                    AND a.order_state > 0
+                )
+            ) AS inventory ,
+            (
+                SELECT
+                    COALESCE(SUM(b.number) , 0)
+                FROM
+                    t_order a ,
+                    t_order_product b
+                WHERE
+                    a.id = b.order_id
+                AND b.product_id = t.id
+                AND a.order_state > 0
+                AND a.create_time > DATE_SUB(CURDATE() , INTERVAL 1 MONTH)
+            ) AS sales ,
+            t.content
+        FROM
+            t_product t
+
+        WHERE t.id = #{id}
+    </select>
+
+    <select id="selectSameProduct" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT
+            t.id ,
+            t.`name` ,
+            t.image1 ,
+            t.image2 ,
+            t.badge_image
+        FROM
+            t_product t
+        WHERE
+            t.badge_category3 =(
+                SELECT
+                    a.badge_category3
+                FROM
+                    t_product a
+                WHERE
+                    a.id = #{id}
+            )
+        AND t.id != #{id}
+    </select>
+
 </mapper>

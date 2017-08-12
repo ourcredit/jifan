@@ -70,4 +70,10 @@ public class UserProductController {
     public ActionResult cartList(@RequestParam String open_id){
         return userProductService.getCartList(open_id);
     }
+
+    @ApiOperation(value = "获取商品详情",notes = "获取商品详情")
+    @RequestMapping(value = "/productInfo", method = RequestMethod.GET)
+    public ActionResult productInfo(@RequestParam Long product_id){
+        return userProductService.getProductInfo(product_id);
+    }
 }

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xuenianxiang on 2017/7/29.
@@ -142,17 +143,21 @@ public class UserProductService {
 
 
     /**
-     *
-     * @param product_id
-     * @param open_id
+     * 获取商品详情页面
+     * @param id
      * @return
      */
-    public ActionResult buyProduct(String product_id, String open_id){
+    public ActionResult getProductInfo(Long id){
 
-        //备用
+        Map product = userProductMapper.selectProductById(id);
 
+        if (product != null){
+            List list = userProductMapper.selectSameProduct(id);
+            product.put("sameList",list);
+            return new ActionResult(true,product,"获取成功");
+        }
 
-        return null;
+        return new ActionResult(false,null,"获取失败");
     }
 
 }
