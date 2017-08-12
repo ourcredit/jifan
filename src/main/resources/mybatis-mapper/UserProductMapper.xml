@@ -107,7 +107,8 @@
             b.`name` ,
             b.price ,
             b.inventory ,
-            b.image1
+            b.image1 ,
+            b.badge_introduce
         FROM
             t_user_cart a ,
             t_product b
