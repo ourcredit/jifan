@@ -34,6 +34,9 @@ public class OrderService {
 
         orderMapper.insertOrderProduct(order);
 
+        //删除购物车相关物品
+        orderMapper.deleteUserCart(order);
+
         return new ActionResult(true,order,"创建订单成功");
 
     }

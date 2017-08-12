@@ -20,6 +20,8 @@ public interface OrderMapper {
 
     int insertOrderProduct(Order order);
 
+    int deleteUserCart(Order order);
+
     int updateOrder(Order order);
 
     Order selectOrder(Long id);

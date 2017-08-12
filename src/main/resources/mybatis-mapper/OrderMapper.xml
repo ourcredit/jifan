@@ -38,6 +38,15 @@
         </foreach>
     </insert>
 
+    <delete id="deleteUserCart" parameterType="Order">
+        DELETE FROM t_user_cart
+        WHERE open_id = #{open_id}
+        AND product_id in
+        <foreach separator="," index="index" item="item" collection="list" close=")" open="(">
+            #{item.product_id}
+        </foreach>
+    </delete>
+
     <update id="updateOrder" parameterType="Order">
         UPDATE t_order
         SET order_num = #{order_num},
