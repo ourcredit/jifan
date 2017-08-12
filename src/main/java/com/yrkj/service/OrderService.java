@@ -45,24 +45,22 @@ public class OrderService {
      */
     public ActionResult getOrderById(Long id){
         Order order = orderMapper.selectOrder(id);
-
-
-
+        
         if (order != null){
 
             //获取收货地址+邮费
-
-
-            Order receive = userMapper.selectDefaultAddressPrice(order.getOpen_id());
-            if (receive !=null){
-                order.setCourier_cost(receive.getCourier_cost());
-                order.setCity_id(receive.getCity_id());
-                order.setProvince_id(receive.getProvince_id());
-                order.setCity_name(receive.getCity_name());
-                order.setProvince_name(receive.getProvince_name());
-                order.setAddress(receive.getAddress());
-                order.setReceiver(receive.getReceiver());
-                order.setPhone(receive.getPhone());
+            if (order.getOrder_num() == null){//判断是否生成了微信支付订单
+                Order receive = userMapper.selectDefaultAddressPrice(order.getOpen_id());
+                if (receive !=null){
+                    order.setCourier_cost(receive.getCourier_cost());
+                    order.setCity_id(receive.getCity_id());
+                    order.setProvince_id(receive.getProvince_id());
+                    order.setCity_name(receive.getCity_name());
+                    order.setProvince_name(receive.getProvince_name());
+                    order.setAddress(receive.getAddress());
+                    order.setReceiver(receive.getReceiver());
+                    order.setPhone(receive.getPhone());
+                }
             }
 
             //获取商品列表
