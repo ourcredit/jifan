@@ -17,7 +17,21 @@
     </insert>
 
     <select id="selectByOpenId" parameterType="java.lang.String" resultType="User">
-        SELECT * FROM t_user WHERE open_id = #{open_id}
+        SELECT
+            t_user.id ,
+            t_user.open_id ,
+            t_user.mobile ,
+            t_user.nick_name ,
+            t_user.sex ,
+            t_user.avatar ,
+            t_user.address ,
+            t_user.birthday ,
+            (SELECT a.name FROM sys_city a WHERE a.id = t_user.province) ,
+            (SELECT a.name FROM sys_city a WHERE a.id = t_user.city) ,
+            t_user.receiver ,
+            t_user.postal_code
+        FROM
+	   WHERE t_user.open_id = #{open_id}
     </select>
     
     <update id="update" parameterType="User">
