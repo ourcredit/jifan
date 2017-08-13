@@ -29,7 +29,11 @@
             (SELECT a.name FROM sys_city a WHERE a.id = t_user.province) as province,
             (SELECT a.name FROM sys_city a WHERE a.id = t_user.city) as city,
             t_user.receiver ,
-            t_user.postal_code
+            t_user.postal_code,
+            t_user.achievement_val,
+            t_user.integration_val,
+            t_user.badge_count,
+            t_user.designation
         FROM t_user
 	   WHERE t_user.open_id = #{open_id}
     </select>
