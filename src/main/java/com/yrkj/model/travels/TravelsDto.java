@@ -1,5 +1,7 @@
 package com.yrkj.model.travels;
 
+import java.util.Date;
+
 /**
  * Created by xuenianxiang on 2017/7/21.
  */
@@ -20,6 +22,8 @@ public class TravelsDto {
     private String category2;
 
     private String category3;
+
+    private Date create_time;
 
     public Long getId() {
         return id;
@@ -83,6 +87,14 @@ public class TravelsDto {
 
     public void setCategory3(String category3) {
         this.category3 = category3;
+    }
+
+    public Date getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
 }
 

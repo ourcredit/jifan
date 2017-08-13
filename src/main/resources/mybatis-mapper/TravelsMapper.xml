@@ -52,7 +52,7 @@
     </select>
 
     <select id="selectAll" parameterType="TravelsSearch" resultType="TravelsDto">
-        SELECT t.id , t. NAME , t.url , t.image , t.content ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category1) AS category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category2) AS category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category3) AS category3 , t.`status` FROM t_travels t
+        SELECT t.id , t. NAME , t.url , t.image , t.content ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category1) AS category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category2) AS category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category3) AS category3 , t.`status`,t.create_time FROM t_travels t
         WHERE t.is_delete = 0
         <if test="name!=null"> AND t.name LIKE #{name} </if>
         <if test="category1!=null"> AND t.category1 = #{category1} </if>
