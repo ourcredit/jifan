@@ -8,7 +8,9 @@ import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserProductMapper;
 import com.yrkj.model.UserProduct.PayProductInput;
 import com.yrkj.model.core.ActionResult;
+import com.yrkj.model.core.PageModel;
 import com.yrkj.model.order.Order;
+import com.yrkj.model.order.WXOrderSearch;
 import com.yrkj.service.OrderService;
 import com.yrkj.service.UserProductService;
 import com.yrkj.utils.Md5Utils;
@@ -89,6 +91,12 @@ public class PayController   {
     public ActionResult  getOrderById(@RequestParam Long id){
         //查询订单
         return orderService.getOrderById(id);
+    }
+
+    @ApiOperation(value = "获取微信用户订单列表",notes = "获取微信用户订单列表")
+    @RequestMapping(value = "/payList", method = RequestMethod.POST)
+    public PageModel list(@RequestBody WXOrderSearch model) {
+        return orderService.getWxOrderList(model);
     }
 
     /**

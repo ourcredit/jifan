@@ -5,6 +5,7 @@ import com.yrkj.model.UserProduct.UserProduct;
 import com.yrkj.model.order.Order;
 import com.yrkj.model.order.UserAchievement;
 import com.yrkj.model.order.UserIntegration;
+import com.yrkj.model.order.WXOrderSearch;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -25,6 +26,9 @@ public interface OrderMapper {
     int updateOrder(Order order);
 
     Order selectOrder(Long id);
+
+    //获取微信用户订单列表
+    List<Map> selectWxOrderList(WXOrderSearch model);
 
     Order selectOrderByNum(String order_num);
 

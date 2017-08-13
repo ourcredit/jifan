@@ -1,14 +1,18 @@
 package com.yrkj.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserMapper;
 import com.yrkj.model.User.User;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProduct;
 import com.yrkj.model.core.ActionResult;
+import com.yrkj.model.core.PageModel;
 import com.yrkj.model.order.Order;
 import com.yrkj.model.order.UserAchievement;
 import com.yrkj.model.order.UserIntegration;
+import com.yrkj.model.order.WXOrderSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +44,24 @@ public class OrderService {
 
         return new ActionResult(true,order,"创建订单成功");
 
+    }
+
+    /**
+     * 获取微信订单列表
+     * @param model
+     * @return
+     */
+    public PageModel getWxOrderList(WXOrderSearch model){
+
+        Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
+
+        List list = orderMapper.selectWxOrderList(model);
+
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
     }
 
     /**
