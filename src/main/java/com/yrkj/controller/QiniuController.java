@@ -25,8 +25,8 @@ public class QiniuController {
     @RequestMapping(value = "/token", method = RequestMethod.POST)
     public ModelMap token(){
 
-        Auth auth = Auth.create("peXt_U20DEbNS5eGMpjlUVQT2d6zE95lsTufX2Lv", "zkhAKBqCdDm6MVZVELgmIeUihbi1eR_cNlTc1n8v");
-        String upToken = auth.uploadToken("docker");
+        Auth auth = Auth.create("C0qui5BTENLB9C9cYuVH7T1wDnY38i7EdSoRwlpV", "Vy23acIg17_2hsEKKIeoE3w4Wux0wVjEORGBgGWL");
+        String upToken = auth.uploadToken("g-fun-efan");
 
         ModelMap result = new ModelMap();
 
