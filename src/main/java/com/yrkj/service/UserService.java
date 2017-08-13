@@ -7,7 +7,9 @@ import com.yrkj.model.core.ActionResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xuenianxiang on 2017/7/10.
@@ -57,6 +59,28 @@ public class UserService {
         }else {
             return new ActionResult(true,null,"保存失败");
         }
+    }
+
+    /**
+     * 获取用户成就 积分 勋章数
+     * @param open_id
+     * @return
+     */
+    public ActionResult getUserVal(String open_id){
+
+        Integer achievement_val = userMapper.selectUserAchievementVal(open_id);
+
+        Integer integration_val = userMapper.selectUserIntegrationVal(open_id);
+
+        Integer badge = userMapper.selectUserBadge(open_id);
+
+        Map result = new HashMap();
+        result.put("achievement_val",achievement_val);
+        result.put("integration_val",integration_val);
+        result.put("badge",badge);
+
+        return new ActionResult(true,result,"获取成功");
+
     }
 
     /**

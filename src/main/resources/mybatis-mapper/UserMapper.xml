@@ -125,4 +125,16 @@
          AND a.is_default = 1
     </select>
 
+    <select id="selectUserIntegrationVal" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COALESCE(SUM(integration_val),0) from t_user_integration WHERE open_id = #{open_id}
+    </select>
+
+    <select id="selectUserAchievementVal" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COALESCE(SUM(achievement_val) , 0) FROM t_user_achievement WHERE open_id = #{open_id}
+    </select>
+
+    <select id="selectUserBadge" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(1) from t_user_product a,t_product b WHERE a.product_id = b.id AND b.is_badge = 1 AND a.open_id = #{open_id}
+    </select>
+
 </mapper>

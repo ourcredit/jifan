@@ -44,10 +44,16 @@ public class UserController {
         return userService.getById(openid);
     }
 
-    @ApiOperation(value = "获取用户信息",notes = "获取用户信息")
+    @ApiOperation(value = "保存用户信息",notes = "保存用户信息")
     @RequestMapping(value = "/save", method = RequestMethod.GET)
     public ActionResult save(@RequestBody User user) {
         return userService.save(user);
+    }
+
+    @ApiOperation(value = "获取用户成就值、积分、勋章数",notes = "获取用户成就值、积分、勋章数")
+    @RequestMapping(value = "/getUserVal", method = RequestMethod.GET)
+    public ActionResult getUserVal(@RequestParam String open_id) {
+        return userService.getUserVal(open_id);
     }
 
     //收货地址管理

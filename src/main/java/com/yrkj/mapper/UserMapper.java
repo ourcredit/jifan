@@ -37,4 +37,11 @@ public interface UserMapper {
 
     //获取某用户默认收货地址+邮费
     Order selectDefaultAddressPrice(String open_id);
+
+    //查询用户 成就  积分  勋章
+    Integer selectUserIntegrationVal(String open_id);
+
+    Integer selectUserAchievementVal(String open_id);
+
+    Integer selectUserBadge(String open_id);
 }
