@@ -13,7 +13,7 @@ public class ClienteleDto {
 
     private String birthday;
 
-    private String name;
+    private String city;
 
     private int achievement_val;
 
@@ -55,12 +55,12 @@ public class ClienteleDto {
         this.birthday = birthday;
     }
 
-    public String getName() {
-        return name;
+    public String getCity() {
+        return city;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public int getAchievement_val() {
