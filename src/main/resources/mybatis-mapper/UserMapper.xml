@@ -30,7 +30,7 @@
             (SELECT a.name FROM sys_city a WHERE a.id = t_user.city) ,
             t_user.receiver ,
             t_user.postal_code
-        FROM
+        FROM t_user
 	   WHERE t_user.open_id = #{open_id}
     </select>
     
@@ -47,6 +47,15 @@
                receiver     = #{receiver},
                postal_code  = #{postal_code},
                update_time  = #{update_time}
+        WHERE  open_id      = #{open_id}
+    </update>
+
+    <update id="updateUserVal" parameterType="User">
+        UPDATE t_user
+           SET
+               integration_val  = #{integration_val},
+               achievement_val  = #{achievement_val},
+               badge_count  = #{badge_count}
         WHERE  open_id      = #{open_id}
     </update>
 

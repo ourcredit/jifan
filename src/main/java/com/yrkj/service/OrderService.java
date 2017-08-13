@@ -2,6 +2,7 @@ package com.yrkj.service;
 
 import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserMapper;
+import com.yrkj.model.User.User;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProduct;
 import com.yrkj.model.core.ActionResult;
@@ -139,6 +140,19 @@ public class OrderService {
             integration.setRemark("获得"+achievement.getAchievement_name());
             orderMapper.insertUserIntegration(integration);
         }
+
+        Integer achievement_val = userMapper.selectUserAchievementVal(order.getOpen_id());
+
+        Integer integration_val = userMapper.selectUserIntegrationVal(order.getOpen_id());
+
+        Integer badge = userMapper.selectUserBadge(order.getOpen_id());
+
+        User user = new User();
+        user.setAchievement_val(achievement_val);
+        user.setIntegration_val(integration_val);
+        user.setBadge_count(badge);
+        //更新成就 积分 勋章数
+        userMapper.updateUserVal(user);
 
         return new ActionResult(true,null,"成功");
     }

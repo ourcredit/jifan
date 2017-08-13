@@ -20,6 +20,8 @@ public interface UserMapper {
 
     int update(User user);
 
+    int updateUserVal(User user);
+
     //收货地址管理
     int insertUserAddress(UserAddress address);
 

@@ -31,6 +31,14 @@ public class User {
 
     private String postal_code;
 
+    private int achievement_val;
+
+    private int integration_val;
+
+    private int badge_count;
+
+    private String designation;
+
     private Date create_time;
 
     private Date update_time;
@@ -129,6 +137,38 @@ public class User {
 
     public void setPostal_code(String postal_code) {
         this.postal_code = postal_code;
+    }
+
+    public int getAchievement_val() {
+        return achievement_val;
+    }
+
+    public void setAchievement_val(int achievement_val) {
+        this.achievement_val = achievement_val;
+    }
+
+    public int getIntegration_val() {
+        return integration_val;
+    }
+
+    public void setIntegration_val(int integration_val) {
+        this.integration_val = integration_val;
+    }
+
+    public int getBadge_count() {
+        return badge_count;
+    }
+
+    public void setBadge_count(int badge_count) {
+        this.badge_count = badge_count;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
     }
 
     public Date getCreate_time() {
