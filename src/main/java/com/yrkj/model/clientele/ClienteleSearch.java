@@ -1,7 +1,5 @@
 package com.yrkj.model.clientele;
 
-import com.yrkj.model.core.SearchModel;
-
 /**
  * Created by xuenianxiang on 2017/8/13.
  */

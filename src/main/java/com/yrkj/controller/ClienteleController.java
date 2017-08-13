@@ -2,7 +2,6 @@ package com.yrkj.controller;
 
 import com.yrkj.model.clientele.ClienteleSearch;
 import com.yrkj.model.core.PageModel;
-import com.yrkj.model.product.ProductSearch;
 import com.yrkj.service.ClienteleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
