@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.ClienteleMapper">
+    <select id="selectAll" parameterType="ClienteleSearch" resultType="ClienteleDto">
+        SELECT
+        tt.nick_name ,
+        tt.mobile ,
+        tt.sex ,
+        tt.birthday ,
+        a.`name` AS city ,
+        tt.achievement_val ,
+        tt.integration_val ,
+        tt.badge_count ,
+        tt.designation
+        FROM
+        (
+            SELECT
+            t.nick_name ,
+            t.mobile ,
+            t.sex ,
+            t.birthday ,
+            t.city ,
+            t.achievement_val ,
+            t.integration_val ,
+            t.badge_count ,
+            t.designation
+            FROM
+            t_user t
+            WHERE
+            t.mobile IS NOT NULL
+            <if test="mobile!=null"> AND t.mobile like #{mobile} </if>
+            <if test="city!=null"> AND t.city like #{city} </if>
+        ) tt
+        LEFT JOIN sys_city a ON tt.city = a.id
+    </select>
+</mapper>

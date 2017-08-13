@@ -39,5 +39,7 @@
         <mapper resource="mybatis-mapper/PostageMapper.xml"/>
         <!--积分商城管理-->
         <mapper resource="mybatis-mapper/IntegralProductMapper.xml"/>
+
+        <mapper resource="mybatis-mapper/ClienteleMapper.xml"/>
     </mappers>
 </configuration>

@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "保存用户信息",notes = "保存用户信息")
-    @RequestMapping(value = "/save", method = RequestMethod.GET)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ActionResult save(@RequestBody User user) {
         return userService.save(user);
     }
