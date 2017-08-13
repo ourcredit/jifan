@@ -33,7 +33,11 @@
         WHERE
             is_deleted = 0 and cate=#{cate}
         <if test="name!=null"> AND shuffling_name LIKE #{name} </if>
+        <if test="status!=null"> AND status = #{status} </if>
+
     </select>
+
+
     <update id="update" parameterType="Shuffling">
       UPDATE t_shuffling
         SET shuffling_name = #{shuffling_name},
