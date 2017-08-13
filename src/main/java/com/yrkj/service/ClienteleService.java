@@ -29,11 +29,11 @@ public class ClienteleService {
 
         Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
 
-        String phone = model.getPhone();
-        if (phone != null && phone.length() > 0){
-            model.setPhone("%" + phone + "%");
+        String mobile = model.getMobile();
+        if (mobile != null && mobile.length() > 0){
+            model.setMobile("%" + mobile + "%");
         }else {
-            model.setPhone(null);
+            model.setMobile(null);
         }
 
         String city = model.getCity();
