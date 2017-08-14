@@ -113,11 +113,11 @@
     </insert>
 
     <select id="selectProductById" parameterType="java.lang.Long" resultType="java.util.Map">
-        SELECT id,name from t_product WHERE id in (SELECT relation_id from t_achievement_relation WHERE achievement_id = #{id})
+        SELECT * from t_product WHERE id in (SELECT relation_id from t_achievement_relation WHERE achievement_id = #{id})
     </select>
 
     <select id="selectTravelsById" parameterType="java.lang.Long" resultType="java.util.Map">
-        SELECT id,name from t_travels WHERE id in (SELECT relation_id from t_achievement_relation WHERE achievement_id = #{id})
+        SELECT * from t_travels WHERE id in (SELECT relation_id from t_achievement_relation WHERE achievement_id = #{id})
     </select>
 
     <update id="updateStatus" parameterType="ChangeStatusModel">
