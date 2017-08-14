@@ -77,6 +77,8 @@ public class PayController   {
         //数据库生成订单
         Order order = new Order();
 
+        String nom = getOrder_NO();
+        order.setOrder_num(nom);
         order.setOrder_state(0);
         order.setOpen_id(input.getOpen_id());
         order.setProduct_cost(productPrice);
@@ -126,7 +128,7 @@ public class PayController   {
             }
 
             String  WIDtotal_fee= Integer.toString(totalPrice);
-            String nom = getOrder_NO();//Md5Utils.getUuid();
+            String nom = order.getOrder_num();
             String prepay_id = getPrepayid(nom, WIDtotal_fee, order.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
             if (prepay_id==null||prepay_id.isEmpty()){
                 return  new ActionResult(false,"生成预支付定单失败");
