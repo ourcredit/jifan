@@ -46,4 +46,7 @@ public interface UserMapper {
     Integer selectUserAchievementVal(String open_id);
 
     Integer selectUserBadge(String open_id);
+
+    //轮播图+banner
+    List<Map> selectShuffling(Integer cate);
 }

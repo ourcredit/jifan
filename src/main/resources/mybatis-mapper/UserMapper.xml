@@ -164,4 +164,20 @@
         SELECT count(1) from t_user_product a,t_product b WHERE a.product_id = b.id AND b.is_badge = 1 AND a.open_id = #{open_id}
     </select>
 
+    <!--首页轮播图-->
+    <select id="selectShuffling" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+            t.image ,
+            t.url
+        FROM
+            t_shuffling t
+        WHERE
+            t.is_deleted = 0
+        AND t. STATUS = 1
+        AND SYSDATE() >= t.online_time
+        AND t.cate = #{cate}
+        ORDER BY
+            t.weight ASC
+    </select>
+
 </mapper>

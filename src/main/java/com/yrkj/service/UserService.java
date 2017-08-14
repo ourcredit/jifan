@@ -158,4 +158,19 @@ public class UserService {
         }
     }
 
+    /**/
+    public ActionResult getShuffling(){
+
+        List rotationList = userMapper.selectShuffling(1);
+
+        List bannerList = userMapper.selectShuffling(2);
+
+        Map result = new HashMap();
+        result.put("rotationList",rotationList);
+        result.put("bannerList",bannerList);
+
+        return new ActionResult(true,result,"获取成功");
+
+    }
+
 }

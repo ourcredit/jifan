@@ -88,4 +88,9 @@ public class UserController {
     }
 
 
+    @ApiOperation(value = "获取轮播图+banner",notes = "获取轮播图+banner")
+    @RequestMapping(value = "/shuffling", method = RequestMethod.GET)
+    public ActionResult shuffling() {
+        return userService.getShuffling();
+    }
 }
