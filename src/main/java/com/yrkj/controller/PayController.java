@@ -13,6 +13,7 @@ import com.yrkj.model.order.Order;
 import com.yrkj.model.order.WXOrderSearch;
 import com.yrkj.service.OrderService;
 import com.yrkj.service.UserProductService;
+import com.yrkj.utils.DatetimeUtil;
 import com.yrkj.utils.Md5Utils;
 import com.yrkj.utils.RandomUtil;
 import com.yrkj.utils.XmlJsonUtil;
@@ -99,6 +100,10 @@ public class PayController   {
         return orderService.getWxOrderList(model);
     }
 
+    public static String getOrder_NO() {
+        return "JG" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN);
+    }
+
     /**
      * 微信js预支付接口*/
     @ApiOperation(value="微信js预支付接口", notes="微信支付接口")
@@ -121,7 +126,7 @@ public class PayController   {
             }
 
             String  WIDtotal_fee= Integer.toString(totalPrice);
-            String nom = Md5Utils.getUuid();
+            String nom = getOrder_NO();//Md5Utils.getUuid();
             String prepay_id = getPrepayid(nom, WIDtotal_fee, order.getOpen_id(),input.getRedirect_url(),input.getUser_ip());//获取预支付标示
             if (prepay_id==null||prepay_id.isEmpty()){
                 return  new ActionResult(false,"生成预支付定单失败");
