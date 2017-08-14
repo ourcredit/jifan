@@ -37,6 +37,8 @@ public class AchievementDto {
 
     private String category3;
 
+    private String url;
+
     private int status;
     //关系数量
     private int relation_count;
@@ -161,6 +163,14 @@ public class AchievementDto {
 
     public void setCategory3(String category3) {
         this.category3 = category3;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public int getStatus() {

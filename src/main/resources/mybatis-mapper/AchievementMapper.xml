@@ -22,6 +22,7 @@
             button_image ,
             content ,
             status ,
+            url ,
             is_delete ,
             create_by ,
             create_time
@@ -41,6 +42,7 @@
             #{button_image} ,
             #{content} ,
             0 ,
+            #{url} ,
             0 ,
             #{create_by} ,
             #{create_time}
@@ -63,6 +65,7 @@
                image            = #{image} ,
                button_image     = #{button_image} ,
                content          = #{content} ,
+               url              = #{url} ,
                update_by        = #{update_by} ,
                update_time      = #{update_time}
           WHERE id = #{id} AND status = 0

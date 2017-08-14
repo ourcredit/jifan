@@ -41,6 +41,8 @@ public class Achievement extends BaseModel{
 
     private int status;
 
+    private String url;
+
     private List<Long> list;
 
     public String getName() {
@@ -161,6 +163,14 @@ public class Achievement extends BaseModel{
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public List<Long> getList() {
