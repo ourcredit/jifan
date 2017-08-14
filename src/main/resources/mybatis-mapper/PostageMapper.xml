@@ -7,27 +7,27 @@
 
     <insert id="insert" parameterType="Postage" useGeneratedKeys="true" keyProperty="id">
        INSERT INTO tiekuai.t_postage (
-	province,
-	price,
-	create_by,
-	create_time
-)
-VALUES
-	(
-		#{province},
-		#{price},
-		#{create_by},
-		#{create_time}
-	);
+            province,
+            price,
+            create_by,
+            create_time
+        )
+        VALUES
+        (
+            #{province},
+            #{price},
+            #{create_by},
+            #{create_time}
+        );
     </insert>
 
     <update id="update" parameterType="Postage">
       UPDATE tiekuai.t_postage
-SET province = #{province},
- price = #{price},
- update_by = #{update_by},
- update_time = #{update_time}
-WHERE id=#{id};
+        SET province = #{province},
+         price = #{price},
+         update_by = #{update_by},
+         update_time = #{update_time}
+        WHERE id=#{id};
     </update>
 
     <delete id="delete" parameterType="IdsModel">
@@ -36,11 +36,6 @@ WHERE id=#{id};
             #{item}
         </foreach>
     </delete>
-
-
-
-
-
 
     <select id="selectById" parameterType="java.lang.Long" resultType="Postage">
       select * from t_postage where id=#{id}

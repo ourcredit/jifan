@@ -17,6 +17,7 @@
             #{item}
         </foreach>
     </update>
+
     <update id="updateStatus" parameterType="ChangeStatusModel">
         UPDATE t_shuffling SET status = #{status}
         WHERE id in
@@ -27,16 +28,16 @@
 
     <select id="selectAll" parameterType="ShufflingSearch" resultType="ShufflingDto">
         SELECT
-           *
+            *
         FROM
-            t_shuffling
+             t_shuffling
         WHERE
-            is_deleted = 0 and cate=#{cate}
+             is_deleted = 0
+         and cate=#{cate}
         <if test="name!=null"> AND shuffling_name LIKE #{name} </if>
         <if test="status!=null"> AND status = #{status} </if>
-
+        ORDER BY create_time DESC
     </select>
-
 
     <update id="update" parameterType="Shuffling">
       UPDATE t_shuffling
@@ -50,6 +51,7 @@
          update_time = #{update_time}
         WHERE id=#{id};
     </update>
+
     <select id="selectById" parameterType="java.lang.Long" resultType="Shuffling">
         SELECT * FROM t_shuffling WHERE id =#{id} AND is_deleted =0
     </select>

@@ -58,6 +58,7 @@
         <if test="category1!=null"> AND t.category1 = #{category1} </if>
         <if test="category2!=null"> AND t.category2 = #{category2} </if>
         <if test="category3!=null"> AND t.category3 = #{category3} </if>
+        ORDER BY t.create_time DESC
     </select>
 
     <update id="delete" parameterType="IdsModel">

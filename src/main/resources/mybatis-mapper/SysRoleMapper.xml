@@ -13,6 +13,7 @@
         SELECT id,code,name,DATE_FORMAT(create_time , '%Y-%m-%d %h:%i:%s') AS create_time FROM sys_role
          WHERE is_delete = 0
         <if test="name!=null"> AND name LIKE #{name} </if>
+        ORDER BY create_time DESC
     </select>
 
     <select id="selectByCode" parameterType="java.lang.String" resultType="SysRole">

@@ -35,6 +35,7 @@
         WHERE
             is_delete = 0
             <if test="name!=null"> AND nick_name LIKE #{name} OR user_name LIKE #{name} </if>
+        ORDER BY create_time DESC
     </select>
 
     <insert id="insert" parameterType="SysUser">

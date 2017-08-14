@@ -18,21 +18,22 @@
         FROM
         (
             SELECT
-            t.nick_name ,
-            t.mobile ,
-            t.sex ,
-            t.birthday ,
-            t.city ,
-            t.achievement_val ,
-            t.integration_val ,
-            t.badge_count ,
-            t.designation
+                t.nick_name ,
+                t.mobile ,
+                t.sex ,
+                t.birthday ,
+                t.city ,
+                t.achievement_val ,
+                t.integration_val ,
+                t.badge_count ,
+                t.designation
             FROM
-            t_user t
+                t_user t
             WHERE
-            t.mobile IS NOT NULL
-            <if test="mobile!=null"> AND t.mobile like #{mobile} </if>
-            <if test="city!=null"> AND t.city like #{city} </if>
+                t.mobile IS NOT NULL
+                <if test="mobile!=null"> AND t.mobile like #{mobile} </if>
+                <if test="city!=null"> AND t.city like #{city} </if>
+                ORDER BY t.create_time DESC
         ) tt
         LEFT JOIN sys_city a ON tt.city = a.id
     </select>

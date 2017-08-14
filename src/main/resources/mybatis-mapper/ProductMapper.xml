@@ -115,6 +115,7 @@
         <if test="category1!=null"> AND t.badge_category1 = #{category1} </if>
         <if test="category2!=null"> AND t.badge_category2 = #{category2} </if>
         <if test="category3!=null"> AND t.badge_category3 = #{category3} </if>
+        ORDER BY t.create_time DESC
     </select>
 
     <select id="selectAllSingle" parameterType="ProductSearch" resultType="ProductDto">
@@ -126,6 +127,7 @@
         <if test="category1!=null"> AND t.badge_category1 = #{category1} </if>
         <if test="category2!=null"> AND t.badge_category2 = #{category2} </if>
         <if test="category3!=null"> AND t.badge_category3 = #{category3} </if>
+        ORDER BY t.create_time DESC
     </select>
 
     <select id="selectBadge" parameterType="ProductSearch" resultType="ProductDto">
@@ -135,6 +137,7 @@
         <if test="category1!=null"> AND t.badge_category1 = #{category1} </if>
         <if test="category2!=null"> AND t.badge_category2 = #{category2} </if>
         <if test="category3!=null"> AND t.badge_category3 = #{category3} </if>
+        ORDER BY t.create_time DESC
     </select>
 
     <update id="updateStatus" parameterType="ChangeStatusModel">
