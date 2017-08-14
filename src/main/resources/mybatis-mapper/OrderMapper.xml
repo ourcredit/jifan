@@ -56,6 +56,7 @@
             city_name = #{city_name},
             address = #{address},
             phone = #{phone},
+            courier_cost = #{courier_cost},
             receiver = #{receiver},
             order_state = #{order_state}
         WHERE id = #{id}
@@ -67,19 +68,38 @@
 
     <select id="selectWxOrderList" parameterType="WXOrderSearch" resultType="java.util.Map">
         SELECT
+            t.id ,
             t.order_num ,
             t.order_state ,
             t.product_cost ,
             t.courier_cost ,
             t.courier_order ,
-            (SELECT group_concat(b.image1 separator ';') from t_order_product a , t_product b WHERE a.product_id = b.id AND a.order_id = t.id group by b.image1) as images
+            (
+                SELECT
+                    group_concat(b.image1 SEPARATOR ';')
+                FROM
+                    t_order_product a ,
+                    t_product b
+                WHERE
+                    a.product_id = b.id
+                AND a.order_id = t.id
+                GROUP BY
+                    b.image1
+            ) AS images ,
+            (
+                SELECT
+                    COALESCE(SUM(a.number) , 0)
+                FROM
+                    t_order_product a
+                WHERE
+                    a.order_id = t.id
+            ) AS product_count
         FROM
             t_order t
         WHERE
             t.order_num IS NOT NULL
         AND t.open_id = #{open_id}
     </select>
-
 
     <select id="selectOrderByNum" parameterType="java.lang.String" resultType="Order">
         SELECT * FROM t_order WHERE order_num = #{order_num}
