@@ -70,6 +70,8 @@
         SELECT * from  tiekuai.t_integral_product t  WHERE t.is_deleted = 0
         <if test="name!=null"> AND t.product_name LIKE #{name} </if>
         <if test="status!=null"> AND t.status = #{status} </if>
+        <if test="cate!=null"> AND t.product_type = #{cate} </if>
+
         ORDER BY t.create_time DESC
     </select>
 
