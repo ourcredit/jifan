@@ -16,7 +16,7 @@ import javax.servlet.ServletException;
  */
 
 @RestController
-@RequestMapping("/api/mall")
+@RequestMapping("/mobile/mall")
 @EnableSwagger2
 @Api(description = "积分商品手机端")
 public class IntegralMallController {
