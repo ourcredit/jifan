@@ -33,6 +33,14 @@ public class CourierInput {
     private  String courier_company;
     private  String courier_order;
     private Timestamp courier_time;
+    public String getOrder_num() {
+        return order_num;
+    }
 
+    public void setOrder_num(String order_num) {
+        this.order_num = order_num;
+    }
+
+    private String order_num;
 
 }
