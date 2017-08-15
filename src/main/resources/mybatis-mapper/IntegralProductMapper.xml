@@ -148,7 +148,7 @@ ORDER BY a.create_time DESC
     <select id="selectOrders" parameterType="IntegralSearch" resultType="IntegralOrder">
        SELECT *
         FROM
-	t_integral_order t
+	t_integral_order t where 1=1
         <if test="name!=null"> AND t.order_name LIKE #{name} </if>
         <if test="status!=null"> AND t.order_state = #{status} </if>
         <if test="cate!=null"> AND t.order_type = #{cate} </if>
