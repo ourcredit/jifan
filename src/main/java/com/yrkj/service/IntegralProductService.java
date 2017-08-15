@@ -5,10 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.IntegralProductMapper;
 import com.yrkj.model.Integral.IntegralProduct;
 import com.yrkj.model.Integral.IntegralSearch;
-import com.yrkj.model.core.ActionResult;
-import com.yrkj.model.core.ChangeStatusModel;
-import com.yrkj.model.core.IdsModel;
-import com.yrkj.model.core.PageModel;
+import com.yrkj.model.core.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,7 +106,6 @@ public class IntegralProductService {
      * @return
      */
     public PageModel getAll(IntegralSearch model){
-
         Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
 
         String name = model.getName();
@@ -128,5 +124,33 @@ public class IntegralProductService {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
     }
+    /*
+    * 获取所有商品 手机端*/
+    public  PageModel GetIntegralList(SearchModel model){
+        Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
 
+        String name = model.getName();
+        //name模糊查询
+        if (name != null && name.length() > 0){
+            model.setName("%" + name + "%");
+        }else {
+            model.setName(null);
+        }
+
+        List list = _productMapper.GetIntegralProducts(model);
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
+    public  ActionResult GetIntegralDetail(Long id){
+        IntegralProduct dto = _productMapper.GetIntegralById(id);
+        if (dto != null){
+            return new ActionResult(true,dto,"获取成功");
+        }else {
+            return new ActionResult(false,null,"获取失败");
+
+        }
+    }
 }

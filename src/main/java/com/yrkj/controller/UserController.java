@@ -4,18 +4,14 @@ import com.yrkj.model.User.User;
 import com.yrkj.model.User.UserAddress;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.IdModel;
-import com.yrkj.model.product.Product;
 import com.yrkj.service.UserService;
-import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
+
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Date;
 
 /**
  * Created by xuenianxiang on 2017/7/22.
