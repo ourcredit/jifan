@@ -3,12 +3,16 @@ package com.yrkj.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.IntegralProductMapper;
+import com.yrkj.mapper.UserMapper;
+import com.yrkj.model.Integral.IntegralOrder;
 import com.yrkj.model.Integral.IntegralProduct;
 import com.yrkj.model.Integral.IntegralSearch;
+import com.yrkj.model.User.User;
 import com.yrkj.model.core.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,7 +23,8 @@ import java.util.List;
 public class IntegralProductService {
     @Autowired
     private IntegralProductMapper _productMapper;
-
+    @Autowired
+    private UserMapper _userMapper;
     /**
      * 创建商品
      * @param product
@@ -152,5 +157,23 @@ public class IntegralProductService {
             return new ActionResult(false,null,"获取失败");
 
         }
+    }
+    @Transactional
+    public ActionResult InsertOrder(IntegralOrder model){
+        Integer ui=_userMapper.selectUserIntegrationVal(model.getOpen_id());
+        if(ui<=model.getOrder_cost()){
+            return new ActionResult(false,null,"用户积分不足,无法购买");
+        }else{
+            model.setOrder_state(1);
+        }
+        if (_productMapper.InsertOrder(model) == 1){
+            User u=new User();
+            u.setOpen_id(model.getOpen_id());
+            u.setIntegration_val(ui-model.getOrder_cost());
+            _userMapper.UpdateUserIntegrationVal(u);
+            return new ActionResult(true,null,"创建成功");
+        }
+        return new ActionResult(false,null,"创建失败");
+
     }
 }

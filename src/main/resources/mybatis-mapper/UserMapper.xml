@@ -62,6 +62,12 @@
                badge_count  = #{badge_count}
         WHERE  open_id      = #{open_id}
     </update>
+    <update id="UpdateUserIntegrationVal" parameterType="User">
+        UPDATE t_user
+        SET
+        integration_val  = #{integration_val}
+        WHERE  open_id      = #{open_id}
+    </update>
 
     <insert id="insertUserAddress" parameterType="UserAddress">
         INSERT INTO t_user_address(

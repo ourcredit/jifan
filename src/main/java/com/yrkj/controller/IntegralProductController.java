@@ -70,7 +70,6 @@ public class IntegralProductController {
 
         return _productService.deleteProducts(model);
     }
-
     @ApiOperation(value = "批量更改状态",notes = "批量更改状态")
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)

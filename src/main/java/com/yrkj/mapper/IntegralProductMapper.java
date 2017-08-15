@@ -1,6 +1,7 @@
 package com.yrkj.mapper;
 
 import com.yrkj.model.Integral.IntegralDto;
+import com.yrkj.model.Integral.IntegralOrder;
 import com.yrkj.model.Integral.IntegralProduct;
 import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.core.BaseModel;
@@ -28,4 +29,5 @@ public interface IntegralProductMapper {
     int updateStatus(ChangeStatusModel model);
     List<IntegralDto> GetIntegralProducts(SearchModel input);
     IntegralProduct GetIntegralById(Long id);
+    int InsertOrder(IntegralOrder input);
 }

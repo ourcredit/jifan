@@ -1,7 +1,9 @@
 package com.yrkj.controller;
 
+import com.yrkj.model.Integral.IntegralOrder;
 import com.yrkj.model.core.*;
 import com.yrkj.service.IntegralProductService;
+import com.yrkj.utils.DatetimeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.ServletException;
+import java.util.Date;
 
 
 /**
@@ -41,7 +44,11 @@ public class IntegralMallController {
     @ApiOperation(value = "创建积分商品订单",notes = "手机积分接口")
     //  @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/order", method = RequestMethod.POST)
-    public ActionResult order(@RequestParam Long id) throws ServletException {
-        return _productService.GetIntegralDetail(id);
+    public ActionResult order(@RequestBody IntegralOrder model) throws ServletException {
+        String num= "JG" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN);
+        model.setOrder_num(num);
+        model.setOrder_state(0);
+        model.setCreate_time(new Date());
+        return _productService.InsertOrder(model);
     }
 }

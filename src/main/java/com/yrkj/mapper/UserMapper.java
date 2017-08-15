@@ -34,6 +34,7 @@ public interface UserMapper {
     int updateUserAddressNotDefault(String open_id);
 
     int updateUserAddressDefault(UserAddress address);
+    int UpdateUserIntegrationVal(User cost);
 
     int deleteUserAddress(Long id);
 

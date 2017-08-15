@@ -34,6 +34,17 @@
             #{content}
 	      );
     </insert>
+    <insert id="InsertOrder" parameterType="IntegralOrder" useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO tiekuai.t_integral_order (
+	order_num,order_from,order_name,order_count,open_id,order_state,order_cost,create_by,create_time,address,receiver,phone
+)
+VALUES
+	(
+	#{order_num},	#{order_from},	#{order_name},	#{order_count},	#{open_id},	#{order_state},	#{order_cost},
+	#{create_by},	#{create_time},	#{address},	#{receiver},	#{phone}
+	);
+    </insert>
+
 
     <update id="update" parameterType="IntegralProduct">
        UPDATE tiekuai.t_integral_product
@@ -91,7 +102,7 @@ LEFT JOIN (
 		order_from,
 		sum(order_count) count
 	FROM
-		t_integral_order
+		t_integral_order where order_state=1
 	GROUP BY
 		order_from
 ) b on a.id=b.order_from
@@ -120,7 +131,7 @@ ORDER BY a.create_time DESC
         order_from,
         sum(order_count) count
         FROM
-        t_integral_order
+        t_integral_order  where order_state=1
         GROUP BY
         order_from
         ) b on a.id=b.order_from
