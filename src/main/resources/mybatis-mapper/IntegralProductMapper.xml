@@ -36,11 +36,11 @@
     </insert>
     <insert id="InsertOrder" parameterType="IntegralOrder" useGeneratedKeys="true" keyProperty="id">
       INSERT INTO tiekuai.t_integral_order (
-	order_num,order_from,order_name,order_count,open_id,order_state,order_cost,create_by,create_time,address,receiver,phone
+	order_num,order_type,order_from,order_name,order_count,open_id,order_state,order_cost,create_by,create_time,address,receiver,phone
 )
 VALUES
 	(
-	#{order_num},	#{order_from},	#{order_name},	#{order_count},	#{open_id},	#{order_state},	#{order_cost},
+	#{order_num},#{order_type},	#{order_from},	#{order_name},	#{order_count},	#{open_id},	#{order_state},	#{order_cost},
 	#{create_by},	#{create_time},	#{address},	#{receiver},	#{phone}
 	);
     </insert>
@@ -145,5 +145,13 @@ ORDER BY a.create_time DESC
             #{item}
         </foreach>
     </update>
+    <select id="selectOrders" parameterType="IntegralSearch" resultType="IntegralOrder">
+       SELECT *
+        FROM
+	t_integral_order t
+        <if test="name!=null"> AND t.order_name LIKE #{name} </if>
+        <if test="status!=null"> AND t.order_state = #{status} </if>
+        <if test="cate!=null"> AND t.order_type = #{cate} </if>
+    </select>
 
 </mapper>

@@ -30,4 +30,6 @@ public interface IntegralProductMapper {
     List<IntegralDto> GetIntegralProducts(SearchModel input);
     IntegralProduct GetIntegralById(Long id);
     int InsertOrder(IntegralOrder input);
+
+    List<IntegralOrder> selectOrders(IntegralSearch model);
 }

@@ -176,4 +176,21 @@ public class IntegralProductService {
         return new ActionResult(false,null,"创建失败");
 
     }
+    public  PageModel OrderList(IntegralSearch model){
+        Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
+        String name = model.getName();
+        //name模糊查询
+        if (name != null && name.length() > 0){
+            model.setName("%" + name + "%");
+        }else {
+            model.setName(null);
+        }
+        List list = _productMapper.selectOrders(model);
+
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
 }

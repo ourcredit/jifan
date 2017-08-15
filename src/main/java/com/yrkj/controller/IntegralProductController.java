@@ -100,4 +100,12 @@ public class IntegralProductController {
     public PageModel list(@RequestBody IntegralSearch model) {
         return _productService.getAll(model);
     }
+
+    @ApiOperation(value = "获取订单列表",notes = "获取订单列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
+    @RequestMapping(value = "/orders", method = RequestMethod.POST)
+    public PageModel Orders(@RequestBody IntegralSearch model) {
+        return _productService.OrderList(model);
+    }
+
 }

@@ -21,6 +21,16 @@ public class IntegralOrder extends BaseModel {
     private String receiver;
     private String phone;
     private Integer  order_cost;//话费积分
+
+    public Integer getOrder_type() {
+        return order_type;
+    }
+
+    public void setOrder_type(Integer order_type) {
+        this.order_type = order_type;
+    }
+
+    private Integer order_type;
     public String getOrder_num() {
         return order_num;
     }
