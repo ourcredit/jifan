@@ -1,5 +1,6 @@
 package com.yrkj.controller;
 
+import com.yrkj.model.Integral.CourierInput;
 import com.yrkj.model.Integral.IntegralProduct;
 import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.core.*;
@@ -107,5 +108,10 @@ public class IntegralProductController {
     public PageModel Orders(@RequestBody IntegralSearch model) {
         return _productService.OrderList(model);
     }
-
+    @ApiOperation(value = "更新订单信息",notes = "更新订单信息")
+    @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
+    @RequestMapping(value = "/updatecourier", method = RequestMethod.POST)
+    public ActionResult UpdateCourier(@RequestBody CourierInput model) {
+        return _productService.UpdateCourier(model);
+    }
 }

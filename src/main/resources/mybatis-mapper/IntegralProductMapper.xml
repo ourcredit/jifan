@@ -45,25 +45,27 @@ VALUES
 	);
     </insert>
 
-
-    <update id="update" parameterType="IntegralProduct">
-       UPDATE tiekuai.t_integral_product
+      <update id="update" parameterType="IntegralProduct">
+        UPDATE tiekuai.t_integral_product
         SET
-         update_by = #{update_by},
-         update_time = #{update_time},
-         online_time = #{online_time},
-         product_name = #{product_name},
-         product_type = #{product_type},
-         product_price = #{product_price},
-         inventory = #{inventory},
-         image1 = #{image1},
-         image2 = #{image2},
-         description = #{description},
-         content = #{content}
+        update_by = #{update_by},
+        update_time = #{update_time},
+        online_time = #{online_time},
+        product_name = #{product_name},
+        product_type = #{product_type},
+        product_price = #{product_price},
+        inventory = #{inventory},
+        image1 = #{image1},
+        image2 = #{image2},
+        description = #{description},
+        content = #{content}
         WHERE
-            id=#{id};
+        id=#{id};
     </update>
-
+    <update id="UpdateCourier" parameterType="CourierInput">
+      update t_integral_order set courier_company=#{courier_company},courier_order=#{courier_order},courier_time=#{courier_time}
+        where order_num=#{order_num}
+    </update>
     <update id="delete" parameterType="IdsModel">
         UPDATE tiekuai.t_integral_product SET is_deleted = 1
         WHERE status = 0

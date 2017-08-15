@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.IntegralProductMapper;
 import com.yrkj.mapper.UserMapper;
+import com.yrkj.model.Integral.CourierInput;
 import com.yrkj.model.Integral.IntegralOrder;
 import com.yrkj.model.Integral.IntegralProduct;
 import com.yrkj.model.Integral.IntegralSearch;
@@ -192,5 +193,11 @@ public class IntegralProductService {
         }else {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
+    }
+    public  ActionResult UpdateCourier(CourierInput input){
+        if (_productMapper.UpdateCourier(input) == 1){
+            return new ActionResult(true,null,"更新成功");
+        }
+        return new ActionResult(false,null,"更新失败");
     }
 }
