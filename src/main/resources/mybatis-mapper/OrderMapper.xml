@@ -121,7 +121,46 @@
             a.product_id = b.id
         AND order_id = #{order_id}
     </select>
+    <select id="GetAllOrders" parameterType="IntegralSearch" resultType="Order">
+      select * from t_order a where 1=1
+        <if test="name!=null"> AND a.order_name LIKE #{name} </if>
+        <if test="status!=null"> AND a.order_state = #{status} </if>
+        ORDER BY a.create_time DESC
+    </select>
+    <select id="GetOrderDetail" parameterType="java.lang.String" resultType="OrderDto">
+        SELECT
+        a.id,
+        a.order_num,
+        a.order_name,
+        a.open_id,
+        a.order_state,
+        a.product_cost,
+        a.courier_company,
+        a.courier_order,
+        a.courier_time,
+        a.courier_cost,
+        a.province_id,
+        a.city_id,
+        a.province_name,
+        a.city_name,
+        a.address,
+        a.receiver,
+        a.phone,
+        b.product_name,
+        b.number,
+        b.price
+        FROM
+        t_order a
+        LEFT JOIN t_order_product b ON a.id = b.order_id
+        where a.order_num=#{orderNum};
+    </select>
 
+
+
+    <update id="UpdateCourier" parameterType="CourierInput">
+        update t_order set courier_company=#{courier_company},courier_order=#{courier_order},courier_time=#{courier_time}
+        where order_num=#{order_num}
+    </update>
     <!--获取该订单内所有涉及的单一商品和数量-->
     <select id="selectProductNumberByOrderId" parameterType="java.lang.Long" resultType="UserCart">
         SELECT

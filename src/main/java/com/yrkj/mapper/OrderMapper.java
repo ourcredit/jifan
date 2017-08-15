@@ -1,11 +1,11 @@
 package com.yrkj.mapper;
 
+import com.yrkj.model.Integral.CourierInput;
+import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProduct;
-import com.yrkj.model.order.Order;
-import com.yrkj.model.order.UserAchievement;
-import com.yrkj.model.order.UserIntegration;
-import com.yrkj.model.order.WXOrderSearch;
+import com.yrkj.model.core.PageModel;
+import com.yrkj.model.order.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -50,5 +50,10 @@ public interface OrderMapper {
 
     //插入用户积分
     int insertUserIntegration(UserIntegration integration);
+    //分页获取订单
+    List<Order> GetAllOrders(IntegralSearch input);
+    //更新快递信息
+    int UpdateCourier (CourierInput input);
+    List<OrderDto> GetOrderDetail (String orderNum);
 
 }

@@ -1,8 +1,11 @@
 package com.yrkj.controller;
 
+import com.yrkj.model.Integral.CourierInput;
+import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.core.*;
 import com.yrkj.model.product.Product;
 import com.yrkj.model.product.ProductSearch;
+import com.yrkj.service.OrderService;
 import com.yrkj.service.ProductService;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -32,7 +35,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-
+    @Autowired
+    private OrderService _orderService;
     @ApiOperation(value = "创建产品",notes = "创建产品")
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -118,5 +122,24 @@ public class ProductController {
     @RequestMapping(value = "/badgeList", method = RequestMethod.POST)
     public PageModel badgeList(@RequestBody ProductSearch model) {
         return productService.getBadgeList(model);
+    }
+
+    @ApiOperation(value = "获取订单列表",notes = "获取订单列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
+    @RequestMapping(value = "/orders", method = RequestMethod.POST)
+    public PageModel OrderList(@RequestBody IntegralSearch model) {
+        return _orderService.GetOrdersList(model);
+    }
+    @ApiOperation(value = "修改快递信息",notes = "修改快递信息")
+    @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
+    @RequestMapping(value = "/updateCourier", method = RequestMethod.POST)
+    public ActionResult UpdateCourier(@RequestBody CourierInput model) {
+        return _orderService.UpdateCourier(model);
+    }
+    @ApiOperation(value = "获取订单详情",notes = "获取订单详情")
+    @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
+    @RequestMapping(value = "/order", method = RequestMethod.GET)
+    public ActionResult Order(@RequestParam String orderNum) {
+        return _orderService.GetOrderDetail(orderNum);
     }
 }

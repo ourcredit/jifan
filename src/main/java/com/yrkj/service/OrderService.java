@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserMapper;
+import com.yrkj.model.Integral.CourierInput;
+import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.User.User;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProduct;
@@ -63,7 +65,34 @@ public class OrderService {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
     }
+    /**
+     * 获取微信订单列表
+     * @param model
+     * @return
+     */
+    public PageModel GetOrdersList(IntegralSearch model){
 
+        Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
+        List list = orderMapper.GetAllOrders(model);
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
+    /**
+     * 获取订单详情
+     * @param orderNum
+     * @return
+     */
+    public ActionResult GetOrderDetail(String orderNum){
+        List list = orderMapper.GetOrderDetail(orderNum);
+        if (list.size() > 0){
+            return new ActionResult(true,list,"获取成功");
+        }else {
+            return new ActionResult(true,list,"暂无数据");
+        }
+    }
     /**
      * 获取订单详情
      * @param id
@@ -97,7 +126,17 @@ public class OrderService {
             return new ActionResult(false,null,"获取失败");
         }
     }
-
+    /**
+     * 更新快递信息
+     * @param input
+     * @return
+     */
+    public  ActionResult UpdateCourier(CourierInput input){
+        if (orderMapper.UpdateCourier(input) == 1){
+            return new ActionResult(true,null,"更新成功");
+        }
+        return new ActionResult(false,null,"更新失败");
+    }
     /**
      * 更新订单
      * @param order
