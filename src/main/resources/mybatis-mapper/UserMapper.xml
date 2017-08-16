@@ -101,6 +101,10 @@
         SELECT * FROM t_user_address WHERE open_id = #{open_id} AND is_delete = 0
     </select>
 
+    <select id="selectUserDefaultAddress" parameterType="java.lang.String" resultType="UserAddress">
+        SELECT * FROM t_user_address WHERE open_id = #{open_id} AND is_delete = 0 AND is_default = 1
+    </select>
+
     <select id="selectUserAddressInfo" parameterType="java.lang.Long" resultType="UserAddress">
         SELECT * FROM t_user_address WHERE id = #{id} AND is_delete = 0
     </select>

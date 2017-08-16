@@ -137,6 +137,15 @@ public class UserService {
     }
 
     /**
+     * 获取默认收货地址
+     * @param open_id
+     * @return
+     */
+    public ActionResult getDefaultAddress(String open_id){
+        return new ActionResult(true,userMapper.selectUserDefaultAddress(open_id),"获取成功");
+    }
+
+    /**
      * 获取收货地址详情
      * @param id
      * @return

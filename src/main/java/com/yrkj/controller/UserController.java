@@ -77,6 +77,12 @@ public class UserController {
         return userService.getAddressList(open_id);
     }
 
+    @ApiOperation(value = "获取默认收货地址",notes = "获取默认收货地址")
+    @RequestMapping(value = "/getDefaultAddress", method = RequestMethod.GET)
+    public ActionResult getDefaultAddress(@RequestParam String open_id) {
+        return userService.getDefaultAddress(open_id);
+    }
+
     @ApiOperation(value = "获取收货地址详情",notes = "获取收货地址详情")
     @RequestMapping(value = "/getAddressInfo", method = RequestMethod.GET)
     public ActionResult getAddressInfo(@RequestParam Long id) {

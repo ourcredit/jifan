@@ -27,6 +27,8 @@ public interface UserMapper {
 
     List<UserAddress> selectUserAddressList(String open_id);
 
+    UserAddress selectUserDefaultAddress(String open_id);
+
     UserAddress selectUserAddressInfo(Long id);
 
     int updateUserAddress(UserAddress address);
