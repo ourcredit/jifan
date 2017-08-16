@@ -9,14 +9,14 @@ import java.sql.Timestamp;
  */
 public class IntegralOrder extends BaseModel {
     private String  order_num;//订单号
-  private Integer  order_from;//积分商品id
-  private String  order_name;//订单名
-  private Integer  order_count;//商品个数
-  private String  open_id;//用户openid
-  private Integer  order_state=0;//状态
-  private String  courier_company;//快递公司
-  private String  courier_order;//快递单号
-  private String courier_time;//快递时间
+    private Integer  order_from;//积分商品id
+    private String  order_name;//订单名
+    private Integer  order_count;//商品个数
+    private String  open_id;//用户openid
+    private Integer  order_state=0;//状态
+    private String  courier_company;//快递公司
+    private String  courier_order;//快递单号
+    private String courier_time;//快递时间
     private String address;
     private String receiver;
     private String phone;

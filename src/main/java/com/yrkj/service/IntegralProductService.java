@@ -3,6 +3,7 @@ package com.yrkj.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.IntegralProductMapper;
+import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserMapper;
 import com.yrkj.model.Integral.CourierInput;
 import com.yrkj.model.Integral.IntegralOrder;
@@ -11,10 +12,12 @@ import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.User.User;
 import com.yrkj.model.core.*;
 
+import com.yrkj.model.order.UserIntegration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +29,8 @@ public class IntegralProductService {
     private IntegralProductMapper _productMapper;
     @Autowired
     private UserMapper _userMapper;
+    @Autowired
+    private OrderMapper _orderMapper;
     /**
      * 创建商品
      * @param product
@@ -36,7 +41,6 @@ public class IntegralProductService {
             return new ActionResult(true,null,"创建成功");
         }
         return new ActionResult(false,null,"创建失败");
-
     }
 
     /**
@@ -163,20 +167,33 @@ public class IntegralProductService {
     public ActionResult InsertOrder(IntegralOrder model){
         Integer ui=_userMapper.selectUserIntegrationVal(model.getOpen_id());
         if(ui<=model.getOrder_cost()){
+
             return new ActionResult(false,null,"用户积分不足,无法购买");
-        }else{
+
+        } else{
             model.setOrder_state(1);
         }
         if (_productMapper.InsertOrder(model) == 1){
+
             User u=new User();
             u.setOpen_id(model.getOpen_id());
             u.setIntegration_val(ui-model.getOrder_cost());
             _userMapper.UpdateUserIntegrationVal(u);
+
+            //插入积分明细表
+            UserIntegration integration = new UserIntegration();
+            integration.setOpen_id(model.getOpen_id());
+            integration.setIntegration_val(-model.getOrder_cost());
+            integration.setCreate_time(new Date());
+            integration.setRemark("购买积分商品消费"+model.getOrder_cost()+"积分");
+            _orderMapper.insertUserIntegration(integration);
+
             return new ActionResult(true,null,"创建成功");
         }
         return new ActionResult(false,null,"创建失败");
 
     }
+
     public  PageModel OrderList(IntegralSearch model){
         Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
         String name = model.getName();
@@ -194,10 +211,12 @@ public class IntegralProductService {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
     }
+
     public  ActionResult UpdateCourier(CourierInput input){
         if (_productMapper.UpdateCourier(input) == 1){
             return new ActionResult(true,null,"更新成功");
         }
         return new ActionResult(false,null,"更新失败");
     }
+
 }
