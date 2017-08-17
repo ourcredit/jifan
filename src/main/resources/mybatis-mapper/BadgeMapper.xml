@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.BadgeMapper">
+
+    <select id="selectUserBadges" parameterType="BadgeSearch" resultType="java.util.Map">
+        SELECT
+            t.*
+        FROM
+            (
+                SELECT
+                    a.*, DATE_FORMAT(b.create_time , '%Y-%m-%d') AS get_time
+                FROM
+                    (
+                        SELECT
+                            t1.id ,
+                            t1.`name` ,
+                            t1.image1 ,
+                            t1.image2 ,
+                            t2.`name` AS category ,
+                            (
+                                SELECT
+                                    group_concat(e.`name` SEPARATOR ';')
+                                FROM
+                                    t_achievement e ,
+                                    t_achievement_relation f
+                                WHERE
+                                    e.id = f.achievement_id
+                                AND e.type = 1
+                                AND f.relation_id = t1.id
+                                GROUP BY
+                                    f.relation_id
+                            ) AS achievement
+                        FROM
+                            t_product t1 ,
+                            t_category t2
+                        WHERE
+                            t1.is_badge = 1
+                        AND t1.badge_category3 = t2.id
+                    ) a
+                LEFT JOIN t_user_product b ON a.id = b.product_id
+                AND b.open_id = #{open_id}
+            ) t
+        WHERE
+            1 = 1
+            <if test="status==1"> AND t.get_time IS NOT NULL </if>
+            <if test="status==2"> AND t.get_time IS  NULL </if>
+
+    </select>
+
+
+</mapper>

@@ -41,5 +41,7 @@
         <mapper resource="mybatis-mapper/IntegralProductMapper.xml"/>
 
         <mapper resource="mybatis-mapper/ClienteleMapper.xml"/>
+        <!--用户勋章-->
+        <mapper resource="mybatis-mapper/BadgeMapper.xml"/>
     </mappers>
 </configuration>
