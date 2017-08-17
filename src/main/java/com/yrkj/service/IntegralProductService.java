@@ -10,6 +10,7 @@ import com.yrkj.model.Integral.IntegralOrder;
 import com.yrkj.model.Integral.IntegralProduct;
 import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.User.User;
+import com.yrkj.model.User.UserAddress;
 import com.yrkj.model.core.*;
 
 import com.yrkj.model.order.UserIntegration;
@@ -163,16 +164,33 @@ public class IntegralProductService {
 
         }
     }
+
+
     @Transactional
     public ActionResult InsertOrder(IntegralOrder model){
         Integer ui=_userMapper.selectUserIntegrationVal(model.getOpen_id());
-        if(ui<=model.getOrder_cost()){
 
+        if (model.getProduct_type() == 1 && model.getAddress().length() < 1){
+            UserAddress ua = _userMapper.selectUserDefaultAddress(model.getOpen_id());
+            if (ua!=null){
+                model.setProvince_id(ua.getProvince_id());
+                model.setProvince_name(ua.getProvince_name());
+                model.setCity_id(ua.getCity_id());
+                model.setCity_name(ua.getCity_name());
+                model.setReceiver(ua.getReceiver());
+                model.setAddress(ua.getAddress());
+                model.setPhone(ua.getPhone());
+            }else {
+                return new ActionResult(false,null,"请设置收货地址");
+            }
+        }
+
+        if(ui <= model.getOrder_cost()){
             return new ActionResult(false,null,"用户积分不足,无法购买");
-
         } else{
             model.setOrder_state(1);
         }
+
         if (_productMapper.InsertOrder(model) == 1){
 
             User u=new User();
