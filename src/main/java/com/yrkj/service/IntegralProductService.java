@@ -251,33 +251,33 @@ public class IntegralProductService {
         //各种校验
         Integer ui = _userMapper.selectUserIntegrationVal(open_id);
 
-//        if(ui < 5){
-//            return new ActionResult(false,null,"用户积分不足,无法购买");
-//        }
-//
-//        UserAddress ua = _userMapper.selectUserDefaultAddress(open_id);
-//        if (ua!=null){
-//
-//        } else {
-//            return new ActionResult(false,null,"请设置收货地址");
-//        }
+        if(ui < 5){
+            return new ActionResult(false,null,"用户积分不足,无法购买");
+        }
+
+        UserAddress ua = _userMapper.selectUserDefaultAddress(open_id);
+        if (ua!=null){
+
+        } else {
+            return new ActionResult(false,null,"请设置收货地址");
+        }
 
         //扣除5积分
 
         //插入积分明细表
-//        UserIntegration integration = new UserIntegration();
-//        integration.setOpen_id(open_id);
-//        integration.setIntegration_val(-5);
-//        integration.setCreate_time(new Date());
-//        integration.setRemark("积分抽奖消耗5积分");
-//        _orderMapper.insertUserIntegration(integration);
-//
-//        //更新用户表中的积分
-//        ui = ui - 5;
-//        User u = new User();
-//        u.setOpen_id(open_id);
-//        u.setIntegration_val(ui);
-//        _userMapper.UpdateUserIntegrationVal(u);
+        UserIntegration integration = new UserIntegration();
+        integration.setOpen_id(open_id);
+        integration.setIntegration_val(-5);
+        integration.setCreate_time(new Date());
+        integration.setRemark("积分抽奖消耗5积分");
+        _orderMapper.insertUserIntegration(integration);
+
+        //更新用户表中的积分
+        ui = ui - 5;
+        User u = new User();
+        u.setOpen_id(open_id);
+        u.setIntegration_val(ui);
+        _userMapper.UpdateUserIntegrationVal(u);
 
         int max= 10000;
         int min= 1;
