@@ -65,6 +65,7 @@
                     a.category3 ,
                     a.integration ,
                     a.achievement_val ,
+                    a.finish,
                     a.content,
                     a.type ,
                     (
