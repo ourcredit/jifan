@@ -51,4 +51,16 @@ public class IntegralMallController {
         model.setCreate_time(new Date());
         return _productService.InsertOrder(model);
     }
+
+    /**
+     * 积分抽奖
+     * @param open_id
+     * @return
+     */
+    @ApiOperation(value = "积分商城抽奖",notes = "积分商城抽奖")
+    @RequestMapping(value = "/lottery", method = RequestMethod.POST)
+    public ActionResult lottery(@RequestParam String open_id){
+        return _productService.lottery(open_id);
+    }
+
 }

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by 45425 on 2017/8/1.
@@ -235,6 +236,49 @@ public class IntegralProductService {
             return new ActionResult(true,null,"更新成功");
         }
         return new ActionResult(false,null,"更新失败");
+    }
+
+    /**
+     * 抽奖
+     * @return
+     */
+    public  ActionResult lottery(String open_id){
+
+
+        //各种校验
+
+
+
+        int max= 10000;
+        int min= 1;
+        Random random = new Random();
+        int r = random.nextInt(max)%(max-min+1) + min;
+
+        if (r <= 3494){
+
+           return new ActionResult(true,0,"谢谢惠顾");
+
+        } else if (r > 3494 && r<=5494){
+
+            return new ActionResult(true,1,"5积分");
+
+        } else if (r > 5494 && r<=6494){
+
+            return new ActionResult(true,2,"10积分");
+
+        } else if (r > 6494 && r<=6504){
+
+            return new ActionResult(true,3,"50积分");
+
+        } else if (r > 6504 && r<=9998){
+
+            return new ActionResult(true,0,"谢谢惠顾");
+
+        } else {
+
+            return new ActionResult(true,4,"随机勋章");
+        }
+
     }
 
 }
