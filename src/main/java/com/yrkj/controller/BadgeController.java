@@ -2,6 +2,8 @@ package com.yrkj.controller;
 
 import com.yrkj.model.badge.BadgeSearch;
 import com.yrkj.model.badge.UserAchievementSearch;
+import com.yrkj.model.core.ActionResult;
+import com.yrkj.model.core.OpenIdModel;
 import com.yrkj.model.core.PageModel;
 import com.yrkj.service.BadgeService;
 import io.swagger.annotations.Api;
@@ -33,5 +35,10 @@ public class BadgeController {
     public PageModel getUserAchievement(@RequestBody UserAchievementSearch model) {
         return badgeService.getUserAchievement(model);
     }
-
+    
+    @ApiOperation(value = "获取用户成就详情接口",notes = "获取用户成就详情接口")
+    @RequestMapping(value = "/getAchievementInfo", method = RequestMethod.POST)
+    public ActionResult getAchievementInfo(@RequestBody OpenIdModel model) {
+        return badgeService.getUserAchievementInfo(model);
+    }
 }

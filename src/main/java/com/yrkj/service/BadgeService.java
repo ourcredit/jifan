@@ -5,6 +5,8 @@ import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.BadgeMapper;
 import com.yrkj.model.badge.BadgeSearch;
 import com.yrkj.model.badge.UserAchievementSearch;
+import com.yrkj.model.core.ActionResult;
+import com.yrkj.model.core.OpenIdModel;
 import com.yrkj.model.core.PageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,4 +57,14 @@ public class BadgeService {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
     }
+
+    /**
+     * 获取成就详情
+     * @param model
+     * @return
+     */
+    public ActionResult getUserAchievementInfo(OpenIdModel model){
+        return new ActionResult(true,badgeMapper.selectUserAchievementInfo(model),"获取成功");
+    }
+
 }

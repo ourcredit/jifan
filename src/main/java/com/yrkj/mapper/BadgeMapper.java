@@ -2,6 +2,7 @@ package com.yrkj.mapper;
 
 import com.yrkj.model.badge.BadgeSearch;
 import com.yrkj.model.badge.UserAchievementSearch;
+import com.yrkj.model.core.OpenIdModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,5 +17,7 @@ public interface BadgeMapper {
     List<Map> selectUserBadges(BadgeSearch model);
 
     List<Map> selectUserAchievement(UserAchievementSearch model);
+
+    Map selectUserAchievementInfo(OpenIdModel model);
 
 }
