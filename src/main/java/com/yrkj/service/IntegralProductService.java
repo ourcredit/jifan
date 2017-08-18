@@ -214,7 +214,9 @@ public class IntegralProductService {
     }
 
     public  PageModel OrderList(IntegralSearch model){
+
         Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
+
         String name = model.getName();
         //name模糊查询
         if (name != null && name.length() > 0){
@@ -222,6 +224,7 @@ public class IntegralProductService {
         }else {
             model.setName(null);
         }
+
         List list = _productMapper.selectOrders(model);
 
         if (list.size() > 0){
@@ -242,12 +245,39 @@ public class IntegralProductService {
      * 抽奖
      * @return
      */
+    @Transactional
     public  ActionResult lottery(String open_id){
 
-
         //各种校验
+        Integer ui = _userMapper.selectUserIntegrationVal(open_id);
 
+//        if(ui < 5){
+//            return new ActionResult(false,null,"用户积分不足,无法购买");
+//        }
+//
+//        UserAddress ua = _userMapper.selectUserDefaultAddress(open_id);
+//        if (ua!=null){
+//
+//        } else {
+//            return new ActionResult(false,null,"请设置收货地址");
+//        }
 
+        //扣除5积分
+
+        //插入积分明细表
+//        UserIntegration integration = new UserIntegration();
+//        integration.setOpen_id(open_id);
+//        integration.setIntegration_val(-5);
+//        integration.setCreate_time(new Date());
+//        integration.setRemark("积分抽奖消耗5积分");
+//        _orderMapper.insertUserIntegration(integration);
+//
+//        //更新用户表中的积分
+//        ui = ui - 5;
+//        User u = new User();
+//        u.setOpen_id(open_id);
+//        u.setIntegration_val(ui);
+//        _userMapper.UpdateUserIntegrationVal(u);
 
         int max= 10000;
         int min= 1;
@@ -260,13 +290,19 @@ public class IntegralProductService {
 
         } else if (r > 3494 && r<=5494){
 
+            addIntegrationVal(open_id,ui,5);
+
             return new ActionResult(true,1,"5积分");
 
         } else if (r > 5494 && r<=6494){
 
+            addIntegrationVal(open_id,ui,10);
+
             return new ActionResult(true,2,"10积分");
 
         } else if (r > 6494 && r<=6504){
+
+            addIntegrationVal(open_id,ui,50);
 
             return new ActionResult(true,3,"50积分");
 
@@ -280,5 +316,22 @@ public class IntegralProductService {
         }
 
     }
+
+    public void addIntegrationVal(String open_id,Integer currentVal,Integer addVal){
+
+        UserIntegration model = new UserIntegration();
+        model.setOpen_id(open_id);
+        model.setIntegration_val(addVal);
+        model.setCreate_time(new Date());
+        model.setRemark("抽奖获得"+addVal+"积分");
+        _orderMapper.insertUserIntegration(model);
+
+        //更新用户表中的积分
+        User user = new User();
+        user.setOpen_id(open_id);
+        user.setIntegration_val(currentVal + addVal);
+        _userMapper.UpdateUserIntegrationVal(user);
+    }
+
 
 }
