@@ -50,5 +50,46 @@
 
     </select>
 
+    <select id="selectUserAchievement" parameterType="UserAchievementSearch" resultType="java.util.Map">
+        SELECT
+            t.*
+        FROM
+            (
+                SELECT
+                    a.id ,
+                    a.`name` ,
+                    a.image ,
+                    a.category_name ,
+                    a.category1 ,
+                    a.category2 ,
+                    a.category3 ,
+                    a.integration ,
+                    a.achievement_val ,
+                    a.content,
+                    a.type ,
+                    (
+                        SELECT
+                            count(1)
+                        FROM
+                            t_achievement_relation x
+                        WHERE
+                            x.achievement_id = a.id
+                    ) AS badge_count ,
+                    DATE_FORMAT(b.create_time , '%Y-%m-%d') AS get_time
+                FROM
+                    t_achievement a
+                LEFT JOIN t_user_achievement b ON a.id = b.achievement_id
+                AND b.open_id = #{open_id}
+            ) t
+        WHERE
+            1 = 1
+            <if test="status==1"> AND t.get_time IS NOT NULL </if>
+            <if test="status==2"> AND t.get_time IS  NULL </if>
+            <if test="type!=0">   AND t.type = #{type} </if>
+            <if test="category1!=0">   AND t.category1 = #{category1} </if>
+            <if test="category2!=0">   AND t.category2 = #{category2} </if>
+            <if test="category3!=0">   AND t.category3 = #{category3} </if>
+    </select>
+
 
 </mapper>
