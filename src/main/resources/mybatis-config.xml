@@ -44,6 +44,6 @@
         <!--用户勋章-->
         <mapper resource="mybatis-mapper/BadgeMapper.xml"/>
         <!--用户游迹-->
-        <mapper resource="mybatis-mapper/UserTravels.xml"/>
+        <mapper resource="mybatis-mapper/UserTravelsMapper.xml"/>
     </mappers>
 </configuration>
