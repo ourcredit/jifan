@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yrkj.mapper.UserTravelsMapper">
+
+    <select id="selectTravels">
+        SELECT t.id , t. NAME , t.url , t.image , t.content , t.`status`,t.create_time FROM t_travels t
+        WHERE t.is_delete = 0
+    </select>
+
+    <select id="selectUserTravels" resultType="UserTravels" parameterType="UserTravels">
+        SELECT * from t_user_travels WHERE open_id = #{open_id} AND travels_id = #{travels_id}
+    </select>
+
+    <insert id="insertUserTravels" parameterType="UserTravels">
+        INSERT INTO t_user_travels(
+            open_id,
+            travels_id,
+            create_time
+        )VALUES (
+            #{open_id},
+            #{travels_id},
+            #{create_time}
+        )
+    </insert>
+
+    <select id="selectCurrentTravelsAchievement" parameterType="java.lang.String" resultType="UserAchievement">
+        SELECT t.*
+        FROM
+        (SELECT
+            a.id as achievement_id,
+            a.`name` as achievement_name,
+            a.type as achievement_type,
+            a.achievement_val,
+            a.integration,
+            COUNT(1) buy_count,
+            (SELECT count(1) FROM t_achievement_relation c WHERE c.achievement_id = a.id) finish_count
+        FROM
+            t_achievement a ,
+            t_achievement_relation b
+        WHERE
+            a.id = b.achievement_id
+        AND a.type = 2
+        AND b.relation_id IN  (SELECT e.travels_id from t_user_travels e WHERE e.open_id = 'o_4Mv04j5E7bIsuebW5TKcIoLLFY')
+        AND b.achievement_id NOT in(SELECT f.achievement_id FROM t_user_achievement f WHERE f.open_id = 'o_4Mv04j5E7bIsuebW5TKcIoLLFY')
+        GROUP BY
+            b.achievement_id) t WHERE t.finish_count = t.buy_count
+    </select>
+
+
+</mapper>
