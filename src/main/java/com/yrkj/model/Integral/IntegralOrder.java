@@ -24,7 +24,7 @@ public class IntegralOrder extends BaseModel {
     private String address;
     private String receiver;
     private String phone;
-    private Integer  order_cost;//话费积分
+    private Integer  order_cost;//花费积分
 
     public Integer getProduct_type() {
         return product_type;

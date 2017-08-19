@@ -65,6 +65,25 @@ public class OrderService {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
     }
+
+    /**
+     * 获取积分订单列表
+     * @param model
+     * @return
+     */
+    public PageModel getIntegralOrderList(WXOrderSearch model){
+
+        Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
+
+        List list = orderMapper.selectIntegralOrderList(model);
+
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
+
     /**
      * 获取微信订单列表
      * @param model

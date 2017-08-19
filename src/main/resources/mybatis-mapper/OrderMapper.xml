@@ -101,6 +101,27 @@
         AND t.open_id = #{open_id}
     </select>
 
+    <select id="selectIntegralOrderList" parameterType="WXOrderSearch" resultType="java.util.Map">
+        SELECT
+            t.order_num ,
+            t2.product_name ,
+            t2.image1 ,
+            t.order_state ,
+            t.order_cost ,
+            t.courier_order ,
+            t.courier_company ,
+            t.courier_time ,
+            t.province_name ,
+            t.city_name ,
+            t.address
+        FROM
+            t_integral_order t ,
+            t_integral_product t2
+        WHERE
+            t.order_from = t2.id
+        AND open_id = #{open_id}
+    </select>
+
     <select id="selectOrderByNum" parameterType="java.lang.String" resultType="Order">
         SELECT * FROM t_order WHERE order_num = #{order_num}
     </select>

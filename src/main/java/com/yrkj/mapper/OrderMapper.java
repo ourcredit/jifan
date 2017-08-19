@@ -30,6 +30,8 @@ public interface OrderMapper {
     //获取微信用户订单列表
     List<Map> selectWxOrderList(WXOrderSearch model);
 
+    List<Map> selectIntegralOrderList(WXOrderSearch model);
+
     Order selectOrderByNum(String order_num);
 
     List<Map> selectOrderProduct(Long order_id);

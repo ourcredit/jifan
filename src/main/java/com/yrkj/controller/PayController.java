@@ -102,6 +102,12 @@ public class PayController   {
         return orderService.getWxOrderList(model);
     }
 
+    @ApiOperation(value = "获取积分订单列表",notes = "获取积分订单列表")
+    @RequestMapping(value = "/integralList", method = RequestMethod.POST)
+    public PageModel integralList(@RequestBody WXOrderSearch model) {
+        return orderService.getIntegralOrderList(model);
+    }
+
     public static String getOrder_NO() {
         return "JG" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN);
     }
