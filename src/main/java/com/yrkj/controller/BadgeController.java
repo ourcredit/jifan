@@ -31,7 +31,7 @@ public class BadgeController {
     }
 
     @ApiOperation(value = "获取用户勋章接口",notes = "获取用户勋章接口")
-    @RequestMapping(value = "/getUserBadges", method = RequestMethod.GET)
+    @RequestMapping(value = "/getBadgeCount", method = RequestMethod.GET)
     public ActionResult getBadgeCount(@RequestParam String open_id){
         return badgeService.getBadgeCount(open_id);
     }
