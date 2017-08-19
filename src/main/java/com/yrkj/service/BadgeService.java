@@ -11,7 +11,9 @@ import com.yrkj.model.core.PageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xuenianxiang on 2017/8/17.
@@ -38,6 +40,24 @@ public class BadgeService {
         }else {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
+    }
+
+    /**
+     * 获取勋章数量
+     * @param open_id
+     * @return
+     */
+    public ActionResult getBadgeCount(String open_id){
+
+        Integer getCount = badgeMapper.selectGetCount(open_id);
+
+        Integer notGetCount = badgeMapper.selectNotGetCount(open_id);
+
+        Map result = new HashMap();
+        result.put("getCount",getCount);
+        result.put("notGetCount",notGetCount);
+
+        return new ActionResult(true, result,"获取成功");
     }
 
     /**

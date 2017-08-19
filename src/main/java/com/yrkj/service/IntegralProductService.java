@@ -169,7 +169,7 @@ public class IntegralProductService {
 
     @Transactional
     public ActionResult InsertOrder(IntegralOrder model){
-        Integer ui=_userMapper.selectUserIntegrationVal(model.getOpen_id());
+        Integer ui = _userMapper.selectUserIntegrationVal(model.getOpen_id());
 
         if (model.getProduct_type() == 1 && model.getAddress().length() < 1){
             UserAddress ua = _userMapper.selectUserDefaultAddress(model.getOpen_id());
@@ -194,11 +194,6 @@ public class IntegralProductService {
 
         if (_productMapper.InsertOrder(model) == 1){
 
-            User u=new User();
-            u.setOpen_id(model.getOpen_id());
-            u.setIntegration_val(ui-model.getOrder_cost());
-            _userMapper.UpdateUserIntegrationVal(u);
-
             //插入积分明细表
             UserIntegration integration = new UserIntegration();
             integration.setOpen_id(model.getOpen_id());
@@ -206,6 +201,11 @@ public class IntegralProductService {
             integration.setCreate_time(new Date());
             integration.setRemark("购买积分商品消费"+model.getOrder_cost()+"积分");
             _orderMapper.insertUserIntegration(integration);
+
+            User u = new User();
+            u.setOpen_id(model.getOpen_id());
+            u.setIntegration_val(ui - model.getOrder_cost());
+            _userMapper.UpdateUserIntegrationVal(u);
 
             return new ActionResult(true,null,"创建成功");
         }

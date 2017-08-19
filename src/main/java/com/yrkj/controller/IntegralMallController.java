@@ -28,21 +28,18 @@ public class IntegralMallController {
     private IntegralProductService _productService;
 
     @ApiOperation(value = "获取产品详情",notes = "手机积分接口")
-    //  @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public ActionResult get(@RequestParam Long id) throws ServletException {
         return _productService.GetIntegralDetail(id);
     }
 
     @ApiOperation(value = "获取产品列表",notes = "手机积分接口")
-    // @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public PageModel list(@RequestBody SearchModel model) {
         return _productService.GetIntegralList(model);
     }
 
     @ApiOperation(value = "创建积分商品订单",notes = "手机积分接口")
-    //  @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/order", method = RequestMethod.POST)
     public ActionResult order(@RequestBody IntegralOrder model) throws ServletException {
         String num= "JG" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN);

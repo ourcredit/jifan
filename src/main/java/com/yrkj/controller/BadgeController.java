@@ -30,6 +30,12 @@ public class BadgeController {
         return badgeService.getUserBadges(model);
     }
 
+    @ApiOperation(value = "获取用户勋章接口",notes = "获取用户勋章接口")
+    @RequestMapping(value = "/getUserBadges", method = RequestMethod.GET)
+    public ActionResult getBadgeCount(@RequestParam String open_id){
+        return badgeService.getBadgeCount(open_id);
+    }
+
     @ApiOperation(value = "获取用户成就列表接口",notes = "获取用户成就列表接口")
     @RequestMapping(value = "/getUserAchievement", method = RequestMethod.POST)
     public PageModel getUserAchievement(@RequestBody UserAchievementSearch model) {

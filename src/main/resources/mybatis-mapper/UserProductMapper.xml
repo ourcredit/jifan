@@ -44,7 +44,6 @@
                     t_product t
                 WHERE
                     is_delete = 0
-                AND is_perfect = 1
             ) tt
         WHERE
             1 = 1

@@ -16,6 +16,10 @@ public interface BadgeMapper {
 
     List<Map> selectUserBadges(BadgeSearch model);
 
+    Integer selectGetCount(String open_id);
+
+    Integer selectNotGetCount(String open_id);
+
     List<Map> selectUserAchievement(UserAchievementSearch model);
 
     Map selectUserAchievementInfo(OpenIdModel model);
