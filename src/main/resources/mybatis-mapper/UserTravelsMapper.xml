@@ -5,7 +5,7 @@
 
 <mapper namespace="com.yrkj.mapper.UserTravelsMapper">
 
-    <select id="selectTravels">
+    <select id="selectTravels" resultType="java.util.Map">
         SELECT t.id , t. NAME , t.url , t.image , t.content , t.`status`,t.create_time FROM t_travels t
         WHERE t.is_delete = 0
     </select>
