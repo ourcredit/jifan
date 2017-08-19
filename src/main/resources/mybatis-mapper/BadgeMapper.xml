@@ -87,7 +87,7 @@
                 LEFT JOIN t_user_product b ON a.id = b.product_id
                 AND b.open_id = #{open_id}
             ) t
-        WHERE
+        WHERE 1 = 1
             AND t.get_time IS NOT NULL
     </select>
 
@@ -129,7 +129,7 @@
                 LEFT JOIN t_user_product b ON a.id = b.product_id
                 AND b.open_id = #{open_id}
             ) t
-        WHERE
+        WHERE 1 = 1
             AND t.get_time IS NULL
     </select>
 
