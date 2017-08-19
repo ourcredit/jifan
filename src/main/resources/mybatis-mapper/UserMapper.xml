@@ -62,11 +62,19 @@
                badge_count  = #{badge_count}
         WHERE  open_id      = #{open_id}
     </update>
+
     <update id="UpdateUserIntegrationVal" parameterType="User">
         UPDATE t_user
         SET
         integration_val  = #{integration_val}
         WHERE  open_id      = #{open_id}
+    </update>
+
+    <update id="UpdateUserDesignation" parameterType="UserDesignation">
+        UPDATE t_user
+        SET
+        designation = #{designation}
+        WHERE  open_id  = #{open_id}
     </update>
 
     <insert id="insertUserAddress" parameterType="UserAddress">
@@ -188,6 +196,17 @@
         AND t.cate = #{cate}
         ORDER BY
             t.weight ASC
+    </select>
+
+    <select id="selectDesignationList" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+            t2.designation,t1.create_time
+        FROM
+            t_user_achievement t1 ,
+            t_achievement t2
+        WHERE
+            t1.achievement_id = t2.id
+        AND t1.open_id = #{open_id}
     </select>
 
 </mapper>

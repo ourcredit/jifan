@@ -2,6 +2,7 @@ package com.yrkj.controller;
 
 import com.yrkj.model.User.User;
 import com.yrkj.model.User.UserAddress;
+import com.yrkj.model.User.UserDesignation;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.IdModel;
 import com.yrkj.service.UserService;
@@ -50,6 +51,19 @@ public class UserController {
     @RequestMapping(value = "/getUserVal", method = RequestMethod.GET)
     public ActionResult getUserVal(@RequestParam String open_id) {
         return userService.getUserVal(open_id);
+    }
+
+    @ApiOperation(value = "获取用户称号列表",notes = "获取用户称号列表")
+    @RequestMapping(value = "/designations", method = RequestMethod.GET)
+    public ActionResult designations(@RequestParam String open_id) {
+        return userService.getDesignations(open_id);
+    }
+
+
+    @ApiOperation(value = "更新用户称号",notes = "更新用户称号")
+    @RequestMapping(value = "/updateDesignation", method = RequestMethod.POST)
+    public ActionResult updateDesignation(@RequestBody UserDesignation designation) {
+        return userService.updateDesignation(designation);
     }
 
     //收货地址管理

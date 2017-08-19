@@ -3,6 +3,7 @@ package com.yrkj.service;
 import com.yrkj.mapper.SysCommonMapper;
 import com.yrkj.model.SysCommon.MessageCode;
 import com.yrkj.model.User.User;
+import com.yrkj.model.User.UserPwd;
 import com.yrkj.model.core.ActionResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,7 +94,7 @@ public class SysCommonService {
 
         sysCommonMapper.insertMessageCode(mc);
 
-        //doPost(name, pwd, mobileString, contextString, sign, stime, extno);
+        doPost(name, pwd, mobileString, contextString, sign, stime, extno);
 
         return new ActionResult(true, codeStr, "发送成功");
     }
@@ -118,6 +119,35 @@ public class SysCommonService {
             sysCommonMapper.bindModile(user);
 
             return new ActionResult(true, "", "绑定成功");
+
+        } else {
+
+            return new ActionResult(false, null, "验证码无效");
+        }
+
+    }
+
+    //绑定手机号
+    public ActionResult bindPwd(UserPwd pwd) {
+
+        //判断验证码
+        MessageCode mc = new MessageCode();
+        mc.setMobile(pwd.getMobile());
+        mc.setCreate_time(new Date());
+
+        MessageCode codeModel = sysCommonMapper.selectLastMessageCode(mc);
+
+        if (codeModel != null && pwd.getCode().equals(codeModel.getCode())) {
+
+            //绑定手机号
+            User user = new User();
+            user.setOpen_id(pwd.getOpen_id());
+            user.setMobile(pwd.getMobile());
+            user.setPassword(pwd.getPassword());
+
+            sysCommonMapper.bindPassword(user);
+
+            return new ActionResult(true, "", "设置成功");
 
         } else {
 

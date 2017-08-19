@@ -7,6 +7,7 @@ import com.yrkj.mapper.SysUserMapper;
 import com.yrkj.model.SysUser.SysUser;
 import com.yrkj.model.SysUser.SysUserInput;
 import com.yrkj.model.User.User;
+import com.yrkj.model.User.UserPwd;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.service.SysCommonService;
 import io.jsonwebtoken.Jwts;
@@ -98,6 +99,10 @@ public class SysCommonController {
         return sysCommonService.bindMobile(mobile,open_id,code);
     }
 
-
+    @ApiOperation(value = "设置密码",notes = "设置密码")
+    @RequestMapping(value = "/setPwd", method = RequestMethod.GET)
+    public ActionResult setPwd(@RequestBody UserPwd pwd) {
+        return sysCommonService.bindPwd(pwd);
+    }
 
 }

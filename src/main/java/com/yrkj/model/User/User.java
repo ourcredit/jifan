@@ -39,6 +39,8 @@ public class User {
 
     private String designation;
 
+    private String password;
+
     private Date create_time;
 
     private Date update_time;
@@ -169,6 +171,14 @@ public class User {
 
     public void setDesignation(String designation) {
         this.designation = designation;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Date getCreate_time() {

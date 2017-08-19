@@ -3,6 +3,7 @@ package com.yrkj.service;
 import com.yrkj.mapper.UserMapper;
 import com.yrkj.model.User.User;
 import com.yrkj.model.User.UserAddress;
+import com.yrkj.model.User.UserDesignation;
 import com.yrkj.model.core.ActionResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,16 @@ public class UserService {
     }
 
     /**
+     * 获取用户称号列表
+     * @param open_id
+     * @return
+     */
+    public ActionResult getDesignations(String open_id){
+       List<Map> result = userMapper.selectDesignationList(open_id);
+       return new ActionResult(true,result,"获取成功");
+    }
+
+    /**
      * 新增收货地址
      * @param address
      * @return
@@ -121,6 +132,20 @@ public class UserService {
      */
     public ActionResult updateAddress(UserAddress address){
         if (userMapper.updateUserAddress(address) == 1){
+            return new ActionResult(true,null,"修改成功");
+        } else {
+            return new ActionResult(false,null,"修改失败");
+        }
+    }
+
+    /**
+     * 修改用户称号
+     * @param designation
+     * @return
+     */
+    public ActionResult updateDesignation(UserDesignation designation){
+
+        if (userMapper.UpdateUserDesignation(designation) == 1){
             return new ActionResult(true,null,"修改成功");
         } else {
             return new ActionResult(false,null,"修改失败");

@@ -48,4 +48,11 @@ public interface SysCommonMapper {
      */
     int bindModile(User user);
 
+    /**
+     * 设置密码
+     * @param user
+     * @return
+     */
+    int bindPassword(User user);
+
 }

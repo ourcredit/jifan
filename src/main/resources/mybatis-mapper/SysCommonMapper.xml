@@ -35,10 +35,11 @@
         LIMIT 0,1
     </select>
 
-    <update id="bindModile" parameterType="User">
+    <update id="bindPassword" parameterType="User">
         UPDATE t_user
-           SET mobile       = #{mobile}
-        WHERE  open_id      = #{open_id}
+           SET mobile       = #{mobile},
+        <if test="password!=null"> password = #{password}</if>
+        WHERE  open_id = #{open_id}
     </update>
 
 </mapper>

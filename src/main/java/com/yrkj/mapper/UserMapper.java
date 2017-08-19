@@ -2,6 +2,7 @@ package com.yrkj.mapper;
 
 import com.yrkj.model.User.User;
 import com.yrkj.model.User.UserAddress;
+import com.yrkj.model.User.UserDesignation;
 import com.yrkj.model.order.Order;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -39,6 +40,8 @@ public interface UserMapper {
 
     int UpdateUserIntegrationVal(User cost);
 
+    int UpdateUserDesignation(UserDesignation designation);
+
     int deleteUserAddress(Long id);
 
     //获取某用户默认收货地址+邮费
@@ -53,4 +56,6 @@ public interface UserMapper {
 
     //轮播图+banner
     List<Map> selectShuffling(Integer cate);
+
+    List<Map> selectDesignationList(String open_id);
 }
