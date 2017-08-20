@@ -12,6 +12,7 @@
             t.name ,
             t.price ,
             t.image1 ,
+            t.tag ,
             t.badge_introduce ,
             t.online_time
         FROM
@@ -32,6 +33,7 @@
                     t. NAME ,
                     t.price ,
                     t.image1 ,
+                    t.tag ,
                     t.badge_introduce ,
                     t.online_time ,
                     (

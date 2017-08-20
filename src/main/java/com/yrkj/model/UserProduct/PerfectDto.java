@@ -14,6 +14,8 @@ public class PerfectDto {
 
     private String image1;
 
+    private String tag;
+
     private String  badge_introduce;
 
     private Date online_time;
@@ -48,6 +50,14 @@ public class PerfectDto {
 
     public void setImage1(String image1) {
         this.image1 = image1;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getBadge_introduce() {
