@@ -281,7 +281,7 @@ public class IntegralProductService {
         u.setIntegration_val(ui);
         _userMapper.UpdateUserIntegrationVal(u);
 
-        int max= 100000;
+        int max= 10000;
         int min= 1;
         Random random = new Random();
         int r = random.nextInt(max)%(max-min+1) + min;
@@ -326,10 +326,9 @@ public class IntegralProductService {
                 int max2= count - 1;
                 int min2= 0;
                 Random random2 = new Random();
-                int r2 = random.nextInt(max2)%(max2-min2+1) + min2;
+                int r2 = random2.nextInt(max2)%(max2-min2+1) + min2;
 
                 Map temp = list.get(r2);
-
 
                 String num= "JG" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN);
                 model.setOrder_num(num);

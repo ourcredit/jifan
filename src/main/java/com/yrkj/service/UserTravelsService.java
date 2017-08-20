@@ -47,7 +47,7 @@ public class UserTravelsService {
         UserTravels temp = userTravelsMapper.selectUserTravels(travels);
 
         if (temp != null){
-            return new ActionResult(true,null,"签到成功");
+            return new ActionResult(false,null,"只能签到一次");
         } else {
             //插入记录
             userTravelsMapper.insertUserTravels(travels);
