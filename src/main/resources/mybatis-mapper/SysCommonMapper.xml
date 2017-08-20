@@ -35,6 +35,12 @@
         LIMIT 0,1
     </select>
 
+    <update id="bindModile" parameterType="User">
+        UPDATE t_user
+        SET mobile       = #{mobile}
+        WHERE  open_id = #{open_id}
+    </update>
+
     <update id="bindPassword" parameterType="User">
         UPDATE t_user
            SET mobile       = #{mobile},

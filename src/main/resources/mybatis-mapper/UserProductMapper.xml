@@ -134,6 +134,7 @@
             t.image1 ,
             t.image2 ,
             t.badge_image ,
+            t.tag,
             t.badge_category1 ,
             t.badge_category2 ,
             t.badge_category3 ,
