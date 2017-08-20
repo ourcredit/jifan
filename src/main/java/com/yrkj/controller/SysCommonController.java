@@ -100,7 +100,7 @@ public class SysCommonController {
     }
 
     @ApiOperation(value = "设置密码",notes = "设置密码")
-    @RequestMapping(value = "/setPwd", method = RequestMethod.GET)
+    @RequestMapping(value = "/setPwd", method = RequestMethod.POST)
     public ActionResult setPwd(@RequestBody UserPwd pwd) {
         return sysCommonService.bindPwd(pwd);
     }
