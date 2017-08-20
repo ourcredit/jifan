@@ -96,6 +96,13 @@ public class PayController   {
         return orderService.getOrderById(id);
     }
 
+    @ApiOperation(value="更新订单地址", notes="更新订单地址")
+    @RequestMapping(value  ="/updateOrderAddress" ,method = RequestMethod.GET)
+    public ActionResult updateOrderAddress(Order order){
+        return orderService.updateOrderAddress(order);
+    }
+
+
     @ApiOperation(value = "获取微信用户订单列表",notes = "获取微信用户订单列表")
     @RequestMapping(value = "/payList", method = RequestMethod.POST)
     public PageModel list(@RequestBody WXOrderSearch model) {

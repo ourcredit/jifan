@@ -37,6 +37,24 @@ public class OrderService {
     @Transactional
     public ActionResult createOrder(Order order){
 
+        Order receive = userMapper.selectDefaultAddressPrice(order.getOpen_id());
+        if (receive != null){
+
+            if (order.getProduct_cost()>300){
+                order.setCourier_cost(0.0f);
+            }else {
+                order.setCourier_cost(receive.getCourier_cost());
+            }
+
+            order.setCity_id(receive.getCity_id());
+            order.setProvince_id(receive.getProvince_id());
+            order.setCity_name(receive.getCity_name());
+            order.setProvince_name(receive.getProvince_name());
+            order.setAddress(receive.getAddress());
+            order.setReceiver(receive.getReceiver());
+            order.setPhone(receive.getPhone());
+        }
+
         orderMapper.insertOrder(order);
 
         orderMapper.insertOrderProduct(order);
@@ -123,19 +141,19 @@ public class OrderService {
         if (order != null){
 
             //获取收货地址+邮费
-            if (order.getOrder_state() == 0){//判断是否生成了微信支付订单
-                Order receive = userMapper.selectDefaultAddressPrice(order.getOpen_id());
-                if (receive !=null){
-                    order.setCourier_cost(receive.getCourier_cost());
-                    order.setCity_id(receive.getCity_id());
-                    order.setProvince_id(receive.getProvince_id());
-                    order.setCity_name(receive.getCity_name());
-                    order.setProvince_name(receive.getProvince_name());
-                    order.setAddress(receive.getAddress());
-                    order.setReceiver(receive.getReceiver());
-                    order.setPhone(receive.getPhone());
-                }
-            }
+//            if (order.getOrder_state() == 0){//判断是否生成了微信支付订单
+//                Order receive = userMapper.selectDefaultAddressPrice(order.getOpen_id());
+//                if (receive !=null){
+//                    order.setCourier_cost(receive.getCourier_cost());
+//                    order.setCity_id(receive.getCity_id());
+//                    order.setProvince_id(receive.getProvince_id());
+//                    order.setCity_name(receive.getCity_name());
+//                    order.setProvince_name(receive.getProvince_name());
+//                    order.setAddress(receive.getAddress());
+//                    order.setReceiver(receive.getReceiver());
+//                    order.setPhone(receive.getPhone());
+//                }
+//            }
 
             //获取商品列表
             List list = orderMapper.selectOrderProduct(id);
@@ -145,6 +163,25 @@ public class OrderService {
             return new ActionResult(false,null,"获取失败");
         }
     }
+
+    /**
+     * 更新订单地址
+     * @param order
+     * @return
+     */
+    public ActionResult updateOrderAddress(Order order){
+
+        Order temp = orderMapper.selectOrder(order.getId());
+
+        if (temp.getProduct_cost()>300){
+            order.setCourier_cost(0.0f);
+        }
+
+        order.setOrder_state(0);
+
+        return new ActionResult(true,orderMapper.updateOrder(order),"修改成功");
+    }
+
     /**
      * 更新快递信息
      * @param input
