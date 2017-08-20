@@ -8,6 +8,7 @@ import com.yrkj.model.core.SearchModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhaohejing on 2017/8/1.
@@ -21,6 +22,9 @@ public interface IntegralProductMapper {
     int delete(IdsModel model);
 
     List<IntegralProduct> selectAll(IntegralSearch model);
+
+    List<Map> selectLotteryList();
+
     IntegralProduct selectById(Long id);
     //批量更新状态
     int updateStatus(ChangeStatusModel model);

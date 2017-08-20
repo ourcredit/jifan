@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  */
 public class IntegralOrder extends BaseModel {
     private String  order_num;//订单号
-    private Integer  order_from;//积分商品id
+    private Long  order_from;//积分商品id
     private String  order_name;//订单名
     private Integer  order_count;//商品个数
     private String  open_id;//用户openid
@@ -52,11 +52,11 @@ public class IntegralOrder extends BaseModel {
         this.order_num = order_num;
     }
 
-    public Integer getOrder_from() {
+    public Long getOrder_from() {
         return order_from;
     }
 
-    public void setOrder_from(Integer order_from) {
+    public void setOrder_from(Long order_from) {
         this.order_from = order_from;
     }
 

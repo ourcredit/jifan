@@ -14,12 +14,14 @@ import com.yrkj.model.User.UserAddress;
 import com.yrkj.model.core.*;
 
 import com.yrkj.model.order.UserIntegration;
+import com.yrkj.utils.DatetimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -279,7 +281,7 @@ public class IntegralProductService {
         u.setIntegration_val(ui);
         _userMapper.UpdateUserIntegrationVal(u);
 
-        int max= 10000;
+        int max= 100000;
         int min= 1;
         Random random = new Random();
         int r = random.nextInt(max)%(max-min+1) + min;
@@ -312,7 +314,54 @@ public class IntegralProductService {
 
         } else {
 
-            return new ActionResult(true,4,"随机勋章");
+            List<Map> list = _productMapper.selectLotteryList();
+
+            int count = list.size();
+
+
+            //创建积分订单
+            IntegralOrder model = new IntegralOrder();
+
+            if (count > 0){
+                int max2= count - 1;
+                int min2= 0;
+                Random random2 = new Random();
+                int r2 = random.nextInt(max2)%(max2-min2+1) + min2;
+
+                Map temp = list.get(r2);
+
+
+                String num= "JG" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN);
+                model.setOrder_num(num);
+                model.setOpen_id(open_id);
+                model.setOrder_state(0);
+                model.setCreate_time(new Date());
+                model.setOrder_from((Long) temp.get("id"));
+                model.setOrder_name((String)temp.get("product_name"));
+                model.setProduct_type(1);
+                model.setOrder_type(2);
+                model.setOrder_cost(0);
+                model.setOrder_count(1);
+                model.setOrder_state(1);
+                model.setProvince_id(ua.getProvince_id());
+                model.setProvince_name(ua.getProvince_name());
+                model.setCity_id(ua.getCity_id());
+                model.setCity_name(ua.getCity_name());
+                model.setReceiver(ua.getReceiver());
+                model.setAddress(ua.getAddress());
+                model.setPhone(ua.getPhone());
+
+                //抽奖积分订单插入
+                _productMapper.InsertOrder(model);
+
+            }else {
+
+                return new ActionResult(true,4,"随机勋章");
+
+            }
+
+
+            return new ActionResult(true,4,model.getOrder_name());
         }
 
     }
