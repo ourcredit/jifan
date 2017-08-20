@@ -33,6 +33,7 @@
             t_user.achievement_val,
             t_user.integration_val,
             t_user.badge_count,
+            t_user.password,
             t_user.designation
         FROM t_user
 	   WHERE t_user.open_id = #{open_id}
