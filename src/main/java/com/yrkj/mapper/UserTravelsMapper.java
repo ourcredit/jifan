@@ -15,7 +15,7 @@ public interface UserTravelsMapper {
 
     List<Map> selectTravels();
 
-    List<Map> selectUserTravels(String open_id);
+    List<Map> selectUserHasTravels(String open_id);
 
     UserTravels selectUserTravels(UserTravels travels);
 

@@ -37,7 +37,7 @@ public class UserTravelsService {
 
     //获取用户已获得游迹
     public ActionResult getUserTravels(String open_id){
-        return new ActionResult(true,userTravelsMapper.selectUserTravels(open_id),"获取成功");
+        return new ActionResult(true,userTravelsMapper.selectUserHasTravels(open_id),"获取成功");
     }
 
     //签到
