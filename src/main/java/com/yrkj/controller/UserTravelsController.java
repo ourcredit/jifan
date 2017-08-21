@@ -6,10 +6,7 @@ import com.yrkj.service.UserTravelsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
@@ -28,6 +25,12 @@ public class UserTravelsController {
     @RequestMapping(value = "/travels", method = RequestMethod.GET)
     public ActionResult travels() {
         return userTravelsService.getTravels();
+    }
+
+    @ApiOperation(value = "获取用户已签到游迹",notes = "获取用户已签到游迹")
+    @RequestMapping(value = "/userTravels", method = RequestMethod.GET)
+    public ActionResult userTravels(@RequestParam String open_id) {
+        return userTravelsService.getUserTravels(open_id);
     }
 
     @ApiOperation(value = "游迹签到",notes = "游迹签到")

@@ -49,5 +49,16 @@
             b.achievement_id) t WHERE t.finish_count = t.buy_count
     </select>
 
+    <select id="selectUserTravels" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+            b.*
+        FROM
+            t_user_travels a ,
+            t_travels b
+        WHERE
+            a.travels_id = b.id
+        AND a.open_id = #{open_id}
+    </select>
+
 
 </mapper>

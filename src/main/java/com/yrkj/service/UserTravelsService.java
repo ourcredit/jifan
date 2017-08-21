@@ -35,6 +35,11 @@ public class UserTravelsService {
         return new ActionResult(true,userTravelsMapper.selectTravels(),"获取成功");
     }
 
+    //获取用户已获得游迹
+    public ActionResult getUserTravels(String open_id){
+        return new ActionResult(true,userTravelsMapper.selectUserTravels(open_id),"获取成功");
+    }
+
     //签到
     @Transactional
     public ActionResult insertUserTravels(UserTravels travels){
