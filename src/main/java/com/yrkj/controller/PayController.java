@@ -98,7 +98,7 @@ public class PayController   {
 
     @ApiOperation(value="更新订单地址", notes="更新订单地址")
     @RequestMapping(value  ="/updateOrderAddress" ,method = RequestMethod.POST)
-    public ActionResult updateOrderAddress(Order order){
+    public ActionResult updateOrderAddress(@RequestBody Order order){
         return orderService.updateOrderAddress(order);
     }
 
