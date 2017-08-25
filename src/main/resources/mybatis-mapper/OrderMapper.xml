@@ -20,8 +20,7 @@
             city_name ,
             address ,
             phone ,
-            receiver ,
-            order_state
+            receiver
         )VALUES (
             #{order_num},
             #{open_id},
@@ -36,8 +35,7 @@
             #{city_name},
             #{address},
             #{phone},
-            #{receiver},
-            #{order_state}
+            #{receiver}
         )
     </insert>
 
