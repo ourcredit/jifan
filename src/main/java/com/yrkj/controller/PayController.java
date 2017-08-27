@@ -115,6 +115,12 @@ public class PayController   {
         return orderService.getIntegralOrderList(model);
     }
 
+    @ApiOperation(value = "获取积分订单详情",notes = "获取积分订单列表")
+    @RequestMapping(value = "/integralDetail", method = RequestMethod.GET)
+    public ActionResult integralList(@RequestParam Long orderId) {
+        return orderService.GetIntegralOrderDetail(orderId);
+    }
+
     public static String getOrder_NO() {
         return "JG" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN);
     }

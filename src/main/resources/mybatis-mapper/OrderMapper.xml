@@ -190,6 +190,12 @@
         LEFT JOIN t_order_product b ON a.id = b.order_id
         where a.order_num=#{orderNum};
     </select>
+    <select id="GetIntegralOrderDetail" parameterType="java.lang.Long" resultType="IntegralOrder">
+      SELECT
+*
+FROM
+t_integral_order where id=#{id}
+    </select>
 
 
 
