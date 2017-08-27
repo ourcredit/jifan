@@ -117,6 +117,7 @@
 
     <select id="selectIntegralOrderList" parameterType="WXOrderSearch" resultType="java.util.Map">
         SELECT
+        t.id,
             t.order_num ,
             t2.product_name ,
             t2.image1 ,
