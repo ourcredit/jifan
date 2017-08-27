@@ -117,6 +117,7 @@
 
     <select id="selectIntegralOrderList" parameterType="WXOrderSearch" resultType="java.util.Map">
         SELECT
+        t.id,
             t.order_num ,
             t2.product_name ,
             t2.image1 ,
@@ -188,6 +189,12 @@
         t_order a
         LEFT JOIN t_order_product b ON a.id = b.order_id
         where a.order_num=#{orderNum};
+    </select>
+    <select id="GetIntegralOrderDetail" parameterType="java.lang.Long" resultType="IntegralOrder">
+      SELECT
+*
+FROM
+t_integral_order where id=#{id}
     </select>
 
 

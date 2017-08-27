@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserMapper;
 import com.yrkj.model.Integral.CourierInput;
+import com.yrkj.model.Integral.IntegralOrder;
 import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.User.User;
 import com.yrkj.model.UserProduct.UserCart;
@@ -130,6 +131,20 @@ public class OrderService {
             return new ActionResult(true,list,"暂无数据");
         }
     }
+    /**
+     * 获取积分订单详情
+     * @param orderId
+     * @return
+     */
+    public ActionResult GetIntegralOrderDetail(Long orderId){
+        IntegralOrder order = orderMapper.GetIntegralOrderDetail(orderId);
+        if (order !=null){
+            return new ActionResult(true,order,"获取成功");
+        }else {
+            return new ActionResult(true,order,"暂无数据");
+        }
+    }
+
     /**
      * 获取订单详情
      * @param id
