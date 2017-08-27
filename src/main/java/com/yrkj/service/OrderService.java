@@ -40,7 +40,7 @@ public class OrderService {
         Order receive = userMapper.selectDefaultAddressPrice(order.getOpen_id());
         if (receive != null){
 
-            if (order.getProduct_cost()>300){
+            if (order.getProduct_cost()>=300){
                 order.setCourier_cost(0.0f);
             }else {
                 order.setCourier_cost(receive.getCourier_cost());
