@@ -6,6 +6,7 @@ import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserMapper;
 import com.yrkj.model.Integral.CourierInput;
 import com.yrkj.model.Integral.IntegralOrder;
+import com.yrkj.model.Integral.IntegralOrderDetail;
 import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.User.User;
 import com.yrkj.model.UserProduct.UserCart;
@@ -137,7 +138,7 @@ public class OrderService {
      * @return
      */
     public ActionResult GetIntegralOrderDetail(Long orderId){
-        IntegralOrder order = orderMapper.GetIntegralOrderDetail(orderId);
+        IntegralOrderDetail order = orderMapper.GetIntegralOrderDetail(orderId);
         if (order !=null){
             return new ActionResult(true,order,"获取成功");
         }else {

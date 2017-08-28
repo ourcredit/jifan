@@ -2,6 +2,7 @@ package com.yrkj.mapper;
 
 import com.yrkj.model.Integral.CourierInput;
 import com.yrkj.model.Integral.IntegralOrder;
+import com.yrkj.model.Integral.IntegralOrderDetail;
 import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProduct;
@@ -59,6 +60,6 @@ public interface OrderMapper {
     //更新快递信息
     int UpdateCourier (CourierInput input);
     List<OrderDto> GetOrderDetail (String orderNum);
-    IntegralOrder GetIntegralOrderDetail(Long orderId);
+    IntegralOrderDetail GetIntegralOrderDetail(Long orderId);
 
 }
