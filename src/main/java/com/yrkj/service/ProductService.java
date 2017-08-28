@@ -4,15 +4,16 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.ProductMapper;
 import com.yrkj.model.core.*;
-import com.yrkj.model.product.Product;
-import com.yrkj.model.product.ProductDto;
-import com.yrkj.model.product.ProductInfoDto;
-import com.yrkj.model.product.ProductSearch;
+import com.yrkj.model.product.*;
+import com.yrkj.utils.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by xuenianxiang on 2017/6/21.
@@ -222,6 +223,29 @@ public class ProductService {
         }else {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
+    }
+
+    /**
+     * 生成商品码
+     * @param product_id
+     * @param numbers
+     * @return
+     */
+    public ActionResult createProductCode(Long product_id,int numbers){
+
+        ProductCodeInput input = new ProductCodeInput();
+        input.setCreate_time(new Date());
+        input.setProduct_id(product_id);
+        input.setCodeList(new ArrayList<String>());
+
+        for (int i = 0;i<numbers;i++){
+            String code = RandomUtil.generateString(32);
+            input.getCodeList().add(code);
+        }
+
+        productMapper.insertProductCode(input);
+
+        return new ActionResult(true,input,"成功");
     }
 
 }

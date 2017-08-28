@@ -148,4 +148,15 @@
         </foreach>
     </update>
 
+    <insert id="insertProductCode" parameterType="ProductCodeInput">
+        INSERT INTO t_product_code(
+            product_id,
+            code,
+            create_time
+        )VALUES
+        <foreach collection="codeList" item="code" separator="," >
+            (#{product_id}, #{code}, #{create_time})
+        </foreach>
+    </insert>
+
 </mapper>

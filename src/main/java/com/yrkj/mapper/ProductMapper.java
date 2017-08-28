@@ -2,10 +2,7 @@ package com.yrkj.mapper;
 
 import com.yrkj.model.core.ChangeStatusModel;
 import com.yrkj.model.core.IdsModel;
-import com.yrkj.model.product.Product;
-import com.yrkj.model.product.ProductDto;
-import com.yrkj.model.product.ProductInfoDto;
-import com.yrkj.model.product.ProductSearch;
+import com.yrkj.model.product.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -42,4 +39,7 @@ public interface ProductMapper {
 
     //批量更新状态
     int updateStatus(ChangeStatusModel model);
+
+    //批量插入商品码
+    int insertProductCode(ProductCodeInput input);
 }
