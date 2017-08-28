@@ -62,4 +62,6 @@ public interface OrderMapper {
     List<OrderDto> GetOrderDetail (String orderNum);
     IntegralOrderDetail GetIntegralOrderDetail(Long orderId);
 
+    String selectAchievementUrl(Long product_id);
+
 }

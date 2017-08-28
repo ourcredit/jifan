@@ -3,6 +3,7 @@ package com.yrkj.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yrkj.mapper.OrderMapper;
+import com.yrkj.mapper.ProductMapper;
 import com.yrkj.mapper.UserMapper;
 import com.yrkj.model.Integral.CourierInput;
 import com.yrkj.model.Integral.IntegralOrder;
@@ -32,6 +33,9 @@ public class OrderService {
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private ProductMapper productMapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -222,6 +226,69 @@ public class OrderService {
         } else {
             return new ActionResult(false,null,"更新订单失败");
         }
+    }
+
+    /**
+     * 自动售货机售卖扫码
+     * @param open_id
+     * @param code
+     * @return
+     */
+    public ActionResult automaticSale(String open_id,String code){
+
+        Long product_id = productMapper.selectProductIdByCode(code);
+
+        if (product_id == null){
+            return new ActionResult(true,"www.baidu.com","失败");
+        }
+
+        Date now = new Date();
+
+
+        UserProduct product = new UserProduct();
+        product.setOpen_id(open_id);
+        product.setProduct_id(product_id);
+        product.setCreate_time(now);
+
+        if (orderMapper.selectUserProductExist(product) == 0){
+            orderMapper.insertUserProduct(product);
+        }
+
+        //查询本次获得的成就
+        List<UserAchievement> achievementList = orderMapper.selectCurrentGetAchievement(open_id);
+
+        //插入成就
+        for (UserAchievement achievement:achievementList){
+            achievement.setOpen_id(open_id);
+            achievement.setCreate_time(now);
+            orderMapper.insertUserAchievement(achievement);
+        }
+
+        //插入积分
+        for (UserAchievement achievement:achievementList){
+            UserIntegration integration = new UserIntegration();
+            integration.setOpen_id(open_id);
+            integration.setCreate_time(now);
+            integration.setIntegration_val(achievement.getIntegration());
+            integration.setRemark("获得"+achievement.getAchievement_name());
+            orderMapper.insertUserIntegration(integration);
+        }
+
+        Integer achievement_val = userMapper.selectUserAchievementVal(open_id);
+
+        Integer integration_val = userMapper.selectUserIntegrationVal(open_id);
+
+        Integer badge = userMapper.selectUserBadge(open_id);
+
+        User user = new User();
+        user.setAchievement_val(achievement_val);
+        user.setIntegration_val(integration_val);
+        user.setBadge_count(badge);
+        //更新成就 积分 勋章数
+        userMapper.updateUserVal(user);
+
+        return new ActionResult(true,orderMapper.selectAchievementUrl(product_id),"成功");
+
     }
 
     /**

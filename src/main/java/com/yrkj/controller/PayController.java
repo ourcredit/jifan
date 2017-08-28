@@ -331,6 +331,12 @@ public class PayController   {
         out.close();
     }
 
+    @ApiOperation(value="自动售卖机购买后扫码调用", notes="自动售卖机购买后扫码调用")
+    @RequestMapping(value  ="/automaticSale" ,method = RequestMethod.GET)
+    public ActionResult automaticSale(@RequestParam String open_id,@RequestParam String code){
+        return orderService.automaticSale(open_id,code);
+    }
+
     @ApiOperation(value="测试订单完成接口", notes="测试订单完成接口")
     @RequestMapping(value  ="/testFinishOrder" ,method = RequestMethod.POST)
     public ActionResult testFinishOrder(@RequestParam String order_num){
