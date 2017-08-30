@@ -24,6 +24,16 @@ public class ProductDto {
 
     private Long id;
 
+
+    public int getIs_perfect() {
+        return is_perfect;
+    }
+
+    public void setIs_perfect(int is_perfect) {
+        this.is_perfect = is_perfect;
+    }
+
+    private int is_perfect;
     /**
      * 类型(单一、组合)
      */
