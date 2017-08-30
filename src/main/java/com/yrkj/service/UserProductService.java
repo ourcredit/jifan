@@ -59,9 +59,7 @@ public class UserProductService {
      * @return
      */
     public PageModel getProductList(UserProductSearch model){
-
         Page page = PageHelper.startPage(model.getPageNum(),model.getPageSize());
-
         String name = model.getName();
         //name模糊查询
         if (name != null && name.length() > 0){

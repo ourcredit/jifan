@@ -11,6 +11,7 @@ import java.util.List;
 public class Product extends BaseModel{
 
     private int is_badge;
+    private int is_perfect;
 
     private String badge_name;
 
