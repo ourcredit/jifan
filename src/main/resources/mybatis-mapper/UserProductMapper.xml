@@ -53,12 +53,12 @@
         <if test="category2!=0"> AND tt.badge_category2 = #{category2} </if>
         <if test="category3!=0"> AND tt.badge_category3 = #{category3} </if>
 
-        <if test="price_up==1"> ORDER BY tt.price ASC , </if>
-        <if test="price_up==0">ORDER BY tt.price DESC , </if>
-        <if test="time_up==1"> tt.online_time ASC , </if>
-        <if test="time_up==0"> tt.online_time DESC , </if>
-        <if test="sales_up==1"> tt.sales ASC  </if>
-        <if test="sales_up==0"> tt.sales DESC  </if>
+        <if test="price_up==1"> ORDER BY tt.price ASC  </if>
+        <if test="price_up==0">ORDER BY tt.price DESC  </if>
+        <if test="time_up==1">ORDER BY tt.online_time ASC  </if>
+        <if test="time_up==0">ORDER BY tt.online_time DESC  </if>
+        <if test="sales_up==1">ORDER BY tt.sales ASC  </if>
+        <if test="sales_up==0">ORDER BY tt.sales DESC  </if>
     </select>
 
 
