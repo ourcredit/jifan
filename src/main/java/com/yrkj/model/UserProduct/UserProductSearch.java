@@ -7,11 +7,11 @@ import com.yrkj.model.core.SearchModel;
  */
 public class UserProductSearch extends SearchModel {
 
-    private int price_up;
+    private Integer price_up;
 
-    private int time_up;
+    private Integer time_up;
 
-    private int sales_up;
+    private Integer sales_up;
 
     private long category1;
 
@@ -19,27 +19,27 @@ public class UserProductSearch extends SearchModel {
 
     private long category3;
 
-    public int getPrice_up() {
+    public Integer getPrice_up() {
         return price_up;
     }
 
-    public void setPrice_up(int price_up) {
+    public void setPrice_up(Integer price_up) {
         this.price_up = price_up;
     }
 
-    public int getTime_up() {
+    public Integer getTime_up() {
         return time_up;
     }
 
-    public void setTime_up(int time_up) {
+    public void setTime_up(Integer time_up) {
         this.time_up = time_up;
     }
 
-    public int getSales_up() {
+    public Integer getSales_up() {
         return sales_up;
     }
 
-    public void setSales_up(int sales_up) {
+    public void setSales_up(Integer sales_up) {
         this.sales_up = sales_up;
     }
 
