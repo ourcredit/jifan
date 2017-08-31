@@ -13,7 +13,7 @@
             path ,
             icon
         FROM
-            sys_menu
+            sys_menu ORDER BY sort ASC
     </select>
 
     <delete id="deleteRoleMenu" parameterType="SysUserRoleInput">
