@@ -236,12 +236,13 @@ public class OrderService {
      * @param code
      * @return
      */
+    @Transactional
     public ActionResult automaticSale(String open_id,String code){
 
         Long product_id = productMapper.selectProductIdByCode(code);
 
         if (product_id == null){
-            return new ActionResult(true,"www.baidu.com","失败");
+            return new ActionResult(true,null,"失败");
         }
 
         Date now = new Date();
@@ -288,6 +289,9 @@ public class OrderService {
         user.setBadge_count(badge);
         //更新成就 积分 勋章数
         userMapper.updateUserVal(user);
+
+        //更新code使用情况
+        productMapper.updateProductCode(code);
 
         return new ActionResult(true,orderMapper.selectAchievementUrl(product_id),"成功");
 
