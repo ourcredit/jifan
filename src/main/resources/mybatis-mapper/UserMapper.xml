@@ -107,7 +107,14 @@
     </insert>
 
     <select id="selectUserAddressList" parameterType="java.lang.String" resultType="UserAddress">
-        SELECT * FROM t_user_address WHERE open_id = #{open_id} AND is_delete = 0
+        SELECT
+            t.*,t2.price as courier_cost
+        FROM
+            t_user_address t,t_postage t2
+        WHERE
+            t.open_id = #{open_id}
+        AND t.is_delete = 0
+        and t.province_id = t2.id
     </select>
 
     <select id="selectUserDefaultAddress" parameterType="java.lang.String" resultType="UserAddress">

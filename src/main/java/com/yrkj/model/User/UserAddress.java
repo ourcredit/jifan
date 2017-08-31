@@ -25,6 +25,8 @@ public class UserAddress {
 
     private String post_code;
 
+    private float courier_cost;
+
     private int is_default;
 
     public Long getId() {
@@ -105,6 +107,14 @@ public class UserAddress {
 
     public void setPost_code(String post_code) {
         this.post_code = post_code;
+    }
+
+    public float getCourier_cost() {
+        return courier_cost;
+    }
+
+    public void setCourier_cost(float courier_cost) {
+        this.courier_cost = courier_cost;
     }
 
     public int getIs_default() {
