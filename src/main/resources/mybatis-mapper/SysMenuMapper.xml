@@ -48,14 +48,14 @@
         FROM
             sys_menu t
         WHERE
-            id IN (
+            t.id IN (
               SELECT DISTINCT
                     a.menu_id
               FROM
                     sys_role_menu a
               WHERE
                     a.role_id in (select b.role_id from sys_user_role b WHERE b.user_id = #{user_id})
-        )
+        ) ORDER BY t.sort ASC
     </select>
 
     <select id="selectMenuByRoleId" parameterType="java.lang.Long" resultType="SysMenuDto">
