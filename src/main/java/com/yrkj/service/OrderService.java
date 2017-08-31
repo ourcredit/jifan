@@ -294,7 +294,10 @@ public class OrderService {
         //更新code使用情况
         productMapper.updateProductCode(code);
 
-        return new ActionResult(true,orderMapper.selectAchievementUrl(model.getProduct_id()),"成功");
+        String url = orderMapper.selectAchievementUrl(model.getProduct_id());
+        url = (url==null)?"http://tc.hijigu.com/load.html":url;
+
+        return new ActionResult(true,url,"成功");
 
     }
 
