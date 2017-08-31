@@ -18,6 +18,7 @@ import com.yrkj.model.order.Order;
 import com.yrkj.model.order.UserAchievement;
 import com.yrkj.model.order.UserIntegration;
 import com.yrkj.model.order.WXOrderSearch;
+import com.yrkj.model.product.ProductCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -239,10 +240,10 @@ public class OrderService {
     @Transactional
     public ActionResult automaticSale(String open_id,String code){
 
-        Long product_id = productMapper.selectProductIdByCode(code);
+        ProductCode model = productMapper.selectProductIdByCode(code);
 
-        if (product_id == null){
-            return new ActionResult(true,null,"失败");
+        if (model == null){
+            return new ActionResult(true,null,"兑换码错误");
         }
 
         Date now = new Date();
@@ -250,7 +251,7 @@ public class OrderService {
 
         UserProduct product = new UserProduct();
         product.setOpen_id(open_id);
-        product.setProduct_id(product_id);
+        product.setProduct_id(model.getProduct_id());
         product.setCreate_time(now);
 
         if (orderMapper.selectUserProductExist(product) == 0){
@@ -293,7 +294,7 @@ public class OrderService {
         //更新code使用情况
         productMapper.updateProductCode(code);
 
-        return new ActionResult(true,orderMapper.selectAchievementUrl(product_id),"成功");
+        return new ActionResult(true,orderMapper.selectAchievementUrl(model.getProduct_id()),"成功");
 
     }
 

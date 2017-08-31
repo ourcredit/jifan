@@ -43,7 +43,7 @@ public interface ProductMapper {
     //批量插入商品码
     int insertProductCode(ProductCodeInput input);
 
-    Long selectProductIdByCode(String code);
+    ProductCode selectProductIdByCode(String code);
 
     int updateProductCode(String code);
 }
