@@ -157,11 +157,9 @@ public class OrderService {
      */
     public ActionResult getOrderById(Long id){
         Order order = orderMapper.selectOrder(id);
-
         if (order != null){
-
         //获取收货地址+邮费
-          if (order.getOrder_state() == 0){//判断是否生成了微信支付订单
+        /*  if (order.getOrder_state() == 0){//判断是否生成了微信支付订单
               Order receive = userMapper.selectDefaultAddressPrice(order.getOpen_id());
               if (receive !=null){
                   order.setCourier_cost(receive.getCourier_cost());
@@ -176,7 +174,7 @@ public class OrderService {
                   order.setCourier_order(receive.getCourier_order());
                   order.setCourier_time(receive.getCourier_time());
               }
-          }
+          }*/
 
             //获取商品列表
             List list = orderMapper.selectOrderProduct(id);
