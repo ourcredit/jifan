@@ -68,7 +68,10 @@ public class PayController   {
 
         //处理价格单位为：分(请自行处理)
         float productPrice = 0f;
-
+        ActionResult res=  userService.getDefaultAddress(input.getOpen_id());
+        if (!res.isSuccess()||res.getResult()==null){
+            return  new ActionResult(false,"请先设置默认收货地址");
+        }
         for (PayProductInput temp:input.getList()){
             PayProductInput rest = userProductMapper.selectProductInfo(temp.getProduct_id());
             Float price = rest.getPrice();
@@ -87,17 +90,16 @@ public class PayController   {
         order.setProduct_cost(productPrice);
         order.setList(input.getList());
         order.setCreate_time(new Date());
-       ActionResult res=  userService.getDefaultAddress(input.getOpen_id());
-       if (res.isSuccess()){
-          UserAddress add=  (UserAddress)res.getResult();
-          order.setAddress(add.getAddress());
-          order.setCity_id(add.getCity_id());
-          order.setCity_name(add.getCity_name());
-          order.setCourier_cost(add.getCourier_cost());
-          order.setAddress(add.getAddress());
-          order.setPhone(add.getPhone());
-          order.setReceiver(add.getReceiver());
-       }
+
+        //设置收获地址
+        UserAddress add=  (UserAddress)res.getResult();
+        order.setAddress(add.getAddress());
+        order.setCity_id(add.getCity_id());
+        order.setCity_name(add.getCity_name());
+        order.setCourier_cost(add.getCourier_cost());
+        order.setAddress(add.getAddress());
+        order.setPhone(add.getPhone());
+        order.setReceiver(add.getReceiver());
         //生成订单
         return orderService.createOrder(order);
     }
