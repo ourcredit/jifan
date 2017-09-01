@@ -8,10 +8,15 @@ import com.yrkj.model.User.UserTravels;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.order.UserAchievement;
 import com.yrkj.model.order.UserIntegration;
+import com.yrkj.model.travels.UserTravelInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +44,33 @@ public class UserTravelsService {
     public ActionResult getUserTravels(String open_id){
         return new ActionResult(true,userTravelsMapper.selectUserHasTravels(open_id),"获取成功");
     }
+    public ActionResult IsSingIn(String open_id){
+        Date left=getStartTime();
+        Date right=getEndTime();
+        UserTravelInput input =new UserTravelInput();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        input.setLeft(sdf.format(left));input.setRight(sdf.format(right));input.setOpen_id(open_id);
+        List<UserTravels> result=userTravelsMapper.selectTodayTravel(input);
+        Boolean res=result.size()>0;
+        return new ActionResult(res,res,"");
+    }
+    private static Date getStartTime() {
+        Calendar todayStart = Calendar.getInstance();
+        todayStart.set(Calendar.HOUR_OF_DAY, 0);
+        todayStart.set(Calendar.MINUTE, 0);
+        todayStart.set(Calendar.SECOND, 0);
+        todayStart.set(Calendar.MILLISECOND, 0);
+        return todayStart.getTime();
+    }
 
+    private static Date getEndTime() {
+        Calendar todayEnd = Calendar.getInstance();
+        todayEnd.set(Calendar.HOUR_OF_DAY, 23);
+        todayEnd.set(Calendar.MINUTE, 59);
+        todayEnd.set(Calendar.SECOND, 59);
+        todayEnd.set(Calendar.MILLISECOND, 999);
+        return todayEnd.getTime();
+    }
     //签到
     @Transactional
     public ActionResult insertUserTravels(UserTravels travels){
