@@ -6,6 +6,7 @@ import com.yrkj.controller.Inputs.JsPayInput;
 import com.yrkj.controller.Inputs.OrderInput;
 import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserProductMapper;
+import com.yrkj.model.User.UserAddress;
 import com.yrkj.model.UserProduct.PayProductInput;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.PageModel;
@@ -13,6 +14,7 @@ import com.yrkj.model.order.Order;
 import com.yrkj.model.order.WXOrderSearch;
 import com.yrkj.service.OrderService;
 import com.yrkj.service.UserProductService;
+import com.yrkj.service.UserService;
 import com.yrkj.utils.DatetimeUtil;
 import com.yrkj.utils.Md5Utils;
 import com.yrkj.utils.RandomUtil;
@@ -58,7 +60,8 @@ public class PayController   {
 
     @Autowired
     private OrderMapper orderMapper;
-
+    @Autowired
+    private UserService userService;
     @ApiOperation(value="创建订单", notes="创建订单")
     @RequestMapping(value  ="/commitOrder" ,method = RequestMethod.POST)
     public ActionResult  commitOrder(@RequestBody OrderInput input){
@@ -84,7 +87,17 @@ public class PayController   {
         order.setProduct_cost(productPrice);
         order.setList(input.getList());
         order.setCreate_time(new Date());
-
+       ActionResult res=  userService.getDefaultAddress(input.getOpen_id());
+       if (res.isSuccess()){
+          UserAddress add=  (UserAddress)res.getResult();
+          order.setAddress(add.getAddress());
+          order.setCity_id(add.getCity_id());
+          order.setCity_name(add.getCity_name());
+          order.setCourier_cost(add.getCourier_cost());
+          order.setAddress(add.getAddress());
+          order.setPhone(add.getPhone());
+          order.setReceiver(add.getReceiver());
+       }
         //生成订单
         return orderService.createOrder(order);
     }
