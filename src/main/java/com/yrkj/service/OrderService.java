@@ -12,6 +12,7 @@ import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.User.User;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProduct;
+import com.yrkj.model.achievement.Achievement;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.PageModel;
 import com.yrkj.model.order.Order;
@@ -240,18 +241,29 @@ public class OrderService {
 
         ProductCode model = productMapper.selectProductIdByCode(code);
         String url = orderMapper.selectAchievementUrl(model.getProduct_id());
-        url = (url==null)?"http://tc.hijigu.com/load.html":url;
         if (model == null){
-            return new ActionResult(true,url,"兑换码错误");
+            return new ActionResult(true,"http://tc.hijigu.com/load.html","兑换码错误");
         }
 
         Date now = new Date();
-
-
         UserProduct product = new UserProduct();
         product.setOpen_id(open_id);
         product.setProduct_id(model.getProduct_id());
         product.setCreate_time(now);
+
+        if (model.getIs_used()==1){
+           if(orderMapper.selectUserProductExist(product) == 0){
+               return new ActionResult(true,"http://tc.hijigu.com/load.html","二维码已被使用");
+           }else{
+                    List<Achievement> result=orderMapper.selectByCode(model.getProduct_id());
+                    if (result.size()>0){
+                        Achievement first=result.get(0);
+                        url=first.getUrl();
+                    }
+               return new ActionResult(true,url,"");
+           }
+
+        }
 
         if (orderMapper.selectUserProductExist(product) == 0){
             orderMapper.insertUserProduct(product);

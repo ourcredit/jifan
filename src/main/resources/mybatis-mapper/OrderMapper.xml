@@ -258,7 +258,15 @@ INNER JOIN t_integral_product b ON a.order_from = b.id where a.id=#{id}
     <select id="selectUserProductExist" parameterType="UserProduct" resultType="java.lang.Integer">
         SELECT count(1) FROM t_user_product WHERE open_id = #{open_id} AND product_id = #{product_id}
     </select>
-
+    <select id="selectByCode" parameterType="java.lang.Long" resultType="Achievement">
+        SELECT
+        b.*
+        FROM
+        t_achievement_relation a
+        INNER JOIN t_achievement b ON a.achievement_id = b.id
+        WHERE
+        a.relation_id = #{productId}
+    </select>
     <select id="selectCurrentGetAchievement" parameterType="java.lang.String" resultType="UserAchievement">
       SELECT t.*
         FROM

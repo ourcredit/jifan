@@ -162,7 +162,7 @@
     </insert>
 
     <select id="selectProductIdByCode" resultType="ProductCode" parameterType="java.lang.String">
-        SELECT * FROM t_product_code WHERE code = #{code} AND is_used = 0
+        SELECT * FROM t_product_code WHERE code = #{code}
     </select>
 
     <update id="updateProductCode" parameterType="java.lang.String">
