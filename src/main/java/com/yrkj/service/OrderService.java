@@ -239,9 +239,10 @@ public class OrderService {
     public ActionResult automaticSale(String open_id,String code){
 
         ProductCode model = productMapper.selectProductIdByCode(code);
-
+        String url = orderMapper.selectAchievementUrl(model.getProduct_id());
+        url = (url==null)?"http://tc.hijigu.com/load.html":url;
         if (model == null){
-            return new ActionResult(true,null,"兑换码错误");
+            return new ActionResult(true,url,"兑换码错误");
         }
 
         Date now = new Date();
@@ -292,8 +293,7 @@ public class OrderService {
         //更新code使用情况
         productMapper.updateProductCode(code);
 
-        String url = orderMapper.selectAchievementUrl(model.getProduct_id());
-        url = (url==null)?"http://tc.hijigu.com/load.html":url;
+
 
         return new ActionResult(true,url,"成功");
 
