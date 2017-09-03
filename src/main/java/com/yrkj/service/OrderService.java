@@ -2,6 +2,7 @@ package com.yrkj.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yrkj.controller.Inputs.CanBuyInput;
 import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.ProductMapper;
 import com.yrkj.mapper.UserMapper;
@@ -12,6 +13,7 @@ import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.User.User;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProduct;
+import com.yrkj.model.achievement.Achievement;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.PageModel;
 import com.yrkj.model.order.Order;
@@ -123,6 +125,11 @@ public class OrderService {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
     }
+    public Boolean CanbuyIt(Long productId){
+        Integer less=orderMapper.selectProductLess(productId);
+        return  less>0;
+    }
+
     /**
      * 获取订单详情
      * @param orderNum
@@ -157,11 +164,9 @@ public class OrderService {
      */
     public ActionResult getOrderById(Long id){
         Order order = orderMapper.selectOrder(id);
-
         if (order != null){
-
         //获取收货地址+邮费
-          if (order.getOrder_state() == 0){//判断是否生成了微信支付订单
+        /*  if (order.getOrder_state() == 0){//判断是否生成了微信支付订单
               Order receive = userMapper.selectDefaultAddressPrice(order.getOpen_id());
               if (receive !=null){
                   order.setCourier_cost(receive.getCourier_cost());
@@ -176,7 +181,7 @@ public class OrderService {
                   order.setCourier_order(receive.getCourier_order());
                   order.setCourier_time(receive.getCourier_time());
               }
-          }
+          }*/
 
             //获取商品列表
             List list = orderMapper.selectOrderProduct(id);
@@ -241,18 +246,31 @@ public class OrderService {
     public ActionResult automaticSale(String open_id,String code){
 
         ProductCode model = productMapper.selectProductIdByCode(code);
-
+        String url = orderMapper.selectAchievementUrl(model.getProduct_id());
         if (model == null){
-            return new ActionResult(true,null,"兑换码错误");
+            return new ActionResult(true,"http://tc.hijigu.com/load.html","兑换码错误");
         }
 
         Date now = new Date();
-
-
         UserProduct product = new UserProduct();
         product.setOpen_id(open_id);
         product.setProduct_id(model.getProduct_id());
         product.setCreate_time(now);
+        url=  url==null?"http://tc.hijigu.com/load.html":url;
+
+        if (model.getIs_used()==1){
+           if(orderMapper.selectUserProductExist(product) == 0){
+               return new ActionResult(true,"http://tc.hijigu.com/load.html","二维码已被使用");
+           }else{
+                    List<Achievement> result=orderMapper.selectByCode(model.getProduct_id());
+                    if (result.size()>0){
+                        Achievement first=result.get(0);
+                        url= first.getUrl().isEmpty()?"http://tc.hijigu.com/load.html":first.getUrl();
+                    }
+               return new ActionResult(true,url,"");
+           }
+
+        }
 
         if (orderMapper.selectUserProductExist(product) == 0){
             orderMapper.insertUserProduct(product);
@@ -294,8 +312,6 @@ public class OrderService {
         //更新code使用情况
         productMapper.updateProductCode(code);
 
-        String url = orderMapper.selectAchievementUrl(model.getProduct_id());
-        url = (url==null)?"http://tc.hijigu.com/load.html":url;
 
         return new ActionResult(true,url,"成功");
 

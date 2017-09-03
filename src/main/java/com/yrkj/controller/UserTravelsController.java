@@ -38,4 +38,9 @@ public class UserTravelsController {
     public ActionResult checkin(@RequestBody UserTravels travels) {
         return userTravelsService.insertUserTravels(travels);
     }
+    @ApiOperation(value = "游迹是否已签到",notes = "游迹签到")
+    @RequestMapping(value = "/issign", method = RequestMethod.POST)
+    public ActionResult checkin(@RequestParam String openId) {
+        return userTravelsService.IsSingIn(openId);
+    }
 }

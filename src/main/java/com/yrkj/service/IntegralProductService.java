@@ -172,6 +172,12 @@ public class IntegralProductService {
     @Transactional
     public ActionResult InsertOrder(IntegralOrder model){
         Integer ui = _userMapper.selectUserIntegrationVal(model.getOpen_id());
+        Integer less=_productMapper.selectIntegralProductLess(model.getOrder_from());
+        if (less<=0){
+            return new ActionResult(false,null,"该商品库存不足,无法购买");
+        }
+
+
 
         if (model.getProduct_type() == 1 && model.getAddress().length() < 1){
             UserAddress ua = _userMapper.selectUserDefaultAddress(model.getOpen_id());

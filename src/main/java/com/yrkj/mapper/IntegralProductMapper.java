@@ -34,4 +34,5 @@ public interface IntegralProductMapper {
 
     List<IntegralOrder> selectOrders(IntegralSearch model);
     int UpdateCourier (CourierInput input);
+    int selectIntegralProductLess(Long productId);
 }

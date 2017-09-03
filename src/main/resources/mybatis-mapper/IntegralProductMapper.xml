@@ -215,5 +215,24 @@
         <if test="status!=null"> AND t.order_state = #{status} </if>
         <if test="cate!=null"> AND t.order_type = #{cate} </if>
     </select>
-
+    <select id="selectIntegralProductLess" parameterType="java.lang.Long" resultType="java.lang.Integer">
+          SELECT
+	inventory - IFNULL(b.total, 0)
+FROM
+	t_integral_product a
+INNER JOIN (
+	SELECT
+		order_from,
+		count(1) total
+	FROM
+		t_integral_order
+	WHERE
+		order_state = 1
+	AND order_from = #{productId}
+	GROUP BY
+		order_from
+) b ON a.id = b.order_from
+WHERE
+	a.id = #{productId}
+    </select>
 </mapper>

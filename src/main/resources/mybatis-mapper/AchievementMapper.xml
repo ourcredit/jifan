@@ -84,6 +84,9 @@
         SELECT * FROM t_achievement WHERE is_delete = 0 AND id = #{id}
     </select>
 
+
+
+
     <select id="selectAll" parameterType="AchievementSearch" resultType="AchievementDto">
         SELECT t.id , t. NAME , t.category_name , t.finish , t.type ,( select count(1) FROM t_achievement_relation r WHERE r.achievement_id = t.id) as relation_count ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category1) AS category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category2) AS category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category3) AS category3 , t.is_group , t.integration , t.achievement_val , t.designation , t.image , t.button_image , t.content , t. STATUS FROM t_achievement t
         WHERE t.is_delete = 0

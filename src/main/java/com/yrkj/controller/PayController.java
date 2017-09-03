@@ -6,6 +6,7 @@ import com.yrkj.controller.Inputs.JsPayInput;
 import com.yrkj.controller.Inputs.OrderInput;
 import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.UserProductMapper;
+import com.yrkj.model.User.UserAddress;
 import com.yrkj.model.UserProduct.PayProductInput;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.PageModel;
@@ -13,6 +14,7 @@ import com.yrkj.model.order.Order;
 import com.yrkj.model.order.WXOrderSearch;
 import com.yrkj.service.OrderService;
 import com.yrkj.service.UserProductService;
+import com.yrkj.service.UserService;
 import com.yrkj.utils.DatetimeUtil;
 import com.yrkj.utils.Md5Utils;
 import com.yrkj.utils.RandomUtil;
@@ -58,14 +60,28 @@ public class PayController   {
 
     @Autowired
     private OrderMapper orderMapper;
-
+    @Autowired
+    private UserService userService;
     @ApiOperation(value="创建订单", notes="创建订单")
     @RequestMapping(value  ="/commitOrder" ,method = RequestMethod.POST)
     public ActionResult  commitOrder(@RequestBody OrderInput input){
 
+            String  msg="";
+        for (PayProductInput x: input.getList()){
+            Boolean canBuy=orderService.CanbuyIt(x.getProduct_id());
+            if (!canBuy){
+                msg+=x.getProduct_name() +"库存不足,请重新选择";
+            }
+        }
+        if (msg!=""){
+            return new ActionResult(false,msg,"无法购买");
+        }
         //处理价格单位为：分(请自行处理)
         float productPrice = 0f;
-
+        ActionResult res=  userService.getDefaultAddress(input.getOpen_id());
+        if (!res.isSuccess()||res.getResult()==null){
+            return  new ActionResult(false,"请先设置默认收货地址");
+        }
         for (PayProductInput temp:input.getList()){
             PayProductInput rest = userProductMapper.selectProductInfo(temp.getProduct_id());
             Float price = rest.getPrice();
@@ -85,6 +101,15 @@ public class PayController   {
         order.setList(input.getList());
         order.setCreate_time(new Date());
 
+        //设置收获地址
+        UserAddress add=  (UserAddress)res.getResult();
+        order.setAddress(add.getAddress());
+        order.setCity_id(add.getCity_id());
+        order.setCity_name(add.getCity_name());
+        order.setCourier_cost(add.getCourier_cost());
+        order.setAddress(add.getAddress());
+        order.setPhone(add.getPhone());
+        order.setReceiver(add.getReceiver());
         //生成订单
         return orderService.createOrder(order);
     }

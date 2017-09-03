@@ -6,6 +6,7 @@ import com.yrkj.model.Integral.IntegralOrderDetail;
 import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.UserProduct.UserCart;
 import com.yrkj.model.UserProduct.UserProduct;
+import com.yrkj.model.achievement.Achievement;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.PageModel;
 import com.yrkj.model.order.*;
@@ -63,5 +64,6 @@ public interface OrderMapper {
     IntegralOrderDetail GetIntegralOrderDetail(Long orderId);
 
     String selectAchievementUrl(Long product_id);
-
+    List<Achievement> selectByCode(Long productId);
+    Integer selectProductLess(Long productId);
 }
