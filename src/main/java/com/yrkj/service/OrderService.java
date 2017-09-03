@@ -250,6 +250,7 @@ public class OrderService {
         product.setOpen_id(open_id);
         product.setProduct_id(model.getProduct_id());
         product.setCreate_time(now);
+        url=  url==null?"http://tc.hijigu.com/load.html":url;
 
         if (model.getIs_used()==1){
            if(orderMapper.selectUserProductExist(product) == 0){
@@ -258,7 +259,7 @@ public class OrderService {
                     List<Achievement> result=orderMapper.selectByCode(model.getProduct_id());
                     if (result.size()>0){
                         Achievement first=result.get(0);
-                        url=first.getUrl();
+                        url= first.getUrl().isEmpty()?"http://tc.hijigu.com/load.html":first.getUrl();
                     }
                return new ActionResult(true,url,"");
            }
@@ -304,7 +305,6 @@ public class OrderService {
 
         //更新code使用情况
         productMapper.updateProductCode(code);
-
 
 
         return new ActionResult(true,url,"成功");
