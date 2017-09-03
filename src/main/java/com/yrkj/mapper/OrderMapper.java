@@ -65,4 +65,5 @@ public interface OrderMapper {
 
     String selectAchievementUrl(Long product_id);
     List<Achievement> selectByCode(Long productId);
+    Integer selectProductLess(Long productId);
 }

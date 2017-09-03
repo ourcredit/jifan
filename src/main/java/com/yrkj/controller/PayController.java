@@ -66,6 +66,16 @@ public class PayController   {
     @RequestMapping(value  ="/commitOrder" ,method = RequestMethod.POST)
     public ActionResult  commitOrder(@RequestBody OrderInput input){
 
+            String  msg="";
+        for (PayProductInput x: input.getList()){
+            Boolean canBuy=orderService.CanbuyIt(x.getProduct_id());
+            if (!canBuy){
+                msg+=x.getProduct_name() +"库存不足,请重新选择";
+            }
+        }
+        if (msg!=""){
+            return new ActionResult(false,msg,"无法购买");
+        }
         //处理价格单位为：分(请自行处理)
         float productPrice = 0f;
         ActionResult res=  userService.getDefaultAddress(input.getOpen_id());

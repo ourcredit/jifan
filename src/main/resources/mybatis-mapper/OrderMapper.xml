@@ -341,5 +341,21 @@ INNER JOIN t_integral_product b ON a.order_from = b.id where a.id=#{id}
             AND t.url IS NOT NULL
             LIMIT 0,1
     </select>
-
+    <select id="selectProductLess" parameterType="java.lang.Long" resultType="java.lang.Integer">
+     SELECT
+	a.inventory - IFNULL(b.total, 0)
+FROM
+	t_product a
+INNER JOIN (
+	SELECT
+		product_id,
+		sum(number) total
+	FROM
+		t_order_product
+	WHERE
+		product_id = #{productId}
+	GROUP BY
+		product_id
+) b ON a.id = b.product_id where a.id=#{productId}
+    </select>
 </mapper>

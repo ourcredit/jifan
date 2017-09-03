@@ -2,6 +2,7 @@ package com.yrkj.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yrkj.controller.Inputs.CanBuyInput;
 import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.ProductMapper;
 import com.yrkj.mapper.UserMapper;
@@ -124,6 +125,11 @@ public class OrderService {
             return new PageModel(true,list,page.getTotal(),"暂无数据");
         }
     }
+    public Boolean CanbuyIt(Long productId){
+        Integer less=orderMapper.selectProductLess(productId);
+        return  less>0;
+    }
+
     /**
      * 获取订单详情
      * @param orderNum
