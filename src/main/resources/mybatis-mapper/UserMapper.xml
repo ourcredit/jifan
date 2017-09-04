@@ -51,7 +51,8 @@
                city         = #{city},
                receiver     = #{receiver},
                postal_code  = #{postal_code},
-               update_time  = #{update_time}
+               update_time  = #{update_time},
+               designation=#{designation}
         WHERE  open_id      = #{open_id}
     </update>
 
