@@ -244,7 +244,6 @@ public class OrderService {
      */
     @Transactional
     public ActionResult automaticSale(String open_id,String code){
-
         ProductCode model = productMapper.selectProductIdByCode(code);
         String url = orderMapper.selectAchievementUrl(model.getProduct_id());
         if (model == null){
@@ -306,6 +305,7 @@ public class OrderService {
         user.setAchievement_val(achievement_val);
         user.setIntegration_val(integration_val);
         user.setBadge_count(badge);
+        user.setOpen_id(open_id);
         //更新成就 积分 勋章数
         userMapper.updateUserVal(user);
 
