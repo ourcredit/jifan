@@ -343,10 +343,10 @@ INNER JOIN t_integral_product b ON a.order_from = b.id where a.id=#{id}
     </select>
     <select id="selectProductLess" parameterType="java.lang.Long" resultType="java.lang.Integer">
      SELECT
-	a.inventory - IFNULL(b.total, 0)
+	IFNULL(a.inventory - IFNULL(b.total, 0),0)
 FROM
 	t_product a
-INNER JOIN (
+LEFT JOIN (
 	SELECT
 		product_id,
 		sum(number) total
