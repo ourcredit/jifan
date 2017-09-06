@@ -110,6 +110,27 @@ public class OrderService {
         }
     }
     /**
+     * 获取扫描记录
+     * @param input
+     * @return
+     */
+    public PageModel selectOrdersByRecords(OrderFilter input){
+        Page page = PageHelper.startPage(input.getPageNum(),input.getPageSize());
+        String name = input.getName();
+        //name模糊查询
+        if (name != null && name.length() > 0){
+            input.setName("%" + name + "%");
+        }else {
+            input.setName(null);
+        }
+        List list = orderMapper.selectOrdersByRecord(input);
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
+    /**
      * 获取汇总记录
      * @param input
      * @return
@@ -197,24 +218,6 @@ public class OrderService {
     public ActionResult getOrderById(Long id){
         Order order = orderMapper.selectOrder(id);
         if (order != null){
-        //获取收货地址+邮费
-        /*  if (order.getOrder_state() == 0){//判断是否生成了微信支付订单
-              Order receive = userMapper.selectDefaultAddressPrice(order.getOpen_id());
-              if (receive !=null){
-                  order.setCourier_cost(receive.getCourier_cost());
-                 order.setCity_id(receive.getCity_id());
-                  order.setProvince_id(receive.getProvince_id());
-                  order.setCity_name(receive.getCity_name());
-                  order.setProvince_name(receive.getProvince_name());
-                  order.setAddress(receive.getAddress());
-                  order.setReceiver(receive.getReceiver());
-                  order.setPhone(receive.getPhone());
-                  order.setCourier_company(receive.getCourier_company());
-                  order.setCourier_order(receive.getCourier_order());
-                  order.setCourier_time(receive.getCourier_time());
-              }
-          }*/
-
             //获取商品列表
             List list = orderMapper.selectOrderProduct(id);
             order.setList(list);
@@ -281,7 +284,6 @@ public class OrderService {
         if (model == null){
             return new ActionResult(true,"http://tc.hijigu.com/load.html","兑换码错误");
         }
-
         Date now = new Date();
         UserProduct product = new UserProduct();
         product.setOpen_id(open_id);

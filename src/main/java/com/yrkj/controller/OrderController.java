@@ -40,6 +40,12 @@ public class OrderController {
 
     @ApiOperation(value = "获取订单列表",notes = "获取订单列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
+    @RequestMapping(value = "/recordorder", method = RequestMethod.POST)
+    public PageModel RecordOrders(@RequestBody OrderFilter input) {
+        return _orderService.selectOrdersByRecords(input);
+    }
+    @ApiOperation(value = "获取订单列表",notes = "获取订单列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/scanorder", method = RequestMethod.POST)
     public PageModel ScanOrders(@RequestBody OrderFilter input) {
         return _orderService.selectOrdersByScan(input);
@@ -50,4 +56,7 @@ public class OrderController {
     public PageModel Statisc(@RequestBody OrderFilter input) {
         return _orderService.selectOrdersByTotal(input);
     }
+
+
+
 }

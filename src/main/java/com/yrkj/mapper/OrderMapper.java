@@ -36,6 +36,9 @@ public interface OrderMapper {
 
     List<Map> selectIntegralOrderList(WXOrderSearch model);
     List<Map> selectOrdersByScan(OrderFilter input);
+    List<Map> selectOrdersByRecord(OrderFilter input);
+
+
     List<Map> selectOrdersByTotal(OrderFilter input);
 
 
