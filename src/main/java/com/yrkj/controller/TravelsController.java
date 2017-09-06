@@ -1,6 +1,7 @@
 package com.yrkj.controller;
 
 import com.yrkj.model.core.*;
+import com.yrkj.model.order.OrderFilter;
 import com.yrkj.model.travels.Travels;
 import com.yrkj.model.travels.TravelsSearch;
 import com.yrkj.service.TravelsService;
@@ -103,5 +104,11 @@ public class TravelsController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public PageModel list(@RequestBody TravelsSearch model) {
         return travelsService.getAll(model);
+    }
+    @ApiOperation(value = "获取游记统计记录",notes = "获取游迹列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
+    @RequestMapping(value = "/traces", method = RequestMethod.POST)
+    public PageModel list(@RequestBody OrderFilter input) {
+        return travelsService.selectTravelsByFilter(input);
     }
 }

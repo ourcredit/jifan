@@ -7,6 +7,7 @@ import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.ChangeStatusModel;
 import com.yrkj.model.core.IdsModel;
 import com.yrkj.model.core.PageModel;
+import com.yrkj.model.order.OrderFilter;
 import com.yrkj.model.travels.Travels;
 import com.yrkj.model.travels.TravelsDto;
 import com.yrkj.model.travels.TravelsInfoDto;
@@ -116,6 +117,28 @@ public class TravelsService {
 
         List list = travelsMapper.selectAll(model);
 
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
+
+    /**
+     * 获取游迹列表
+     * @param input
+     * @return
+     */
+    public PageModel selectTravelsByFilter(OrderFilter input){
+        Page page = PageHelper.startPage(input.getPageNum(),input.getPageSize());
+        String name = input.getName();
+        //name模糊查询
+        if (name != null && name.length() > 0){
+            input.setName("%" + name + "%");
+        }else {
+            input.setName(null);
+        }
+        List list = travelsMapper.selectTravelsByFilter(input);
         if (list.size() > 0){
             return new PageModel(true,list,page.getTotal(),"获取成功");
         }else {

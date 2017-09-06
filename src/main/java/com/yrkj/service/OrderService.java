@@ -16,10 +16,7 @@ import com.yrkj.model.UserProduct.UserProduct;
 import com.yrkj.model.achievement.Achievement;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.core.PageModel;
-import com.yrkj.model.order.Order;
-import com.yrkj.model.order.UserAchievement;
-import com.yrkj.model.order.UserIntegration;
-import com.yrkj.model.order.WXOrderSearch;
+import com.yrkj.model.order.*;
 import com.yrkj.model.product.ProductCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,6 +82,41 @@ public class OrderService {
 
         List list = orderMapper.selectWxOrderList(model);
 
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
+    /**
+     * 获取扫描记录
+     * @param input
+     * @return
+     */
+    public PageModel selectOrdersByScan(OrderFilter input){
+        Page page = PageHelper.startPage(input.getPageNum(),input.getPageSize());
+        String name = input.getName();
+        //name模糊查询
+        if (name != null && name.length() > 0){
+            input.setName("%" + name + "%");
+        }else {
+            input.setName(null);
+        }
+        List list = orderMapper.selectOrdersByScan(input);
+        if (list.size() > 0){
+            return new PageModel(true,list,page.getTotal(),"获取成功");
+        }else {
+            return new PageModel(true,list,page.getTotal(),"暂无数据");
+        }
+    }
+    /**
+     * 获取汇总记录
+     * @param input
+     * @return
+     */
+    public PageModel selectOrdersByTotal(OrderFilter input){
+        Page page = PageHelper.startPage(input.getPageNum(),input.getPageSize());
+        List list = orderMapper.selectOrdersByTotal(input);
         if (list.size() > 0){
             return new PageModel(true,list,page.getTotal(),"获取成功");
         }else {

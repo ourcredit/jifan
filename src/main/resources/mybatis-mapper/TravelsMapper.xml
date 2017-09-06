@@ -51,6 +51,37 @@
         SELECT * FROM t_travels WHERE is_delete = 0 AND id = #{id}
     </select>
 
+    <select id="selectTravelsByFilter" parameterType="OrderFilter"  resultType="java.util.Map">
+        SELECT
+	a.`name`,
+	a.category1,
+	a.category2,
+	a.category3,
+	ifnull(b.userCount,0) userCount,
+	c.`name` cate1,
+	d.`name` cate2,
+	e.`name` cate3
+FROM
+	t_travels a
+LEFT JOIN (
+	SELECT
+		travels_id,
+		count(1) userCount
+	FROM
+		t_user_travels
+	GROUP BY
+		travels_id
+) b ON a.id = b.travels_id
+LEFT JOIN t_category c ON a.category1 = c.id
+LEFT JOIN t_category d ON a.category2 = d.id
+LEFT JOIN t_category e ON a.category3 = e.id
+        where 1=1
+        <if test="category1!=null"> AND a.category1 = #{category1} </if>
+        <if test="category2!=null"> AND a.category2 = #{category2} </if>
+        <if test="category3!=null"> AND a.category3 = #{category3} </if>
+        <if test="name!=null"> AND a.name like #{name} </if>
+    </select>
+
     <select id="selectAll" parameterType="TravelsSearch" resultType="TravelsDto">
         SELECT t.id , t. NAME , t.url , t.image , t.content ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category1) AS category1 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category2) AS category2 ,( SELECT a. NAME FROM t_category a WHERE a.id = t.category3) AS category3 , t.`status`,t.create_time FROM t_travels t
         WHERE t.is_delete = 0

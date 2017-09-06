@@ -35,6 +35,9 @@ public interface OrderMapper {
     List<Map> selectWxOrderList(WXOrderSearch model);
 
     List<Map> selectIntegralOrderList(WXOrderSearch model);
+    List<Map> selectOrdersByScan(OrderFilter input);
+    List<Map> selectOrdersByTotal(OrderFilter input);
+
 
     Order selectOrderByNum(String order_num);
 
@@ -66,4 +69,5 @@ public interface OrderMapper {
     String selectAchievementUrl(Long product_id);
     List<Achievement> selectByCode(Long productId);
     Integer selectProductLess(Long productId);
+
 }
