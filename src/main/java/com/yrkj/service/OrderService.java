@@ -324,9 +324,7 @@ public class OrderService {
      */
     @Transactional
     public ActionResult finishOrder(String order_num){
-
         Date now = new Date();
-
         //查询订单
         Order order = orderMapper.selectOrderByNum(order_num);
         //更改为支付状态
@@ -366,21 +364,16 @@ public class OrderService {
             integration.setRemark("获得"+achievement.getAchievement_name());
             orderMapper.insertUserIntegration(integration);
         }
-
         Integer achievement_val = userMapper.selectUserAchievementVal(order.getOpen_id());
-
         Integer integration_val = userMapper.selectUserIntegrationVal(order.getOpen_id());
-
         Integer badge = userMapper.selectUserBadge(order.getOpen_id());
-
         User user = new User();
         user.setAchievement_val(achievement_val);
         user.setIntegration_val(integration_val);
         user.setBadge_count(badge);
+        user.setOpen_id(order.getOpen_id());
         //更新成就 积分 勋章数
         userMapper.updateUserVal(user);
-
         return new ActionResult(true,null,"成功");
     }
-
 }

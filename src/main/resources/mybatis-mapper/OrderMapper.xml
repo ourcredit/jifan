@@ -88,6 +88,7 @@
             t.product_cost ,
             t.courier_cost ,
             t.courier_order ,
+            t.courier_company,
             (
                 SELECT
                     group_concat(b.image1 SEPARATOR ';')
