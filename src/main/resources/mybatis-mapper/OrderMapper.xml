@@ -373,9 +373,9 @@ LEFT JOIN (
         a.price,
         f.city,
         b.create_time,
-        f.nick_name,
-        f.province,
-        f.receiver
+        ifnull(f.nick_name, "") nick_name,
+        ifnull(f.province, "") province,
+        ifnull(f.receiver, "") receiver
         FROM
         t_product a
         INNER JOIN t_user_product b ON a.id = b.product_id
