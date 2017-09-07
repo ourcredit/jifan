@@ -2,6 +2,7 @@ package com.yrkj.controller;
 
 import com.yrkj.model.excel.ExcelOrder;
 import com.yrkj.model.core.ActionResult;
+import com.yrkj.model.excel.TotalOrder;
 import com.yrkj.model.order.OrderFilter;
 import com.yrkj.model.product.ProductCodeInput;
 import com.yrkj.service.OrderService;
@@ -80,17 +81,30 @@ public class DownloadController {
 
     // 下载execl文档
     @RequestMapping(value = "/orders",method = RequestMethod.GET)
-    public void product(HttpServletRequest request, HttpServletResponse response, Date start, Date end, String name ) throws Exception {
+    public void Orders( HttpServletResponse response, Date start, Date end) throws Exception {
         OrderFilter of = new OrderFilter();
         if (start != null) of.start = start;
         if (end != null) of.end = end;
-        if (name != null) of.name = name;
         List<ExcelOrder> list = _orderService.downOrdersByRecords(of);
         // 告诉浏览器用什么软件可以打开此文件
         response.setHeader("content-Type", "application/vnd.ms-excel");
         // 下载文件的默认名称
         response.setHeader("Content-Disposition", "attachment;filename=product.xls");
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), ExcelOrder.class, list);
+        workbook.write(response.getOutputStream());
+    }
+    // 下载execl文档
+    @RequestMapping(value = "/total",method = RequestMethod.GET)
+    public void Totals( HttpServletResponse response, Date start, Date end) throws Exception {
+        OrderFilter of = new OrderFilter();
+        if (start != null) of.start = start;
+        if (end != null) of.end = end;
+        List<TotalOrder> list = _orderService.downOrdersByTotal(of);
+        // 告诉浏览器用什么软件可以打开此文件
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        // 下载文件的默认名称
+        response.setHeader("Content-Disposition", "attachment;filename=product.xls");
+        Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), TotalOrder.class, list);
         workbook.write(response.getOutputStream());
     }
 }
