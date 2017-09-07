@@ -1,10 +1,14 @@
 package com.yrkj.model.excel;
 
+import org.jeecgframework.poi.excel.annotation.Excel;
+import org.jeecgframework.poi.excel.annotation.ExcelTarget;
+
 import java.util.Date;
 
 /**
  * Created by 45425 on 2017/9/7.
  */
+@ExcelTarget("ExcelOrder")
 public class ExcelOrder {
     public String getProductName() {
         return productName;
@@ -85,16 +89,24 @@ public class ExcelOrder {
     public void setProvince_name(String province_name) {
         this.province_name = province_name;
     }
-
+    @Excel(name = "商品名称", orderNum = "1", mergeVertical = false)
     private String productName;
+    @Excel(name = "类别", orderNum = "5", mergeVertical = false)
     private String cate1;
+    @Excel(name = "地区", orderNum = "6", mergeVertical = false)
     private String cate2;
+    @Excel(name = "景区", orderNum = "7", mergeVertical = false)
     private String cate3;
+    @Excel(name = "价格", orderNum = "2", mergeVertical = false)
     private String price;
+    @Excel(name = "购买人", orderNum = "3", mergeVertical = false)
     private String receiver;
     private String address;
+    @Excel(name = "购买时间", orderNum = "4", mergeVertical = false)
     private Date create_time;
+    @Excel(name = "市", orderNum = "9", mergeVertical = false)
     private String city_name;
+    @Excel(name = "省", orderNum = "8", mergeVertical = false)
     private String province_name;
 
 }

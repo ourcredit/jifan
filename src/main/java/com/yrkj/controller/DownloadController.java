@@ -6,11 +6,12 @@ import com.yrkj.model.order.OrderFilter;
 import com.yrkj.model.product.ProductCodeInput;
 import com.yrkj.service.OrderService;
 import com.yrkj.service.ProductService;
-import com.yrkj.utils.excel.ExcelView;
-import com.yrkj.utils.excel.OrderExcelView;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.jeecgframework.poi.excel.ExcelExportUtil;
+import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * Created by xuenianxiang on 2017/8/28.
  */
-@RestController
+@Controller
 @RequestMapping("/down")
 public class DownloadController {
     @Autowired
@@ -79,16 +80,17 @@ public class DownloadController {
 
     // 下载execl文档
     @RequestMapping(value = "/orders",method = RequestMethod.GET)
-    public ModelAndView product( Date start, Date end, String name ) throws Exception {
+    public void product(HttpServletRequest request, HttpServletResponse response, Date start, Date end, String name ) throws Exception {
         OrderFilter of = new OrderFilter();
         if (start != null) of.start = start;
         if (end != null) of.end = end;
         if (name != null) of.name = name;
         List<ExcelOrder> list = _orderService.downOrdersByRecords(of);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("members", list);
-        map.put("name", "订单信息");
-        ExcelView excelView = new OrderExcelView();
-        return new ModelAndView(excelView, map);
+        // 告诉浏览器用什么软件可以打开此文件
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        // 下载文件的默认名称
+        response.setHeader("Content-Disposition", "attachment;filename=product.xls");
+        Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), ExcelOrder.class, list);
+        workbook.write(response.getOutputStream());
     }
 }
