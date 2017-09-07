@@ -51,7 +51,7 @@ public class XmlJsonUtil {
     /**
      * xml转json
      */
-    public static JSONObject xml2Json(String xmlStr) throws DocumentException{
+    public static JSONObject xml2Json(String xmlStr) throws DocumentException {
         Document doc= DocumentHelper.parseText(xmlStr);
         JSONObject json=new JSONObject();
         dom4j2Json(doc.getRootElement(), json);
@@ -61,7 +61,7 @@ public class XmlJsonUtil {
     /**
      * xml转json
      */
-    private static void dom4j2Json(Element element,JSONObject json){
+    private static void dom4j2Json(Element element, JSONObject json){
         //如果是属性
         for(Object o:element.attributes()){
             Attribute attr=(Attribute)o;

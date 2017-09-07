@@ -48,11 +48,8 @@
 			<artifactId>jxl</artifactId>
 			<version>2.6.10</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jeecg</groupId>
-			<artifactId>easypoi-base</artifactId>
-			<version>2.3.1</version>
-		</dependency>
+
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
