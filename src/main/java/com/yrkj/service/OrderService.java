@@ -410,4 +410,47 @@ public class OrderService {
         userMapper.updateUserVal(user);
         return new ActionResult(true,null,"成功");
     }
+
+
+    /**
+     * 获取扫描记录
+     * @param input
+     * @return
+     */
+    public List downOrdersByScan(OrderFilter input){
+        String name = input.getName();
+        //name模糊查询
+        if (name != null && name.length() > 0){
+            input.setName("%" + name + "%");
+        }else {
+            input.setName(null);
+        }
+        List list = orderMapper.selectOrdersByScan(input);
+       return  list;
+    }
+    /**
+     * 获取扫描记录
+     * @param input
+     * @return
+     */
+    public List downOrdersByRecords(OrderFilter input){
+        String name = input.getName();
+        //name模糊查询
+        if (name != null && name.length() > 0){
+            input.setName("%" + name + "%");
+        }else {
+            input.setName(null);
+        }
+        List list = orderMapper.selectOrdersByRecord(input);
+       return  list;
+    }
+    /**
+     * 获取汇总记录
+     * @param input
+     * @return
+     */
+    public List downOrdersByTotal(OrderFilter input){
+        List list = orderMapper.selectOrdersByTotal(input);
+        return  list;
+    }
 }
