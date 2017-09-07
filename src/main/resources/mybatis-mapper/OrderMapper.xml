@@ -452,7 +452,7 @@ LEFT JOIN (
         e.`name` cate3,
         a.price,
         f.city,
-        b.create_time,
+        ifnull( a.create_time,"") create_time,
         ifnull(f.nick_name, "") nick_name,
         ifnull(f.province, "") province,
         ifnull(f.receiver, "") receiver
@@ -480,7 +480,7 @@ LEFT JOIN (
         t_product a
         INNER JOIN (
         SELECT
-        a.receiver,a.address,a.create_time,b.product_id,a.city_id,a.city_name,ifnull( a.province_id,"") province_id,ifnull(a.province_name,"") province_name
+        a.receiver,a.address,ifnull( a.create_time,"") create_time,b.product_id,a.city_id,a.city_name,ifnull( a.province_id,"") province_id,ifnull(a.province_name,"") province_name
         FROM
         t_order a
         LEFT JOIN t_order_product b ON a.id = b.order_id

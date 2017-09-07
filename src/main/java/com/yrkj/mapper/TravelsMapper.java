@@ -2,6 +2,7 @@ package com.yrkj.mapper;
 
 import com.yrkj.model.core.ChangeStatusModel;
 import com.yrkj.model.core.IdsModel;
+import com.yrkj.model.excel.TravelInfo;
 import com.yrkj.model.order.OrderFilter;
 import com.yrkj.model.travels.Travels;
 import com.yrkj.model.travels.TravelsDto;
@@ -28,6 +29,9 @@ public interface TravelsMapper {
 
     int delete(IdsModel model);
     List<Map> selectTravelsByFilter(OrderFilter input);
+    List<TravelInfo> downTravelsByFilter(OrderFilter input);
+
+
     //批量更新状态
     int updateStatus(ChangeStatusModel model);
 

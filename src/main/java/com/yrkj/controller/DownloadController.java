@@ -3,10 +3,12 @@ package com.yrkj.controller;
 import com.yrkj.model.excel.ExcelOrder;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.excel.TotalOrder;
+import com.yrkj.model.excel.TravelInfo;
 import com.yrkj.model.order.OrderFilter;
 import com.yrkj.model.product.ProductCodeInput;
 import com.yrkj.service.OrderService;
 import com.yrkj.service.ProductService;
+import com.yrkj.service.TravelsService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -32,6 +34,8 @@ public class DownloadController {
     private HttpServletRequest request;
     @Autowired
     private OrderService _orderService;
+    @Autowired
+    private TravelsService travelsService;
 
     @RequestMapping(value = "/product/createCode", method = RequestMethod.GET)
     public void testDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -105,6 +109,20 @@ public class DownloadController {
         // 下载文件的默认名称
         response.setHeader("Content-Disposition", "attachment;filename=product.xls");
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), TotalOrder.class, list);
+        workbook.write(response.getOutputStream());
+    }
+    // 下载execl文档
+    @RequestMapping(value = "/travel",method = RequestMethod.GET)
+    public void Travels( HttpServletResponse response, Date start, Date end) throws Exception {
+        OrderFilter of = new OrderFilter();
+        if (start != null) of.start = start;
+        if (end != null) of.end = end;
+        List<TravelInfo> list = travelsService.downTravelsByFilter(of);
+        // 告诉浏览器用什么软件可以打开此文件
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        // 下载文件的默认名称
+        response.setHeader("Content-Disposition", "attachment;filename=product.xls");
+        Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), TravelInfo.class, list);
         workbook.write(response.getOutputStream());
     }
 }
