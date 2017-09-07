@@ -93,7 +93,7 @@ public class DownloadController {
         // 告诉浏览器用什么软件可以打开此文件
         response.setHeader("content-Type", "application/vnd.ms-excel");
         // 下载文件的默认名称
-        response.setHeader("Content-Disposition", "attachment;filename=product.xls");
+        response.setHeader("Content-Disposition", "attachment;filename=orders.xls");
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), ExcelOrder.class, list);
         workbook.write(response.getOutputStream());
     }
@@ -107,7 +107,7 @@ public class DownloadController {
         // 告诉浏览器用什么软件可以打开此文件
         response.setHeader("content-Type", "application/vnd.ms-excel");
         // 下载文件的默认名称
-        response.setHeader("Content-Disposition", "attachment;filename=product.xls");
+        response.setHeader("Content-Disposition", "attachment;filename=total.xls");
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), TotalOrder.class, list);
         workbook.write(response.getOutputStream());
     }
@@ -121,7 +121,7 @@ public class DownloadController {
         // 告诉浏览器用什么软件可以打开此文件
         response.setHeader("content-Type", "application/vnd.ms-excel");
         // 下载文件的默认名称
-        response.setHeader("Content-Disposition", "attachment;filename=product.xls");
+        response.setHeader("Content-Disposition", "attachment;filename=travel.xls");
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), TravelInfo.class, list);
         workbook.write(response.getOutputStream());
     }
