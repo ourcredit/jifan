@@ -1,13 +1,14 @@
 package com.yrkj.controller;
 
+import com.yrkj.model.excel.ExcelOrder;
 import com.yrkj.model.core.ActionResult;
 import com.yrkj.model.order.OrderFilter;
 import com.yrkj.model.product.ProductCodeInput;
 import com.yrkj.service.OrderService;
 import com.yrkj.service.ProductService;
-import com.yrkj.utils.excel.ExcelUtil;
-import com.yrkj.utils.excel.ExportExcel;
-import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.jeecgframework.poi.excel.ExcelExportUtil;
+import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
@@ -75,68 +76,23 @@ public class DownloadController {
         }
     }
 
+    // 下载execl文档
     @RequestMapping(value = "/orders",method = RequestMethod.GET)
-    public void exportExcel(HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        List list=_orderService.downOrdersByRecords(new OrderFilter());
-        String[] excelHeader = { "商品名称"};
+    public void product(HttpServletRequest request, HttpServletResponse response,Date start,Date end,String name ) throws Exception {
 
-        ExcelUtil.excelExport(response,"订单信息",excelHeader,list);
+        // 告诉浏览器用什么软件可以打开此文件
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        // 下载文件的默认名称
+        response.setHeader("Content-Disposition", "attachment;filename=product.xls");
+    OrderFilter of=new OrderFilter();
+    if (start!=null) of.start=start;
+        if (end!=null) of.end=end;
+        if (name!=null) of.name=name;
+
+        List<ExcelOrder> list=_orderService.downOrdersByRecords(of);
+
+        Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), ExcelOrder.class, list);
+        workbook.write(response.getOutputStream());
     }
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public void Test(HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        List list=_orderService.downOrdersByRecords(new OrderFilter());
-        String[] excelHeader = { "商品名称"};
-//定义表的内容
-        List<Object[]> dataList = new ArrayList<Object[]>();
-        Object[] objs = null;
-        for (int i = 0; i < list.size(); i++) {
-            Map<String,Object> per =( Map<String,Object> ) list.get(i);
-            objs = new Object[excelHeader.length];
-            objs[0] = per.get("productName").toString();
 
-            dataList.add(objs);
-        }
-
-        // 创建ExportExcel对象
-        ExportExcel ex = new ExportExcel("订单详情", excelHeader, dataList);
-
-        // 输出Excel文件
-        try {
-            OutputStream output = response.getOutputStream();
-          /*  response.reset();
-            response.setHeader("Content-disposition",
-                    "attachment; filename="+encodeChineseDownloadFileName(request,"订单详情")+".xls");
-            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-*/
-            response.setHeader("Expires", "0");
-            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-            response.setHeader("Content-Disposition", "attachment; filename=1");
-                    response.setHeader("Pragma", "public");
-            response.setContentType("application/vnd.ms-excel;charset=gb2312");
-            ex.export(output);
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-    public static String encodeChineseDownloadFileName(HttpServletRequest request, String pFileName) throws UnsupportedEncodingException {
-
-        String filename = null;
-        String agent = request.getHeader("USER-AGENT");
-        if (null != agent){
-            if (-1 != agent.indexOf("Firefox")) {//Firefox
-                filename = "=?UTF-8?B?" + (new String(org.apache.commons.codec.binary.Base64.encodeBase64(pFileName.getBytes("UTF-8"))))+ "?=";
-            }else if (-1 != agent.indexOf("Chrome")) {//Chrome
-                filename = new String(pFileName.getBytes(), "ISO8859-1");
-            } else {//IE7+
-                filename = java.net.URLEncoder.encode(pFileName, "UTF-8");
-            }
-        } else {
-            filename = pFileName;
-        }
-        return filename;
-    }
 }

@@ -2,12 +2,12 @@ package com.yrkj.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.yrkj.controller.Inputs.CanBuyInput;
+import com.yrkj.model.excel.ExcelOrder;
+import com.yrkj.model.excel.TotalOrder;
 import com.yrkj.mapper.OrderMapper;
 import com.yrkj.mapper.ProductMapper;
 import com.yrkj.mapper.UserMapper;
 import com.yrkj.model.Integral.CourierInput;
-import com.yrkj.model.Integral.IntegralOrder;
 import com.yrkj.model.Integral.IntegralOrderDetail;
 import com.yrkj.model.Integral.IntegralSearch;
 import com.yrkj.model.User.User;
@@ -417,7 +417,7 @@ public class OrderService {
      * @param input
      * @return
      */
-    public List downOrdersByScan(OrderFilter input){
+    public List<ExcelOrder> downOrdersByScan(OrderFilter input){
         String name = input.getName();
         //name模糊查询
         if (name != null && name.length() > 0){
@@ -425,7 +425,7 @@ public class OrderService {
         }else {
             input.setName(null);
         }
-        List list = orderMapper.selectOrdersByScan(input);
+        List<ExcelOrder> list = orderMapper.downOrdersByScan(input);
        return  list;
     }
     /**
@@ -433,7 +433,7 @@ public class OrderService {
      * @param input
      * @return
      */
-    public List downOrdersByRecords(OrderFilter input){
+    public List<ExcelOrder> downOrdersByRecords(OrderFilter input){
         String name = input.getName();
         //name模糊查询
         if (name != null && name.length() > 0){
@@ -441,7 +441,7 @@ public class OrderService {
         }else {
             input.setName(null);
         }
-        List list = orderMapper.selectOrdersByRecord(input);
+        List<ExcelOrder> list = orderMapper.downOrdersByRecord(input);
        return  list;
     }
     /**
@@ -449,8 +449,8 @@ public class OrderService {
      * @param input
      * @return
      */
-    public List downOrdersByTotal(OrderFilter input){
-        List list = orderMapper.selectOrdersByTotal(input);
+    public List<TotalOrder> downOrdersByTotal(OrderFilter input){
+        List<TotalOrder> list = orderMapper.downOrdersByTotal(input);
         return  list;
     }
 }

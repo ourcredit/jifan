@@ -439,4 +439,84 @@ LEFT JOIN (
         <if test="prov!=null"> AND a.province_id = #{prov} </if>
         <if test="city!=null"> AND a.city_id = #{city} </if>
     </select>
+
+
+    <select id="downOrdersByScan"  parameterType="OrderFilter"  resultType="ExcelOrder" >
+        SELECT
+        a.`name` productName,
+        a.badge_category1,
+        a.badge_category2,
+        a.badge_category3,
+        c.`name` cate1,
+        d.`name` cate2,
+        e.`name` cate3,
+        a.price,
+        f.city,
+        b.create_time,
+        ifnull(f.nick_name, "") nick_name,
+        ifnull(f.province, "") province,
+        ifnull(f.receiver, "") receiver
+        FROM
+        t_product a
+        INNER JOIN t_user_product b ON a.id = b.product_id
+        LEFT JOIN t_user f ON b.open_id = f.open_id
+        LEFT JOIN t_category c ON a.badge_category1 = c.id
+        LEFT JOIN t_category d ON a.badge_category2 = d.id
+        LEFT JOIN t_category e ON a.badge_category3 = e.id
+        WHERE
+        1 = 1
+        <if test="category1!=null"> AND a.badge_category1 = #{category1} </if>
+        <if test="category2!=null"> AND a.badge_category2 = #{category2} </if>
+        <if test="category3!=null"> AND a.badge_category3 = #{category3} </if>
+        <if test="start!=null"> AND b.create_time>= #{start} </if>
+        <if test="end!=null"> AND b.create_time &lt;= #{end} </if>
+        <if test="name!=null"> AND a.name like #{name} </if>
+
+    </select>
+    <select id="downOrdersByRecord"  parameterType="OrderFilter"  resultType="ExcelOrder" >
+        SELECT
+        a.`name` productName,a.badge_category1,a.badge_category2,a.badge_category3,c.`name` cate1,d.`name` cate2,e.`name` cate3,  a.price,b.*
+        FROM
+        t_product a
+        INNER JOIN (
+        SELECT
+        a.receiver,a.address,a.create_time,b.product_id,a.city_id,a.city_name,ifnull( a.province_id,"") province_id,ifnull(a.province_name,"") province_name
+        FROM
+        t_order a
+        LEFT JOIN t_order_product b ON a.id = b.order_id
+        ) b
+        on a.id=b.product_id
+        left join t_category c on a.badge_category1=c.id
+        left join t_category d on a.badge_category2=d.id
+        left join t_category e on a.badge_category3=e.id
+        where 1=1
+        <if test="category1!=null"> AND a.badge_category1 = #{category1} </if>
+        <if test="category2!=null"> AND a.badge_category2 = #{category2} </if>
+        <if test="category3!=null"> AND a.badge_category3 = #{category3} </if>
+        <if test="prov!=null"> AND b.province_id = #{prov} </if>
+        <if test="city!=null"> AND b.city_id = #{city} </if>
+        <if test="start!=null"> AND b.create_time>= #{start} </if>
+        <if test="end!=null"> AND b.create_time &lt;= #{end} </if>
+        <if test="name!=null"> AND a.name like #{name} </if>
+
+    </select>
+    <select id="downOrdersByTotal"  parameterType="OrderFilter"  resultType="TotalOrder"  >
+        SELECT
+        a.city_id,a.city_name,a.province_id,a.province_name,a.courier_cost,b.saleCount,b.salePrice
+        FROM
+        t_order a
+        LEFT JOIN (
+        SELECT
+        order_id,
+        count(1) saleCount,
+        sum(price) salePrice
+        FROM
+        t_order_product
+        GROUP BY
+        order_id
+        ) b ON a.id = b.order_id
+        where 1=1
+        <if test="prov!=null"> AND a.province_id = #{prov} </if>
+        <if test="city!=null"> AND a.city_id = #{city} </if>
+    </select>
 </mapper>
