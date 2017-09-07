@@ -66,11 +66,11 @@ public class ExcelOrder {
         this.address = address;
     }
 
-    public Date getCreate_time() {
+    public String getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(Date create_time) {
+    public void setCreate_time(String create_time) {
         this.create_time = create_time;
     }
 
@@ -103,7 +103,7 @@ public class ExcelOrder {
     private String receiver;
     private String address;
     @Excel(name = "购买时间", orderNum = "4", mergeVertical = false)
-    private Date create_time;
+    private String create_time;
     @Excel(name = "市", orderNum = "9", mergeVertical = false)
     private String city_name;
     @Excel(name = "省", orderNum = "8", mergeVertical = false)
