@@ -37,17 +37,12 @@ public class DownloadController {
     @Autowired
     private TravelsService travelsService;
 
-    @RequestMapping(value = "/product/createCode", method = RequestMethod.GET)
+    @RequestMapping(value = "/createCode", method = RequestMethod.GET)
     public void testDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-
         Long product_id = Long.parseLong(request.getParameter("product_id"));
         Integer numbers = Integer.parseInt(request.getParameter("numbers"));
-
         ActionResult result = productService.createProductCode(product_id,numbers);
-
         ProductCodeInput input = (ProductCodeInput)result.getResult();
-
         String content = "";
         for (int i=0;i<input.getCodeList().size();i++){
             content = content + "product_id="+input.getProduct_id()+"&code="+input.getCodeList().get(i)+"\r\n";
