@@ -105,10 +105,16 @@ public class DownloadController {
         // 输出Excel文件
         try {
             OutputStream output = response.getOutputStream();
-            response.reset();
+          /*  response.reset();
             response.setHeader("Content-disposition",
                     "attachment; filename="+encodeChineseDownloadFileName(request,"订单详情")+".xls");
-            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+*/
+            response.setHeader("Expires", "0");
+            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+            response.setHeader("Content-Disposition", "attachment; filename=1");
+                    response.setHeader("Pragma", "public");
+            response.setContentType("application/vnd.ms-excel;charset=gb2312");
             ex.export(output);
             output.close();
         } catch (IOException e) {
