@@ -167,7 +167,7 @@ public class UserService {
      * @return
      */
     public ActionResult getDefaultAddress(String open_id){
-        return new ActionResult(true,userMapper.selectUserDefaultAddress(open_id),"获取成功");
+        return new ActionResult(true,userMapper.selectDefaultAddressPrice(open_id),"获取成功");
     }
 
     /**

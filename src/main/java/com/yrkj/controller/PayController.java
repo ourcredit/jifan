@@ -102,12 +102,14 @@ public class PayController   {
         order.setCreate_time(new Date());
 
         //设置收获地址
-        UserAddress add=  (UserAddress)res.getResult();
+        Order add=  (Order)res.getResult();
         order.setAddress(add.getAddress());
         order.setCity_id(add.getCity_id());
         order.setCity_name(add.getCity_name());
         order.setCourier_cost(add.getCourier_cost());
         order.setAddress(add.getAddress());
+        order.setProvince_id(add.getProvince_id());
+        order.setProvince_name(add.getProvince_name());
         order.setPhone(add.getPhone());
         order.setReceiver(add.getReceiver());
         //生成订单
