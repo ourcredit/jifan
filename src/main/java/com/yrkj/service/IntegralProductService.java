@@ -259,7 +259,7 @@ public class IntegralProductService {
         //各种校验
         Integer ui = _userMapper.selectUserIntegrationVal(open_id);
 
-        if(ui < 5){
+        if(ui < 10){
             return new ActionResult(false,null,"用户积分不足,无法购买");
         }
 
@@ -270,18 +270,18 @@ public class IntegralProductService {
             return new ActionResult(false,null,"请设置收货地址");
         }
 
-        //扣除5积分
+        //扣除10积分
 
         //插入积分明细表
         UserIntegration integration = new UserIntegration();
         integration.setOpen_id(open_id);
-        integration.setIntegration_val(-5);
+        integration.setIntegration_val(-10);
         integration.setCreate_time(new Date());
         integration.setRemark("积分抽奖消耗5积分");
         _orderMapper.insertUserIntegration(integration);
 
         //更新用户表中的积分
-        ui = ui - 5;
+        ui = ui - 10;
         User u = new User();
         u.setOpen_id(open_id);
         u.setIntegration_val(ui);
