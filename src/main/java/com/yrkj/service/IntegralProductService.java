@@ -277,7 +277,7 @@ public class IntegralProductService {
         integration.setOpen_id(open_id);
         integration.setIntegration_val(-10);
         integration.setCreate_time(new Date());
-        integration.setRemark("积分抽奖消耗5积分");
+        integration.setRemark("积分抽奖消耗10积分");
         _orderMapper.insertUserIntegration(integration);
 
         //更新用户表中的积分
