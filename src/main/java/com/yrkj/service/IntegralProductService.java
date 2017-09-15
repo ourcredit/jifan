@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -287,37 +288,89 @@ public class IntegralProductService {
         u.setIntegration_val(ui);
         _userMapper.UpdateUserIntegrationVal(u);
 
-        int max= 10000;
-        int min= 1;
-        Random random = new Random();
-        int r = random.nextInt(max)%(max-min+1) + min;
+        BigInteger redom = getRedom();
 
-        if (r <= 3494){
+        long r = redom.longValue();
+
+        if (r <= 3394999995L){
 
            return new ActionResult(true,0,"谢谢惠顾");
 
-        } else if (r > 3494 && r<=5494){
+        } else if (r > 3394999995L && r<=5394999995L){
 
             addIntegrationVal(open_id,ui,5);
 
             return new ActionResult(true,1,"5积分");
 
-        } else if (r > 5494 && r<=6494){
+        } else if (r > 5394999995L && r<=6394999995L){
 
             addIntegrationVal(open_id,ui,10);
 
             return new ActionResult(true,2,"10积分");
 
-        } else if (r > 6494 && r<=6504){
+        } else if (r > 6394999995L && r<=6404999995L){
 
-            addIntegrationVal(open_id,ui,50);
+            //创建积分订单
+            IntegralOrder model = new IntegralOrder();
 
-            return new ActionResult(true,3,"50积分");
+            String num= "JG" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN);
+            model.setOrder_num(num);
+            model.setOpen_id(open_id);
+            model.setOrder_state(0);
+            model.setCreate_time(new Date());
+            model.setOrder_from(1L);
+            model.setOrder_name("JBL T280A 立体声入耳式耳机");
+            model.setProduct_type(1);
+            model.setOrder_type(2);
+            model.setOrder_cost(0);
+            model.setOrder_count(1);
+            model.setOrder_state(1);
+            model.setProvince_id(ua.getProvince_id());
+            model.setProvince_name(ua.getProvince_name());
+            model.setCity_id(ua.getCity_id());
+            model.setCity_name(ua.getCity_name());
+            model.setReceiver(ua.getReceiver());
+            model.setAddress(ua.getAddress());
+            model.setPhone(ua.getPhone());
 
-        } else if (r > 6504 && r<=9998){
+            //抽奖积分订单插入
+            _productMapper.InsertOrder(model);
+
+
+            return new ActionResult(true,3,"JBL T280A 立体声入耳式耳机");
+
+        } else if (r > 6404999995L && r<=9799999990L){
 
             return new ActionResult(true,0,"谢谢惠顾");
 
+        }else if (r > 9799999990L && r<=9800000000L){
+            //创建积分订单
+            IntegralOrder model = new IntegralOrder();
+
+            String num= "JG" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN);
+            model.setOrder_num(num);
+            model.setOpen_id(open_id);
+            model.setOrder_state(0);
+            model.setCreate_time(new Date());
+            model.setOrder_from(2L);
+            model.setOrder_name("iPhone8 64G");
+            model.setProduct_type(1);
+            model.setOrder_type(2);
+            model.setOrder_cost(0);
+            model.setOrder_count(1);
+            model.setOrder_state(1);
+            model.setProvince_id(ua.getProvince_id());
+            model.setProvince_name(ua.getProvince_name());
+            model.setCity_id(ua.getCity_id());
+            model.setCity_name(ua.getCity_name());
+            model.setReceiver(ua.getReceiver());
+            model.setAddress(ua.getAddress());
+            model.setPhone(ua.getPhone());
+
+            //抽奖积分订单插入
+            _productMapper.InsertOrder(model);
+
+            return new ActionResult(true,3,"JBL T280A 立体声入耳式耳机");
         } else {
 
             List<Map> list = _productMapper.selectLotteryList();
@@ -369,6 +422,19 @@ public class IntegralProductService {
             return new ActionResult(true,4,model.getOrder_name());
         }
 
+    }
+
+    public BigInteger getRedom(){
+        String s="0123456789";
+        int len=10;
+        Random r=new Random();
+        StringBuffer sb=new StringBuffer();
+        for(int i=0;i<len;i++){
+            int rand=r.nextInt(10);
+            sb.append(s.substring(rand,rand+1));
+        }
+        BigInteger num=new BigInteger(sb.toString());
+        return num;
     }
 
     public void addIntegrationVal(String open_id,Integer currentVal,Integer addVal){
