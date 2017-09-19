@@ -68,7 +68,7 @@
                url              = #{url} ,
                update_by        = #{update_by} ,
                update_time      = #{update_time}
-          WHERE id = #{id} AND status = 0
+          WHERE id = #{id}
     </update>
 
     <update id="delete" parameterType="IdsModel">
