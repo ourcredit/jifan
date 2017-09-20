@@ -445,6 +445,17 @@ public class OrderService {
        return  list;
     }
     /**
+     * 获取订单下最新的成就url
+     * @param order
+     * @return
+     */
+    public String GetOrderAchievement(String order){
+       List<Integer> orders=orderMapper.selectProductsByOrder(order);
+        String url = orderMapper.selectAchiUrls(orders);
+        return  url.isEmpty()?"http://tc.hijigu.com/templates/jnz/index.html":url;
+    }
+
+    /**
      * 获取汇总记录
      * @param input
      * @return

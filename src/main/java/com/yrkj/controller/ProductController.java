@@ -41,12 +41,9 @@ public class ProductController {
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ActionResult add(@RequestBody Product product) {
-
         Claims claims = (Claims)request.getAttribute("claims");
-
         product.setCreate_by(claims.getSubject());
         product.setCreate_time(new Date());
-
         return productService.add(product);
     }
 
@@ -54,12 +51,9 @@ public class ProductController {
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ActionResult update(@RequestBody Product product) {
-
         Claims claims = (Claims)request.getAttribute("claims");
-
         product.setUpdate_by(claims.getSubject());
         product.setUpdate_time(new Date());
-
         return productService.update(product);
     }
 
@@ -67,15 +61,11 @@ public class ProductController {
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ActionResult delete(@RequestBody IdsInput input) {
-
         Claims claims = (Claims)request.getAttribute("claims");
-
         IdsModel model = new IdsModel();
-
         model.setList(input.getList());
         model.setUpdate_by(claims.getSubject());
         model.setUpdate_time(new Date());
-
         return productService.deleteProducts(model);
     }
 
@@ -83,11 +73,8 @@ public class ProductController {
     @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     public ActionResult updateStatus(@RequestBody ChangeStatusInput input) {
-
         Claims claims = (Claims)request.getAttribute("claims");
-
         ChangeStatusModel model = new ChangeStatusModel();
-
         model.setStatus(input.getStatus());
         model.setList(input.getList());
         model.setUpdate_by(claims.getSubject());

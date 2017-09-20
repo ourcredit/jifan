@@ -21,6 +21,7 @@ import com.yrkj.utils.RandomUtil;
 import com.yrkj.utils.XmlJsonUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,7 +52,8 @@ public class PayController   {
 
     @Autowired
     private UserProductService userProductService;
-
+    @Autowired
+    private OrderService _orderService;
     @Autowired
     private OrderService orderService;
 
@@ -368,6 +370,14 @@ public class PayController   {
     @RequestMapping(value  ="/testFinishOrder" ,method = RequestMethod.POST)
     public ActionResult testFinishOrder(@RequestParam String order_num){
         return orderService.finishOrder(order_num);
+    }
+
+    @ApiOperation(value = "根据订单获取成就url",notes = "获取订单列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "authorization", value = "Bearer {token}", required = true, dataType = "String",paramType = "header")})
+    @RequestMapping(value = "/getachibyorder", method = RequestMethod.POST)
+    public ActionResult GetOrderAchievement(@RequestParam String order) {
+        String url=  _orderService.GetOrderAchievement(order);
+        return  new ActionResult(true,url);
     }
 }
 

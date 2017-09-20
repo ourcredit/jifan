@@ -71,7 +71,8 @@ public interface OrderMapper {
     String selectAchievementUrl(Long product_id);
     List<Achievement> selectByCode(Long productId);
     Integer selectProductLess(Long productId);
-
+    String selectAchiUrls(List<Integer> ids);
+    List<Integer> selectProductsByOrder(String order);
     List<TotalOrder> downOrdersByTotal(OrderFilter input);
     List<ExcelOrder> downOrdersByScan(OrderFilter input);
     List<ExcelOrder> downOrdersByRecord(OrderFilter input);

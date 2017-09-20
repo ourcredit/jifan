@@ -341,8 +341,34 @@ INNER JOIN t_integral_product b ON a.order_from = b.id where a.id=#{id}
             AND t.url IS NOT NULL
             LIMIT 0,1
     </select>
-
-
+    <select id="selectAchiUrls" parameterType="java.util.List" resultType="java.lang.String">
+        SELECT
+        t.url
+        FROM
+        t_achievement t
+        WHERE
+        t.id IN (
+        SELECT
+        a.achievement_id
+        FROM
+        t_achievement_relation a
+        WHERE
+        a.relation_id IN
+        <foreach separator="," index="index" item="ids" collection="list" close=")" open="(">
+            #{ids}
+        </foreach>)
+        AND t.type = 1
+        AND t.url IS NOT NULL ORDER BY create_time desc
+        LIMIT 0,1
+    </select>
+    <select id="selectProductsByOrder" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+        b.product_id
+        FROM
+        t_order a
+        inner JOIN t_order_product b ON a.id = b.order_id
+        where a.order_num = #{order} and a.order_state=1
+    </select>
 
     <select id="selectProductLess" parameterType="java.lang.Long" resultType="java.lang.Integer">
      SELECT
