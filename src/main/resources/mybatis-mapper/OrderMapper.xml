@@ -429,7 +429,7 @@ LEFT JOIN (
         a.receiver,a.address,a.create_time,b.product_id,a.city_id,a.city_name,ifnull( a.province_id,"") province_id,ifnull(a.province_name,"") province_name
         FROM
         t_order a
-        LEFT JOIN t_order_product b ON a.id = b.order_id
+        LEFT JOIN t_order_product b ON a.id = b.order_id where a.order_state=1
         ) b
         on a.id=b.product_id
         left join t_category c on a.badge_category1=c.id
