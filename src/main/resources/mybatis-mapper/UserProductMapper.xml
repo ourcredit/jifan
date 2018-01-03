@@ -18,8 +18,8 @@
         FROM
             t_product t
         WHERE
-            is_delete = 0
-        AND is_perfect = 1
+            t.is_delete = 0
+        AND t.is_perfect = 1 ORDER BY t.create_time DESC
     </select>
 
     <!--查询商品列表-->
@@ -45,7 +45,7 @@
                 FROM
                     t_product t
                 WHERE
-                    is_delete = 0
+                    is_delete = 0 AND  status = 1
             ) tt
         WHERE
             1 = 1
